@@ -1,173 +1,6 @@
 /* ==========================================
-   CONSTRUCTOR UI STYLES
+   CONSTRUCTOR UI STYLES (Cleaned for Studio)
    ========================================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(145deg, #0a0a14 0%, #12122a 40%, #1a1032 100%);
-    color: #e2e8f0;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* --- Toolbar --- */
-#toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    height: 60px;
-    background: rgba(15, 15, 30, 0.82);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-}
-
-.toolbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.3px;
-    user-select: none;
-}
-.toolbar-brand .brand-icon {
-    font-size: 24px;
-    filter: drop-shadow(0 0 6px rgba(99,102,241,0.5));
-}
-.toolbar-brand .brand-text {
-    background: linear-gradient(135deg, #818cf8, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.toolbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.toolbar-separator {
-    width: 1px;
-    height: 28px;
-    background: rgba(255,255,255,0.12);
-    margin: 0 6px;
-}
-
-.toolbar-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    background: rgba(255,255,255,0.05);
-    color: #cbd5e1;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-.toolbar-btn:hover {
-    background: rgba(255,255,255,0.1);
-    color: #f1f5f9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-.toolbar-btn:active { transform: translateY(0); }
-
-.toolbar-btn.btn-primary {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    border-color: rgba(59,130,246,0.3);
-    color: #fff;
-}
-.toolbar-btn.btn-primary:hover {
-    background: linear-gradient(135deg, #60a5fa, #3b82f6);
-    box-shadow: 0 4px 16px rgba(59,130,246,0.35);
-}
-
-.toolbar-btn.btn-accent {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    border-color: rgba(139,92,246,0.3);
-    color: #fff;
-}
-.toolbar-btn.btn-accent:hover {
-    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
-    box-shadow: 0 4px 16px rgba(139,92,246,0.35);
-}
-
-.toolbar-btn .btn-icon { font-size: 15px; }
-
-/* --- Color Picker --- */
-.color-picker {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.color-picker-label {
-    font-size: 12px;
-    color: #94a3b8;
-    white-space: nowrap;
-}
-.color-options {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-.color-swatch {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0;
-    outline: none;
-}
-.color-swatch:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 10px currentColor;
-}
-.color-swatch.active {
-    border-color: #fff;
-    box-shadow: 0 0 12px currentColor;
-    transform: scale(1.15);
-}
-.color-custom {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px dashed rgba(255,255,255,0.3);
-    cursor: pointer;
-    padding: 0;
-    background: transparent;
-    overflow: hidden;
-}
-.color-custom input {
-    width: 30px;
-    height: 30px;
-    border: none;
-    cursor: pointer;
-    transform: translate(-4px, -4px);
-}
-
-/* --- Editor Area --- */
-#editor-area {
-    padding: 80px 20px 40px;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-}
 
 /* --- Toast Notifications --- */
 #toast-container {
@@ -631,12 +464,13 @@ body {
    ========================================== */
 @media print {
     body { background: white !important; }
-    #toolbar, #toast-container { display: none !important; }
-    #editor-area { padding: 0 !important; }
+    header, aside, #toast-container { display: none !important; }
+    main { padding: 0 !important; }
     .cv-container {
         margin: 0 !important;
         box-shadow: none !important;
         border-radius: 0 !important;
+        border: none !important;
         width: 210mm !important;
         height: 297mm !important;
         overflow: hidden !important;
@@ -670,4 +504,3 @@ body {
     align-items: center;
     justify-content: center;
 }
-
