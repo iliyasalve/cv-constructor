@@ -1,0 +1,979 @@
+/* ==========================================
+   CONSTANTS
+   ========================================== */
+const COLOR_PRESETS = [
+    '#0284c7','#2563eb','#0d9488','#4f46e5','#059669','#e11d48','#d97706','#7c3aed'
+];
+
+const DEFAULT_CV = {
+    name: 'Votre Nom',
+    title: 'Titre du Poste',
+    summary: 'Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases.',
+    accentColor: '#2563eb',
+    contacts: [
+        { emoji: '📍', text: 'Ville, Pays', url: '' },
+        { emoji: '📞', text: '00 00 00 00 00', url: '' },
+        { emoji: '✉️', text: 'email@example.com', url: 'mailto:email@example.com' },
+        { emoji: '🌐', text: 'votresite.com', url: 'https://votresite.com' },
+        { emoji: '💼', text: 'linkedin.com/in/votre-nom', url: 'https://linkedin.com/in/votre-nom' }
+    ],
+    experienceTitle: 'Expériences Professionnelles',
+    experiences: [{
+        role: 'Titre du Poste',
+        company: 'Entreprise',
+        location: 'Ville, Pays',
+        dates: 'Mois Année – Présent',
+        bullets: [
+            'Description de votre réalisation ou responsabilité principale.',
+            'Autre réalisation ou compétence démontrée dans ce poste.'
+        ]
+    }],
+    projectsTitle: 'Projets',
+    projects: [],
+    skillsTitle: 'Compétences',
+    skills: [
+        { title: 'Catégorie 1', tags: 'Compétence A, Compétence B, Compétence C' },
+        { title: 'Catégorie 2', tags: 'Compétence D, Compétence E' }
+    ],
+    educationTitle: 'Diplômes et Formations',
+    education: [
+        { title: 'Nom du Diplôme', institution: 'Établissement', dates: '2020 – 2024' }
+    ],
+    certificationsTitle: 'Certifications',
+    certifications: [],
+    qualitiesTitle: 'Qualités Personnelles',
+    qualities: ['Qualité 1', 'Qualité 2', 'Qualité 3'],
+    languagesTitle: 'Langues',
+    languages: [
+        { name: 'Français', level: 'Natif' },
+        { name: 'Anglais', level: 'Intermédiaire' }
+    ]
+};
+
+const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #0f172a;
+    --accent: __ACCENT__;
+    --accent-light: __ACCENT_LIGHT__;
+    --text-main: #334155;
+    --text-dark: #0f172a;
+    --border: #e2e8f0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    background-color: #f8fafc;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.cv-container {
+    width: 210mm; height: 297mm; background-color: #ffffff;
+    margin: 20px auto; padding: 10mm 12mm;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; overflow: hidden; position: relative;
+}
+
+.header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 12px;
+}
+.header-left { flex: 1; padding-right: 20px; }
+.name { font-size: 28px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; text-transform: uppercase; }
+.title { font-size: 16px; font-weight: 600; color: var(--accent); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.summary { font-size: 12px; color: var(--text-main); margin-top: 6px; text-align: justify; line-height: 1.45; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 11.5px; min-width: 190px; padding-top: 38px; }
+.contact-item { color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+.contact-item a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.contact-item a:hover { text-decoration: underline; }
+
+.main-content { display: flex; flex: 1; gap: 20px; min-height: 0; }
+.col-left { width: 61%; display: flex; flex-direction: column; gap: 12px; }
+.col-right { width: 39%; display: flex; flex-direction: column; gap: 12px; border-left: 1px solid var(--border); padding-left: 18px; }
+
+.section-title { font-size: 13.5px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid var(--border); padding-bottom: 3px; margin-bottom: 8px; }
+
+.item { margin-bottom: 8px; }
+.item:last-child { margin-bottom: 0; }
+.item-header { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; font-size: 13px; color: var(--text-dark); }
+.item-role { font-weight: 600; color: var(--text-dark); }
+.item-company { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.item-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; margin-top: 1px; margin-bottom: 4px; }
+
+.item-bullets { list-style-type: none; padding-left: 0; }
+.item-bullets li { font-size: 11.5px; position: relative; padding-left: 10px; margin-bottom: 4px; text-align: justify; line-height: 1.4; }
+.item-bullets li::before { content: "•"; color: var(--accent); font-weight: bold; position: absolute; left: 0; top: 0; }
+
+.skills-list { display: flex; flex-direction: column; gap: 6px; }
+.skill-group { font-size: 11.5px; line-height: 1.35; }
+.skill-group-title { font-weight: 600; color: var(--text-dark); margin-bottom: 1px; }
+.skill-group-tags { color: var(--text-main); }
+
+.edu-item { margin-bottom: 6px; font-size: 11.5px; }
+.edu-item:last-child { margin-bottom: 0; }
+.edu-title { font-weight: 600; color: var(--text-dark); }
+.edu-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; }
+
+@media print {
+    body { background-color: #ffffff; }
+    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
+}`;
+
+/* ==========================================
+   STATE
+   ========================================== */
+let cvData = null;
+let skipNextSync = false;
+
+/* ==========================================
+   UTILITY FUNCTIONS
+   ========================================== */
+function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+function setNested(obj, path, value) {
+    const keys = path.split('.');
+    let cur = obj;
+    for (let i = 0; i < keys.length - 1; i++) {
+        const k = isNaN(keys[i]) ? keys[i] : parseInt(keys[i]);
+        if (cur[k] === undefined) return;
+        cur = cur[k];
+    }
+    const last = isNaN(keys[keys.length - 1]) ? keys[keys.length - 1] : parseInt(keys[keys.length - 1]);
+    cur[last] = value;
+}
+
+function getAccentLight(hex) {
+    try {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        const lr = Math.round(r + (255 - r) * 0.94);
+        const lg = Math.round(g + (255 - g) * 0.96);
+        const lb = Math.round(b + (255 - b) * 0.95);
+        return '#' + [lr, lg, lb].map(v => v.toString(16).padStart(2, '0')).join('');
+    } catch { return '#eff6ff'; }
+}
+
+function esc(str) {
+    if (!str) return '';
+    return str;
+}
+
+function showToast(msg, type = 'success') {
+    const t = document.createElement('div');
+    t.className = 'toast toast-' + type;
+    t.textContent = msg;
+    document.getElementById('toast-container').appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+}
+
+/* ==========================================
+   RENDER FUNCTIONS
+   ========================================== */
+function renderCV(doSkipSync) {
+    if (!doSkipSync) syncFromDOM();
+
+    const c = document.getElementById('cv-container');
+    c.innerHTML = renderHeader() + renderMainContent();
+    applyAccentColor();
+}
+
+function renderHeader() {
+    const d = cvData;
+    return `
+    <div class="header">
+        <div class="header-left">
+            <h1 class="name" contenteditable="true" data-path="name" data-placeholder="Votre nom">${esc(d.name)}</h1>
+            <h2 class="cv-title" contenteditable="true" data-path="title" data-placeholder="Titre du poste">${esc(d.title)}</h2>
+            <p class="summary" contenteditable="true" data-path="summary" data-html="1" data-placeholder="Résumé professionnel...">${d.summary || ''}</p>
+        </div>
+        <div class="header-right">
+            ${d.contacts.map((ct, i) => renderContact(ct, i)).join('')}
+            <button class="add-btn" data-action="add-contact" style="font-size:10px;padding:4px 8px;margin-top:4px;">+ Contact</button>
+        </div>
+    </div>`;
+}
+
+function renderContact(ct, i) {
+    return `
+    <div class="contact-item" style="position:relative;">
+        <span class="contact-emoji" data-index="${i}" style="min-width:16px;text-align:center;cursor:pointer;user-select:none;" title="Changer l'icône">${esc(ct.emoji)}</span>
+        <span contenteditable="true" data-path="contacts.${i}.text" data-placeholder="Texte">${esc(ct.text)}</span>
+        <div class="contact-actions">
+            <button data-action="edit-link" data-index="${i}" title="Modifier le lien URL">🔗</button>
+            <button class="btn-danger" data-action="remove-contact" data-index="${i}" title="Supprimer">✕</button>
+        </div>
+    </div>`;
+}
+
+function renderMainContent() {
+    return `
+    <div class="main-content">
+        <div class="col-left">
+            ${renderLeftSection('experiences', cvData.experienceTitle)}
+            ${renderLeftSection('projects', cvData.projectsTitle)}
+        </div>
+        <div class="col-right">
+            ${renderSkillsSection()}
+            ${renderEduSection('education', cvData.educationTitle)}
+            ${renderEduSection('certifications', cvData.certificationsTitle)}
+            ${renderQualitiesSection()}
+            ${renderLanguagesSection()}
+        </div>
+    </div>`;
+}
+
+function renderLeftSection(section, sectionTitle) {
+    const items = cvData[section];
+    const titlePath = section === 'experiences' ? 'experienceTitle' : 'projectsTitle';
+    return `
+    <div>
+        <h3 class="section-title" contenteditable="true" data-path="${titlePath}" data-placeholder="Titre de section">${esc(sectionTitle)}</h3>
+        ${items.length > 0 ? items.map((item, i) => renderItem(item, section, i)).join('') : '<div class="section-empty">Aucun élément</div>'}
+        <button class="add-btn" data-action="add-item" data-section="${section}">+ Ajouter ${section === 'experiences' ? 'une expérience' : 'un projet'}</button>
+    </div>`;
+}
+
+function renderItem(item, section, index) {
+    return `
+    <div class="item cv-editable">
+        <div class="item-actions">
+            <button data-action="move-up" data-section="${section}" data-index="${index}" title="Monter">▲</button>
+            <button data-action="move-down" data-section="${section}" data-index="${index}" title="Descendre">▼</button>
+            <button class="btn-danger" data-action="remove-item" data-section="${section}" data-index="${index}" title="Supprimer">✕</button>
+        </div>
+        <div class="item-header">
+            <span class="item-role" contenteditable="true" data-path="${section}.${index}.role" data-placeholder="Poste / Titre">${esc(item.role)}</span>
+            <span class="item-company" contenteditable="true" data-path="${section}.${index}.company" data-placeholder="Entreprise">${esc(item.company)}</span>
+        </div>
+        <div class="item-meta">
+            <span contenteditable="true" data-path="${section}.${index}.location" data-placeholder="Lieu">${esc(item.location)}</span>
+            <span contenteditable="true" data-path="${section}.${index}.dates" data-placeholder="Dates">${esc(item.dates)}</span>
+        </div>
+        <ul class="item-bullets">
+            ${item.bullets.map((b, bi) => `
+            <li style="position:relative;padding-right:22px;">
+                <span class="bullet-content" contenteditable="true" data-path="${section}.${index}.bullets.${bi}" data-html="1" data-placeholder="Description...">${b}</span>
+                <button class="bullet-remove-btn" data-action="remove-bullet" data-section="${section}" data-index="${index}" data-bullet="${bi}" title="Supprimer">✕</button>
+            </li>`).join('')}
+        </ul>
+        <button class="add-bullet-btn" data-action="add-bullet" data-section="${section}" data-index="${index}">+ Point</button>
+    </div>`;
+}
+
+function renderSkillsSection() {
+    const d = cvData;
+    return `
+    <div>
+        <h3 class="section-title" contenteditable="true" data-path="skillsTitle" data-placeholder="Compétences">${esc(d.skillsTitle)}</h3>
+        <div class="skills-list">
+            ${d.skills.map((s, i) => `
+            <div class="skill-group cv-editable" style="position:relative;">
+                <button class="inline-remove-btn btn-danger" data-action="remove-skill" data-index="${i}" title="Supprimer">✕</button>
+                <div class="skill-group-title" contenteditable="true" data-path="skills.${i}.title" data-placeholder="Catégorie">${esc(s.title)}</div>
+                <div class="skill-group-tags" contenteditable="true" data-path="skills.${i}.tags" data-placeholder="Compétence 1, Compétence 2...">${esc(s.tags)}</div>
+            </div>`).join('')}
+        </div>
+        <button class="add-btn" data-action="add-skill">+ Ajouter un groupe de compétences</button>
+    </div>`;
+}
+
+function renderEduSection(section, sectionTitle) {
+    const items = cvData[section];
+    const titlePath = section === 'education' ? 'educationTitle' : 'certificationsTitle';
+    const label = section === 'education' ? 'une formation' : 'une certification';
+    return `
+    <div>
+        <h3 class="section-title" contenteditable="true" data-path="${titlePath}" data-placeholder="Titre">${esc(sectionTitle)}</h3>
+        ${items.map((item, i) => `
+        <div class="edu-item cv-editable" style="position:relative;">
+            <button class="inline-remove-btn btn-danger" data-action="remove-${section === 'education' ? 'education' : 'certification'}" data-index="${i}" title="Supprimer">✕</button>
+            <div class="edu-title" contenteditable="true" data-path="${section}.${i}.title" data-placeholder="Titre du diplôme">${esc(item.title)}</div>
+            <div class="edu-meta">
+                <span contenteditable="true" data-path="${section}.${i}.institution" data-placeholder="Établissement">${esc(item.institution)}</span>
+                <span contenteditable="true" data-path="${section}.${i}.dates" data-placeholder="Dates">${esc(item.dates)}</span>
+            </div>
+        </div>`).join('')}
+        ${items.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
+        <button class="add-btn" data-action="add-${section === 'education' ? 'education' : 'certification'}">+ Ajouter ${label}</button>
+    </div>`;
+}
+
+function renderQualitiesSection() {
+    const d = cvData;
+    return `
+    <div>
+        <h3 class="section-title" contenteditable="true" data-path="qualitiesTitle" data-placeholder="Qualités">${esc(d.qualitiesTitle)}</h3>
+        <div class="qualities-list">
+            ${d.qualities.map((q, i) => `
+            <div class="quality-item cv-editable" style="position:relative;">
+                <button class="inline-remove-btn btn-danger" data-action="remove-quality" data-index="${i}" title="Supprimer" style="right:-22px;top:0;">✕</button>
+                <span contenteditable="true" data-path="qualities.${i}" data-placeholder="Qualité">${esc(q)}</span>
+            </div>`).join('')}
+        </div>
+        ${d.qualities.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
+        <button class="add-btn" data-action="add-quality">+ Ajouter une qualité</button>
+    </div>`;
+}
+
+function renderLanguagesSection() {
+    const d = cvData;
+    return `
+    <div>
+        <h3 class="section-title" contenteditable="true" data-path="languagesTitle" data-placeholder="Langues">${esc(d.languagesTitle)}</h3>
+        <div class="languages-list">
+            ${d.languages.map((l, i) => `
+            <div class="language-item cv-editable" style="position:relative;">
+                <button class="inline-remove-btn btn-danger" data-action="remove-language" data-index="${i}" title="Supprimer" style="right:-22px;top:0;">✕</button>
+                <strong><span contenteditable="true" data-path="languages.${i}.name" data-placeholder="Langue">${esc(l.name)}</span> :</strong>
+                <span contenteditable="true" data-path="languages.${i}.level" data-placeholder="Niveau">${esc(l.level)}</span>
+            </div>`).join('')}
+        </div>
+        ${d.languages.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
+        <button class="add-btn" data-action="add-language">+ Ajouter une langue</button>
+    </div>`;
+}
+
+/* ==========================================
+   SYNC (DOM → Data Model)
+   ========================================== */
+function syncFromDOM() {
+    const c = document.getElementById('cv-container');
+    if (!c || !c.children.length) return;
+    c.querySelectorAll('[data-path]').forEach(el => syncField(el));
+}
+
+function syncField(el) {
+    const path = el.dataset.path;
+    if (!path) return;
+    let value;
+    if (el.dataset.html !== undefined && el.dataset.html !== '') {
+        value = el.innerHTML.trim();
+        // Clean browser artifacts
+        if (value === '<br>' || value === '<br/>') value = '';
+    } else {
+        value = el.textContent.trim();
+    }
+    setNested(cvData, path, value);
+}
+
+/* ==========================================
+   ACCENT COLOR
+   ========================================== */
+function applyAccentColor() {
+    const c = document.getElementById('cv-container');
+    c.style.setProperty('--accent', cvData.accentColor);
+    c.style.setProperty('--accent-light', getAccentLight(cvData.accentColor));
+
+    document.querySelectorAll('.color-swatch').forEach(s => {
+        s.classList.toggle('active', s.dataset.color === cvData.accentColor);
+    });
+    document.getElementById('custom-color').value = cvData.accentColor;
+}
+
+/* ==========================================
+   ACTION HANDLERS
+   ========================================== */
+function handleAction(btn) {
+    const action = btn.dataset.action;
+    const section = btn.dataset.section;
+    const index = btn.dataset.index !== undefined ? parseInt(btn.dataset.index) : -1;
+
+    syncFromDOM();
+
+    switch (action) {
+        case 'add-item':
+            cvData[section].push({ role: '', company: '', location: '', dates: '', bullets: [''] });
+            break;
+        case 'remove-item':
+            if (confirm('Supprimer cet élément ?')) cvData[section].splice(index, 1);
+            else return;
+            break;
+        case 'move-up':
+            if (index > 0) [cvData[section][index], cvData[section][index - 1]] = [cvData[section][index - 1], cvData[section][index]];
+            break;
+        case 'move-down':
+            if (index < cvData[section].length - 1) [cvData[section][index], cvData[section][index + 1]] = [cvData[section][index + 1], cvData[section][index]];
+            break;
+        case 'add-bullet':
+            cvData[section][index].bullets.push('');
+            break;
+        case 'remove-bullet': {
+            const bi = parseInt(btn.dataset.bullet);
+            cvData[section][index].bullets.splice(bi, 1);
+            break;
+        }
+        case 'add-contact':
+            cvData.contacts.push({ emoji: '📌', text: '', url: '' });
+            break;
+        case 'remove-contact':
+            cvData.contacts.splice(index, 1);
+            break;
+        case 'edit-link': {
+            const ct = cvData.contacts[index];
+            const url = prompt('URL du lien (vide = aucun lien) :', ct.url || '');
+            if (url !== null) ct.url = url;
+            break;
+        }
+        case 'add-skill':
+            cvData.skills.push({ title: '', tags: '' });
+            break;
+        case 'remove-skill':
+            cvData.skills.splice(index, 1);
+            break;
+        case 'add-education':
+            cvData.education.push({ title: '', institution: '', dates: '' });
+            break;
+        case 'remove-education':
+            cvData.education.splice(index, 1);
+            break;
+        case 'add-certification':
+            cvData.certifications.push({ title: '', institution: '', dates: '' });
+            break;
+        case 'remove-certification':
+            cvData.certifications.splice(index, 1);
+            break;
+        case 'add-quality':
+            cvData.qualities.push('');
+            break;
+        case 'remove-quality':
+            cvData.qualities.splice(index, 1);
+            break;
+        case 'add-language':
+            cvData.languages.push({ name: '', level: '' });
+            break;
+        case 'remove-language':
+            cvData.languages.splice(index, 1);
+            break;
+        default: return;
+    }
+
+    renderCV(true);
+    autoSave();
+}
+
+/* ==========================================
+   EXPORT: Standalone HTML
+   ========================================== */
+function exportHTML() {
+    syncFromDOM();
+
+    const accent = cvData.accentColor;
+    const accentLight = getAccentLight(accent);
+    const css = EXPORT_CSS.replace('__ACCENT__', accent).replace('__ACCENT_LIGHT__', accentLight);
+
+    const title = `${(cvData.name || 'CV').toUpperCase()} - ${cvData.title || 'CV'}`;
+
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n</head>\n<body>\n\n    <div class="cv-container">\n`;
+
+    // Header
+    html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
+    html += `                <h1 class="name">${escHTML(cvData.name)}</h1>\n`;
+    html += `                <h2 class="title">${escHTML(cvData.title)}</h2>\n`;
+    html += `                <p class="summary">\n                    ${cvData.summary}\n                </p>\n`;
+    html += `            </div>\n            <div class="header-right">\n`;
+    cvData.contacts.forEach(ct => {
+        if (ct.url) {
+            const target = ct.url.startsWith('mailto:') ? '' : ' target="_blank"';
+            html += `                <div class="contact-item">${ct.emoji} <a href="${escHTML(ct.url)}"${target}>${escHTML(ct.text)}</a></div>\n`;
+        } else {
+            html += `                <div class="contact-item">${ct.emoji} ${escHTML(ct.text)}</div>\n`;
+        }
+    });
+    html += `            </div>\n        </div>\n\n`;
+
+    // Main content
+    html += `        <!-- Two Column Main Content -->\n        <div class="main-content">\n`;
+
+    // Left column
+    html += `            <!-- Left Column -->\n            <div class="col-left">\n`;
+    // Experiences
+    if (cvData.experiences.length > 0) {
+        html += exportItemSection(cvData.experienceTitle, cvData.experiences);
+    }
+    // Projects
+    if (cvData.projects.length > 0) {
+        html += exportItemSection(cvData.projectsTitle, cvData.projects);
+    }
+    html += `            </div>\n\n`;
+
+    // Right column
+    html += `            <!-- Right Column -->\n            <div class="col-right">\n`;
+    // Skills
+    if (cvData.skills.length > 0) {
+        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.skillsTitle)}</h3>\n                    <div class="skills-list">\n`;
+        cvData.skills.forEach(s => {
+            html += `                        <div class="skill-group">\n                            <div class="skill-group-title">${escHTML(s.title)}</div>\n                            <div class="skill-group-tags">${escHTML(s.tags)}</div>\n                        </div>\n`;
+        });
+        html += `                    </div>\n                </div>\n\n`;
+    }
+    // Education
+    if (cvData.education.length > 0) {
+        html += exportEduSection(cvData.educationTitle, cvData.education);
+    }
+    // Certifications
+    if (cvData.certifications.length > 0) {
+        html += exportEduSection(cvData.certificationsTitle, cvData.certifications);
+    }
+    // Qualities
+    if (cvData.qualities.length > 0 && cvData.qualities.some(q => q.trim())) {
+        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.qualitiesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        const validQ = cvData.qualities.filter(q => q.trim());
+        html += validQ.map((q, i) => `                        • ${escHTML(q)}` + (i < validQ.length - 1 ? '<br>' : '')).join('\n') + '\n';
+        html += `                    </div>\n                </div>\n\n`;
+    }
+    // Languages
+    if (cvData.languages.length > 0 && cvData.languages.some(l => l.name.trim())) {
+        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.languagesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        const validL = cvData.languages.filter(l => l.name.trim());
+        html += validL.map((l, i) => `                        <strong>${escHTML(l.name)} :</strong> ${escHTML(l.level)}` + (i < validL.length - 1 ? '<br>' : '')).join('\n') + '\n';
+        html += `                    </div>\n                </div>\n`;
+    }
+
+    html += `            </div>\n        </div>\n    </div>\n\n</body>\n</html>\n`;
+
+    // Download
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeName = (cvData.name || 'CV').replace(/[^a-zA-ZÀ-ÿ0-9_\- ]/g, '').replace(/\s+/g, '_');
+    a.download = `CV_${safeName}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('CV exporté en HTML ✓');
+}
+
+function exportItemSection(title, items) {
+    let h = `                <div>\n                    <h3 class="section-title">${escHTML(title)}</h3>\n`;
+    items.forEach(item => {
+        h += `                    \n                    <div class="item">\n`;
+        h += `                        <div class="item-header">\n                            <span class="item-role">${escHTML(item.role)}</span>\n                            <span class="item-company">${escHTML(item.company)}</span>\n                        </div>\n`;
+        h += `                        <div class="item-meta">\n                            <span>${escHTML(item.location)}</span>\n                            <span>${escHTML(item.dates)}</span>\n                        </div>\n`;
+        if (item.bullets.length > 0 && item.bullets.some(b => b.trim())) {
+            h += `                        <ul class="item-bullets">\n`;
+            item.bullets.filter(b => b.trim()).forEach(b => {
+                h += `                            <li>${b}</li>\n`;
+            });
+            h += `                        </ul>\n`;
+        }
+        h += `                    </div>\n`;
+    });
+    h += `                </div>\n\n`;
+    return h;
+}
+
+function exportEduSection(title, items) {
+    let h = `                <div>\n                    <h3 class="section-title">${escHTML(title)}</h3>\n`;
+    items.forEach(item => {
+        h += `                    <div class="edu-item">\n                        <div class="edu-title">${escHTML(item.title)}</div>\n                        <div class="edu-meta">\n                            <span>${escHTML(item.institution)}</span>\n                            <span>${escHTML(item.dates)}</span>\n                        </div>\n                    </div>\n`;
+    });
+    h += `                </div>\n\n`;
+    return h;
+}
+
+function escHTML(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+/* ==========================================
+   EXPORT: PDF (via Print)
+   ========================================== */
+function exportPDF() {
+    syncFromDOM();
+    // Temporarily hide empty sections and editor artifacts
+    showToast('Utilisez « Enregistrer en PDF » dans la boîte de dialogue', 'info');
+    setTimeout(() => window.print(), 300);
+}
+
+/* ==========================================
+   LOAD & PARSE CV
+   ========================================== */
+function loadFromFile() {
+    document.getElementById('file-input').click();
+}
+
+function handleFileLoad(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+        try {
+            cvData = parseCV(evt.target.result);
+            renderCV(true);
+            autoSave();
+            showToast('CV chargé : ' + file.name);
+        } catch (err) {
+            showToast('Erreur : ' + err.message, 'error');
+            console.error(err);
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+}
+
+function parseCV(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    const data = deepClone(DEFAULT_CV);
+
+    // Accent color from CSS
+    const styleText = doc.querySelector('style')?.textContent || '';
+    const accentMatch = styleText.match(/--accent:\s*([^;]+)/);
+    if (accentMatch) {
+        const val = accentMatch[1].trim();
+        // Skip "var(...)" values, take only hex/named colors
+        if (val.startsWith('#') || val.match(/^[a-z]+$/i)) {
+            data.accentColor = val;
+        }
+    }
+
+    // Header
+    const nameEl = doc.querySelector('.name');
+    if (nameEl) data.name = nameEl.textContent.trim();
+
+    const titleEl = doc.querySelector('.title, h2');
+    if (titleEl) data.title = titleEl.textContent.trim();
+
+    const summaryEl = doc.querySelector('.summary');
+    if (summaryEl) data.summary = summaryEl.innerHTML.trim();
+
+    // Contacts
+    const contactEls = doc.querySelectorAll('.header-right .contact-item');
+    if (contactEls.length > 0) {
+        data.contacts = [];
+        contactEls.forEach(el => {
+            const link = el.querySelector('a');
+            const fullText = el.textContent.trim();
+            // Extract emoji: first codepoint(s)
+            let emoji = '';
+            let rest = fullText;
+            const emojiRegex = /^([\p{Emoji_Presentation}\p{Emoji}\uFE0F\u200D]+)/u;
+            const m = fullText.match(emojiRegex);
+            if (m) {
+                emoji = m[1];
+                rest = fullText.slice(m[0].length).trim();
+            }
+            const text = link ? link.textContent.trim() : rest;
+            const url = link ? (link.getAttribute('href') || '') : '';
+            data.contacts.push({ emoji, text, url });
+        });
+    }
+
+    // Left column sections
+    const colLeft = doc.querySelector('.col-left');
+    if (colLeft) {
+        const sections = colLeft.querySelectorAll(':scope > div');
+        let isFirstSection = true;
+        sections.forEach(section => {
+            const titleEl = section.querySelector('.section-title');
+            if (!titleEl) return;
+            const items = section.querySelectorAll('.item');
+            const parsed = [];
+            items.forEach(item => {
+                const role = item.querySelector('.item-role')?.textContent.trim() || '';
+                const company = item.querySelector('.item-company')?.textContent.trim() || '';
+                const metaSpans = item.querySelectorAll('.item-meta span');
+                const location = metaSpans[0]?.textContent.trim() || '';
+                const dates = metaSpans[1]?.textContent.trim() || '';
+                const bulletEls = item.querySelectorAll('.item-bullets li');
+                const bullets = Array.from(bulletEls).map(li => li.innerHTML.trim());
+                parsed.push({ role, company, location, dates, bullets: bullets.length ? bullets : [''] });
+            });
+
+            if (isFirstSection) {
+                data.experienceTitle = titleEl.textContent.trim();
+                data.experiences = parsed;
+                isFirstSection = false;
+            } else {
+                data.projectsTitle = titleEl.textContent.trim();
+                data.projects = parsed;
+            }
+        });
+    }
+
+    // Right column sections
+    const colRight = doc.querySelector('.col-right');
+    if (colRight) {
+        const sections = colRight.querySelectorAll(':scope > div');
+        sections.forEach(section => {
+            const titleEl = section.querySelector('.section-title');
+            if (!titleEl) return;
+            const titleText = titleEl.textContent.trim();
+            const titleLower = titleText.toLowerCase();
+
+            if (titleLower.includes('compétence')) {
+                data.skillsTitle = titleText;
+                data.skills = [];
+                section.querySelectorAll('.skill-group').forEach(sg => {
+                    data.skills.push({
+                        title: sg.querySelector('.skill-group-title')?.textContent.trim() || '',
+                        tags: sg.querySelector('.skill-group-tags')?.textContent.trim() || ''
+                    });
+                });
+            } else if (titleLower.includes('diplôme') || titleLower.includes('formation')) {
+                data.educationTitle = titleText;
+                data.education = [];
+                section.querySelectorAll('.edu-item').forEach(ei => {
+                    data.education.push({
+                        title: ei.querySelector('.edu-title')?.textContent.trim() || '',
+                        institution: ei.querySelector('.edu-meta span:first-child')?.textContent.trim() || '',
+                        dates: ei.querySelector('.edu-meta span:last-child')?.textContent.trim() || ''
+                    });
+                });
+            } else if (titleLower.includes('certification')) {
+                data.certificationsTitle = titleText;
+                data.certifications = [];
+                section.querySelectorAll('.edu-item').forEach(ei => {
+                    data.certifications.push({
+                        title: ei.querySelector('.edu-title')?.textContent.trim() || '',
+                        institution: ei.querySelector('.edu-meta span:first-child')?.textContent.trim() || '',
+                        dates: ei.querySelector('.edu-meta span:last-child')?.textContent.trim() || ''
+                    });
+                });
+            } else if (titleLower.includes('qualité')) {
+                data.qualitiesTitle = titleText;
+                // Find the content div (not the section-title)
+                const contentDiv = Array.from(section.children).find(c => !c.classList.contains('section-title'));
+                if (contentDiv) {
+                    const text = contentDiv.innerHTML;
+                    data.qualities = text.split(/<br\s*\/?>/)
+                        .map(q => q.replace(/^[\s•·\-–—]+/, '').replace(/&amp;/g, '&').trim())
+                        .filter(q => q);
+                }
+            } else if (titleLower.includes('langue')) {
+                data.languagesTitle = titleText;
+                const contentDiv = Array.from(section.children).find(c => !c.classList.contains('section-title'));
+                if (contentDiv) {
+                    data.languages = [];
+                    contentDiv.innerHTML.split(/<br\s*\/?>/).forEach(line => {
+                        const match = line.match(/<strong>([^<]*?)(?:\s*:)?\s*<\/strong>\s*:?\s*(.+)/i);
+                        if (match) {
+                            data.languages.push({
+                                name: match[1].replace(/\s*:$/, '').trim(),
+                                level: match[2].replace(/&amp;/g, '&').trim()
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    return data;
+}
+
+/* ==========================================
+   LOCAL STORAGE
+   ========================================== */
+const STORAGE_KEY = 'cv_constructor_data';
+let saveTimeout = null;
+
+function autoSave() {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+        syncFromDOM();
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cvData));
+        } catch (e) { /* quota exceeded — ignore */ }
+    }, 500);
+}
+
+function loadFromStorage() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // Merge with defaults to ensure all fields exist
+            cvData = { ...deepClone(DEFAULT_CV), ...parsed };
+            return true;
+        }
+    } catch (e) { /* corrupted — ignore */ }
+    return false;
+}
+
+function showEmojiPicker(targetEl, contactIndex) {
+    document.querySelectorAll('.emoji-picker-popover').forEach(el => el.remove());
+
+    const popover = document.createElement('div');
+    popover.className = 'emoji-picker-popover';
+    popover.style.position = 'absolute';
+    popover.style.zIndex = '1000';
+    popover.style.background = 'rgba(15, 15, 30, 0.96)';
+    popover.style.backdropFilter = 'blur(16px)';
+    popover.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+    popover.style.borderRadius = '8px';
+    popover.style.padding = '8px';
+    popover.style.display = 'grid';
+    popover.style.gridTemplateColumns = 'repeat(6, 1fr)';
+    popover.style.gap = '6px';
+    popover.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+    
+    const emojis = [
+        '🐙', '💼', '💬', '📞', '🌐', '✉️', '📍', 
+        '💻', '🧑‍💻', '🦊', '🎨', '📂', '✍️', '📝', 
+        '🚗', '🪪', '🎂', '📅', '🌍', '💍', '👨‍👩‍👧‍👦', '👶', 
+        '📱', '🐦'
+    ];
+    
+    emojis.forEach(emoji => {
+        const btn = document.createElement('button');
+        btn.textContent = emoji;
+        btn.style.background = 'transparent';
+        btn.style.border = 'none';
+        btn.style.fontSize = '18px';
+        btn.style.cursor = 'pointer';
+        btn.style.padding = '6px';
+        btn.style.borderRadius = '4px';
+        btn.style.transition = 'background 0.2s';
+        
+        btn.addEventListener('mouseover', () => {
+            btn.style.background = 'rgba(255,255,255,0.1)';
+        });
+        btn.addEventListener('mouseout', () => {
+            btn.style.background = 'transparent';
+        });
+        
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cvData.contacts[contactIndex].emoji = emoji;
+            renderCV(true);
+            autoSave();
+            popover.remove();
+        });
+        
+        popover.appendChild(btn);
+    });
+    
+    document.body.appendChild(popover);
+    const rect = targetEl.getBoundingClientRect();
+    
+    const top = rect.bottom + window.scrollY + 6;
+    const left = rect.left + window.scrollX - 10;
+    
+    popover.style.top = `${top}px`;
+    popover.style.left = `${left}px`;
+    
+    const closePicker = (e) => {
+        if (!popover.contains(e.target) && e.target !== targetEl) {
+            popover.remove();
+            document.removeEventListener('click', closePicker);
+        }
+    };
+    setTimeout(() => document.addEventListener('click', closePicker), 10);
+}
+
+/* ==========================================
+   EVENT LISTENERS
+   ========================================== */
+function setupEvents() {
+    const cv = document.getElementById('cv-container');
+
+    // Action buttons (delegated)
+    cv.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (btn) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleAction(btn);
+            return;
+        }
+
+        const emojiBtn = e.target.closest('.contact-emoji');
+        if (emojiBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const idx = parseInt(emojiBtn.dataset.index);
+            showEmojiPicker(emojiBtn, idx);
+        }
+    });
+
+    // Blur on contenteditable → sync field
+    cv.addEventListener('focusout', (e) => {
+        const el = e.target.closest('[data-path]');
+        if (el) {
+            // Clean empty fields
+            if (el.textContent.trim() === '' || el.innerHTML.trim() === '<br>') {
+                el.innerHTML = '';
+            }
+            syncField(el);
+            autoSave();
+        }
+    });
+
+    // Enter key handling
+    cv.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.matches('[contenteditable]')) {
+            const el = e.target;
+            // Allow Shift+Enter in summary for line breaks
+            if (el.classList.contains('summary') && e.shiftKey) return;
+            // Allow Enter in bullet content for <br>
+            if (el.classList.contains('bullet-content') && e.shiftKey) return;
+            // Otherwise prevent and blur
+            e.preventDefault();
+            el.blur();
+        }
+    });
+
+    // Toolbar buttons
+    document.getElementById('btn-new').addEventListener('click', () => {
+        if (confirm('Créer un nouveau CV ? Les modifications non exportées seront perdues.')) {
+            cvData = deepClone(DEFAULT_CV);
+            renderCV(true);
+            autoSave();
+            showToast('Nouveau CV créé ✨');
+        }
+    });
+
+    document.getElementById('btn-load').addEventListener('click', loadFromFile);
+    document.getElementById('file-input').addEventListener('change', handleFileLoad);
+    document.getElementById('btn-export-html').addEventListener('click', exportHTML);
+    document.getElementById('btn-export-pdf').addEventListener('click', exportPDF);
+
+    // Color swatches
+    document.getElementById('color-options').addEventListener('click', (e) => {
+        const swatch = e.target.closest('.color-swatch');
+        if (swatch) {
+            cvData.accentColor = swatch.dataset.color;
+            applyAccentColor();
+            autoSave();
+        }
+    });
+
+    // Custom color
+    document.getElementById('custom-color').addEventListener('input', (e) => {
+        cvData.accentColor = e.target.value;
+        applyAccentColor();
+        autoSave();
+    });
+
+    // Auto-save on input
+    cv.addEventListener('input', () => {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => autoSave(), 1000);
+    });
+}
+
+/* ==========================================
+   INIT
+   ========================================== */
+function init() {
+    if (!loadFromStorage()) {
+        cvData = deepClone(DEFAULT_CV);
+    }
+    setupEvents();
+    renderCV(true);
+    applyAccentColor();
+}
+
+document.addEventListener('DOMContentLoaded', init);
