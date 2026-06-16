@@ -6,6 +6,7 @@ const COLOR_PRESETS = [
 ];
 
 const DEFAULT_CV = {
+    hiddenSections: [],
     name: 'Votre Nom',
     title: 'Titre du Poste',
     summary: 'Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases.',
@@ -130,12 +131,15 @@ body {
 @media print {
     body { background-color: #ffffff; }
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
-}`;
+}
+.section-hidden { display: none !important; }`;
 
-/* ==========================================
-   STATE
-   ========================================== */
 let cvData = null;
+Object.defineProperty(window, 'cvData', {
+    get: function() { return cvData; },
+    set: function(val) { cvData = val; },
+    configurable: true
+});
 let skipNextSync = false;
 
 /* ==========================================
@@ -189,6 +193,9 @@ function renderCV(doSkipSync) {
     const c = document.getElementById('cv-container');
     c.innerHTML = renderHeader() + renderMainContent();
     applyAccentColor();
+    if (typeof updateStructurePanel === 'function') {
+        updateStructurePanel();
+    }
 }
 
 function renderHeader() {
@@ -239,8 +246,9 @@ function renderMainContent() {
 function renderLeftSection(section, sectionTitle) {
     const items = cvData[section];
     const titlePath = section === 'experiences' ? 'experienceTitle' : 'projectsTitle';
+    const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes(section);
     return `
-    <div>
+    <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="${section}">
         <h3 class="section-title" contenteditable="true" data-path="${titlePath}" data-placeholder="Titre de section">${esc(sectionTitle)}</h3>
         ${items.length > 0 ? items.map((item, i) => renderItem(item, section, i)).join('') : '<div class="section-empty">Aucun élément</div>'}
         <button class="add-btn" data-action="add-item" data-section="${section}">+ Ajouter ${section === 'experiences' ? 'une expérience' : 'un projet'}</button>
@@ -276,8 +284,9 @@ function renderItem(item, section, index) {
 
 function renderSkillsSection() {
     const d = cvData;
+    const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('skills');
     return `
-    <div>
+    <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="skills">
         <h3 class="section-title" contenteditable="true" data-path="skillsTitle" data-placeholder="Compétences">${esc(d.skillsTitle)}</h3>
         <div class="skills-list">
             ${d.skills.map((s, i) => `
@@ -295,8 +304,9 @@ function renderEduSection(section, sectionTitle) {
     const items = cvData[section];
     const titlePath = section === 'education' ? 'educationTitle' : 'certificationsTitle';
     const label = section === 'education' ? 'une formation' : 'une certification';
+    const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes(section);
     return `
-    <div>
+    <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="${section}">
         <h3 class="section-title" contenteditable="true" data-path="${titlePath}" data-placeholder="Titre">${esc(sectionTitle)}</h3>
         ${items.map((item, i) => `
         <div class="edu-item cv-editable" style="position:relative;">
@@ -314,8 +324,9 @@ function renderEduSection(section, sectionTitle) {
 
 function renderQualitiesSection() {
     const d = cvData;
+    const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('qualities');
     return `
-    <div>
+    <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="qualities">
         <h3 class="section-title" contenteditable="true" data-path="qualitiesTitle" data-placeholder="Qualités">${esc(d.qualitiesTitle)}</h3>
         <div class="qualities-list">
             ${d.qualities.map((q, i) => `
@@ -331,8 +342,9 @@ function renderQualitiesSection() {
 
 function renderLanguagesSection() {
     const d = cvData;
+    const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('languages');
     return `
-    <div>
+    <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="languages">
         <h3 class="section-title" contenteditable="true" data-path="languagesTitle" data-placeholder="Langues">${esc(d.languagesTitle)}</h3>
         <div class="languages-list">
             ${d.languages.map((l, i) => `
@@ -501,11 +513,17 @@ function exportHTML() {
     html += `            <!-- Left Column -->\n            <div class="col-left">\n`;
     // Experiences
     if (cvData.experiences.length > 0) {
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('experiences');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="experiences">\n`;
         html += exportItemSection(cvData.experienceTitle, cvData.experiences);
+        html += `                </div>\n`;
     }
     // Projects
     if (cvData.projects.length > 0) {
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('projects');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="projects">\n`;
         html += exportItemSection(cvData.projectsTitle, cvData.projects);
+        html += `                </div>\n`;
     }
     html += `            </div>\n\n`;
 
@@ -513,7 +531,9 @@ function exportHTML() {
     html += `            <!-- Right Column -->\n            <div class="col-right">\n`;
     // Skills
     if (cvData.skills.length > 0) {
-        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.skillsTitle)}</h3>\n                    <div class="skills-list">\n`;
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('skills');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="skills">\n`;
+        html += `                    <h3 class="section-title">${escHTML(cvData.skillsTitle)}</h3>\n                    <div class="skills-list">\n`;
         cvData.skills.forEach(s => {
             html += `                        <div class="skill-group">\n                            <div class="skill-group-title">${escHTML(s.title)}</div>\n                            <div class="skill-group-tags">${escHTML(s.tags)}</div>\n                        </div>\n`;
         });
@@ -521,22 +541,32 @@ function exportHTML() {
     }
     // Education
     if (cvData.education.length > 0) {
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('education');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="education">\n`;
         html += exportEduSection(cvData.educationTitle, cvData.education);
-    }
+        html += `                </div>\n`;
+  }
     // Certifications
     if (cvData.certifications.length > 0) {
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('certifications');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="certifications">\n`;
         html += exportEduSection(cvData.certificationsTitle, cvData.certifications);
+        html += `                </div>\n`;
     }
     // Qualities
     if (cvData.qualities.length > 0 && cvData.qualities.some(q => q.trim())) {
-        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.qualitiesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('qualities');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="qualities">\n`;
+        html += `                    <h3 class="section-title">${escHTML(cvData.qualitiesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
         const validQ = cvData.qualities.filter(q => q.trim());
         html += validQ.map((q, i) => `                        • ${escHTML(q)}` + (i < validQ.length - 1 ? '<br>' : '')).join('\n') + '\n';
         html += `                    </div>\n                </div>\n\n`;
     }
     // Languages
     if (cvData.languages.length > 0 && cvData.languages.some(l => l.name.trim())) {
-        html += `                <div>\n                    <h3 class="section-title">${escHTML(cvData.languagesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('languages');
+        html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="languages">\n`;
+        html += `                    <h3 class="section-title">${escHTML(cvData.languagesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
         const validL = cvData.languages.filter(l => l.name.trim());
         html += validL.map((l, i) => `                        <strong>${escHTML(l.name)} :</strong> ${escHTML(l.level)}` + (i < validL.length - 1 ? '<br>' : '')).join('\n') + '\n';
         html += `                    </div>\n                </div>\n`;
@@ -632,6 +662,15 @@ function parseCV(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
     const data = deepClone(DEFAULT_CV);
+
+    // Parse hidden sections
+    data.hiddenSections = [];
+    doc.querySelectorAll('.cv-section.section-hidden').forEach(sec => {
+        const secId = sec.getAttribute('data-section');
+        if (secId) {
+            data.hiddenSections.push(secId);
+        }
+    });
 
     const styleText = doc.querySelector('style')?.textContent || '';
     const accentMatch = styleText.match(/--accent:\s*([^;]+)/);
@@ -1234,5 +1273,9 @@ function init() {
     renderCV(true);
     applyAccentColor();
 }
+
+// Expose functions to window
+window.renderCV = renderCV;
+window.autoSave = autoSave;
 
 document.addEventListener('DOMContentLoaded', init);

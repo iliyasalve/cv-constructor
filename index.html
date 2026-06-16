@@ -321,78 +321,76 @@
                 <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Structure du CV</h2>
                 <p class="text-body-md text-xs text-on-surface-variant">Activez/désactivez les sections et cliquez pour y accéder.</p>
             </div>
-            <div class="space-y-3">
-                <div
+            <div class="space-y-3" id="cv-structure-list">
+                <!-- Expériences -->
+                <div data-section-id="experiences"
                     class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-primary" data-icon="work">work</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Expériences</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
                         data-icon="visibility">visibility</span>
                 </div>
-                <div
+                <!-- Projets -->
+                <div data-section-id="projects"
                     class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary"
-                            data-icon="rocket_launch">rocket_launch</span>
+                        <span class="material-symbols-outlined text-primary" data-icon="rocket_launch">rocket_launch</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Projets</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
                         data-icon="visibility">visibility</span>
                 </div>
-                <div
+                <!-- Compétences -->
+                <div data-section-id="skills"
                     class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary"
-                            data-icon="psychology">psychology</span>
+                        <span class="material-symbols-outlined text-primary" data-icon="psychology">psychology</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Compétences</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
                         data-icon="visibility">visibility</span>
                 </div>
-                <div
+                <!-- Formation -->
+                <div data-section-id="education"
                     class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-primary" data-icon="school">school</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Formation</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
                         data-icon="visibility">visibility</span>
                 </div>
-                <div
-                    class="flex items-center justify-between p-3 bg-primary-container/10 dark:bg-primary-container/20 border border-primary/20 dark:border-primary-container/40 rounded-lg transition-all cursor-pointer group shadow-sm">
+                <!-- Certifications -->
+                <div data-section-id="certifications"
+                    class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
-                        <span class="text-label-sm font-label-sm text-on-surface font-bold">Certifications</span>
+                        <span class="text-label-sm font-label-sm text-on-surface">Certifications</span>
                     </div>
-                    <span class="material-symbols-outlined text-primary" data-icon="visibility" data-weight="fill"
-                        style="font-variation-settings: 'FILL' 1;">visibility</span>
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
+                        data-icon="visibility">visibility</span>
                 </div>
-                <div
-                    class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group opacity-60 dark:opacity-50">
+                <!-- Qualités -->
+                <div data-section-id="qualities"
+                    class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary/60" data-icon="person">person</span>
+                        <span class="material-symbols-outlined text-primary" data-icon="person">person</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Qualités</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
-                        data-icon="visibility_off">visibility_off</span>
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
+                        data-icon="visibility">visibility</span>
                 </div>
-                <div
-                    class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group opacity-60 dark:opacity-50">
+                <!-- Langues -->
+                <div data-section-id="languages"
+                    class="flex items-center justify-between p-3 bg-surface dark:bg-surface-container-high hover:bg-surface-variant/30 dark:hover:bg-surface-variant/40 rounded-lg border border-outline-variant/20 transition-all cursor-pointer group">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary/60"
-                            data-icon="translate">translate</span>
+                        <span class="material-symbols-outlined text-primary" data-icon="translate">translate</span>
                         <span class="text-label-sm font-label-sm text-on-surface">Langues</span>
                     </div>
-                    <span
-                        class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors"
-                        data-icon="visibility_off">visibility_off</span>
+                    <span class="material-symbols-outlined text-on-surface-variant/40 group-hover:text-primary transition-colors eye-icon"
+                        data-icon="visibility">visibility</span>
                 </div>
             </div>
             <div class="mt-auto p-4 bg-tertiary-fixed dark:bg-tertiary-container/30 border border-transparent dark:border-tertiary-container/40 rounded-xl flex items-center gap-4">
