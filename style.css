@@ -155,6 +155,7 @@ body {
     margin: 0 auto !important;
     box-shadow: var(--cv-page-shadow) !important;
     border: 1px solid var(--outline-variant) !important;
+    align-self: flex-start !important;
 }
 
 html.dark .cv-container {
