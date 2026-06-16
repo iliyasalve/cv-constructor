@@ -653,7 +653,7 @@
             }
             .item-actions, .contact-actions, .inline-remove-btn,
             .bullet-remove-btn, .add-btn, .add-bullet-btn,
-            .section-empty { display: none !important; }
+            .section-empty, .emoji-picker-popover { display: none !important; }
             .cv-editable:hover { outline: none !important; }
             [contenteditable]:empty::before { display: none !important; }
         }
@@ -929,7 +929,7 @@ body {
     function renderContact(ct, i) {
         return `
         <div class="contact-item" style="position:relative;">
-            <span contenteditable="true" data-path="contacts.${i}.emoji" style="min-width:16px;text-align:center;" data-placeholder="📌">${esc(ct.emoji)}</span>
+            <span class="contact-emoji" data-index="${i}" style="min-width:16px;text-align:center;cursor:pointer;user-select:none;" title="Changer l'icône">${esc(ct.emoji)}</span>
             <span contenteditable="true" data-path="contacts.${i}.text" data-placeholder="Texte">${esc(ct.text)}</span>
             <div class="contact-actions">
                 <button data-action="edit-link" data-index="${i}" title="Modifier le lien URL">🔗</button>
@@ -1529,6 +1529,77 @@ body {
         return false;
     }
 
+    function showEmojiPicker(targetEl, contactIndex) {
+        document.querySelectorAll('.emoji-picker-popover').forEach(el => el.remove());
+
+        const popover = document.createElement('div');
+        popover.className = 'emoji-picker-popover';
+        popover.style.position = 'absolute';
+        popover.style.zIndex = '1000';
+        popover.style.background = 'rgba(15, 15, 30, 0.96)';
+        popover.style.backdropFilter = 'blur(16px)';
+        popover.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+        popover.style.borderRadius = '8px';
+        popover.style.padding = '8px';
+        popover.style.display = 'grid';
+        popover.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        popover.style.gap = '6px';
+        popover.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+        
+        const emojis = [
+            '🐙', '💼', '💬', '📞', '🌐', '✉️', '📍', 
+            '💻', '🧑‍💻', '🦊', '🎨', '📂', '✍️', '📝', 
+            '🚗', '🪪', '🎂', '📅', '🌍', '💍', '👨‍👩‍👧‍👦', '👶', 
+            '📱', '🐦'
+        ];
+        
+        emojis.forEach(emoji => {
+            const btn = document.createElement('button');
+            btn.textContent = emoji;
+            btn.style.background = 'transparent';
+            btn.style.border = 'none';
+            btn.style.fontSize = '18px';
+            btn.style.cursor = 'pointer';
+            btn.style.padding = '6px';
+            btn.style.borderRadius = '4px';
+            btn.style.transition = 'background 0.2s';
+            
+            btn.addEventListener('mouseover', () => {
+                btn.style.background = 'rgba(255,255,255,0.1)';
+            });
+            btn.addEventListener('mouseout', () => {
+                btn.style.background = 'transparent';
+            });
+            
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                cvData.contacts[contactIndex].emoji = emoji;
+                renderCV(true);
+                autoSave();
+                popover.remove();
+            });
+            
+            popover.appendChild(btn);
+        });
+        
+        document.body.appendChild(popover);
+        const rect = targetEl.getBoundingClientRect();
+        
+        const top = rect.bottom + window.scrollY + 6;
+        const left = rect.left + window.scrollX - 10;
+        
+        popover.style.top = `${top}px`;
+        popover.style.left = `${left}px`;
+        
+        const closePicker = (e) => {
+            if (!popover.contains(e.target) && e.target !== targetEl) {
+                popover.remove();
+                document.removeEventListener('click', closePicker);
+            }
+        };
+        setTimeout(() => document.addEventListener('click', closePicker), 10);
+    }
+
     /* ==========================================
        EVENT LISTENERS
        ========================================== */
@@ -1542,6 +1613,15 @@ body {
                 e.preventDefault();
                 e.stopPropagation();
                 handleAction(btn);
+                return;
+            }
+
+            const emojiBtn = e.target.closest('.contact-emoji');
+            if (emojiBtn) {
+                e.preventDefault();
+                e.stopPropagation();
+                const idx = parseInt(emojiBtn.dataset.index);
+                showEmojiPicker(emojiBtn, idx);
             }
         });
 
