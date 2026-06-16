@@ -1,6 +1,171 @@
+
 /* ==========================================
-   CONSTRUCTOR UI STYLES (Cleaned for Studio)
+   STUDIO CORE & THEME VARIABLES
    ========================================== */
+:root, html.light {
+    --outline-variant: #ddbfc3;
+    --inverse-on-surface: #ffecee;
+    --surface: #fff8f7;
+    --secondary-container: #f1dae2;
+    --on-error: #ffffff;
+    --tertiary-fixed: #a8f4ba;
+    --on-secondary: #ffffff;
+    --primary: #6c0029;
+    --surface-bright: #fff8f7;
+    --background: #fff8f7;
+    --on-tertiary-fixed: #00210d;
+    --on-surface: #24191a;
+    --secondary-fixed-dim: #d7c1c9;
+    --outline: #897174;
+    --surface-container-lowest: #ffffff;
+    --surface-variant: #f2dee0;
+    --primary-fixed-dim: #ffb2bf;
+    --surface-dim: #ead5d7;
+    --surface-container-high: #f8e3e5;
+    --inverse-surface: #3a2d2f;
+    --on-surface-variant: #564145;
+    --on-primary-fixed: #3f0015;
+    --tertiary-container: #00562b;
+    --secondary-fixed: #f3dde5;
+    --surface-tint: #a73453;
+    --tertiary-fixed-dim: #8dd79f;
+    --on-primary-container: #ff9db0;
+    --on-error-container: #93000a;
+    --primary-container: #8b1e3f;
+    --surface-container: #fee9eb;
+    --error: #ba1a1a;
+    --on-background: #24191a;
+    --on-secondary-fixed-variant: #524349;
+    --on-tertiary: #ffffff;
+    --error-container: #ffdad6;
+    --on-secondary-container: #6f5e65;
+    --surface-container-highest: #f2dee0;
+    --on-primary: #ffffff;
+    --inverse-primary: #ffb2bf;
+    --tertiary: #003c1c;
+    --on-tertiary-container: #80ca93;
+    --surface-container-low: #fff0f1;
+    --primary-fixed: #ffd9de;
+    --on-primary-fixed-variant: #871b3c;
+    --secondary: #6b5a61;
+    --on-secondary-fixed: #24181e;
+    --on-tertiary-fixed-variant: #005229;
+
+    --cv-page-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    --scrollbar-thumb: #ddbfc3;
+    --grid-bg-opacity: 0.1;
+}
+
+html.dark {
+    --outline-variant: #564145;
+    --inverse-on-surface: #3a2d2f;
+    --surface: #24191a;
+    --secondary-container: #f1dae2;
+    --on-error: #ffffff;
+    --tertiary-fixed: #a8f4ba;
+    --on-secondary: #ffffff;
+    --primary: #ffb2bf;
+    --surface-bright: #3a2d2f;
+    --background: #24191a;
+    --on-tertiary-fixed: #00210d;
+    --on-surface: #fff8f7;
+    --secondary-fixed-dim: #d7c1c9;
+    --outline: #897174;
+    --surface-container-lowest: #000000;
+    --surface-variant: #564145;
+    --primary-fixed-dim: #ffb2bf;
+    --surface-dim: #24191a;
+    --surface-container-high: #3a2d2f;
+    --inverse-surface: #fff8f7;
+    --on-surface-variant: #ddbfc3;
+    --on-primary-fixed: #3f0015;
+    --tertiary-container: #00562b;
+    --secondary-fixed: #f3dde5;
+    --surface-tint: #ffb2bf;
+    --tertiary-fixed-dim: #8dd79f;
+    --on-primary-container: #ff9db0;
+    --on-error-container: #93000a;
+    --primary-container: #8b1e3f;
+    --surface-container: #3a2d2f;
+    --error: #ba1a1a;
+    --on-background: #fff8f7;
+    --on-secondary-fixed-variant: #524349;
+    --on-tertiary: #ffffff;
+    --error-container: #ffdad6;
+    --on-secondary-container: #f1dae2;
+    --surface-container-highest: #564145;
+    --on-primary: #ffffff;
+    --inverse-primary: #ffb2bf;
+    --tertiary: #003c1c;
+    --on-tertiary-container: #80ca93;
+    --surface-container-low: #1e1113;
+    --primary-fixed: #ffd9de;
+    --on-primary-fixed-variant: #871b3c;
+    --secondary: #d7c1c9;
+    --on-secondary-fixed: #24181e;
+    --on-tertiary-fixed-variant: #005229;
+
+    --cv-page-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --scrollbar-thumb: #564145;
+    --grid-bg-opacity: 0.05;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+}
+
+.grid-bg {
+    background-image: radial-gradient(#897174 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: var(--grid-bg-opacity);
+}
+
+.disable-transitions,
+.disable-transitions * {
+    transition: none !important;
+}
+
+/* Override global elements to keep Tailwind layout clean */
+body {
+    background: var(--background) !important;
+    color: var(--on-surface) !important;
+    font-family: 'Inter', sans-serif !important;
+    min-height: auto !important;
+    overflow: hidden !important;
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Override cv-container layout for editor mode */
+.cv-container {
+    margin: 0 auto !important;
+    box-shadow: var(--cv-page-shadow) !important;
+    border: 1px solid var(--outline-variant) !important;
+}
+
+html.dark .cv-container {
+    border-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Fix dialog overlay color-picker layout issues */
+.color-custom input {
+    transform: scale(1.5) !important;
+}
+
 
 /* --- Toast Notifications --- */
 #toast-container {
