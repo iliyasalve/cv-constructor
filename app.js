@@ -878,86 +878,262 @@ function showIconPicker(targetEl, contactIndex) {
     popover.style.backdropFilter = 'blur(16px)';
     popover.style.border = '1px solid rgba(255, 255, 255, 0.15)';
     popover.style.borderRadius = '8px';
-    popover.style.padding = '8px';
-    popover.style.display = 'grid';
-    popover.style.gridTemplateColumns = 'repeat(6, 1fr)';
-    popover.style.gap = '8px';
+    popover.style.padding = '12px';
+    popover.style.width = '300px';
+    popover.style.maxHeight = '380px';
+    popover.style.overflowY = 'auto';
     popover.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+    popover.style.display = 'flex';
+    popover.style.flexDirection = 'column';
+    popover.style.gap = '10px';
+    popover.style.scrollbarWidth = 'thin';
+    popover.style.scrollbarColor = 'rgba(255,255,255,0.2) rgba(0,0,0,0.1)';
     
-    const icons = [
-        { class: 'fa-brands fa-github', title: 'GitHub' },
-        { class: 'fa-brands fa-linkedin', title: 'LinkedIn' },
-        { class: 'fa-brands fa-telegram', title: 'Telegram' },
-        { class: 'fa-brands fa-whatsapp', title: 'WhatsApp' },
-        { class: 'fa-brands fa-weixin', title: 'WeChat' },
-        { class: 'fa-brands fa-gitlab', title: 'GitLab' },
-        { class: 'fa-solid fa-phone', title: 'Téléphone' },
-        { class: 'fa-solid fa-globe', title: 'Site Web' },
-        { class: 'fa-solid fa-envelope', title: 'E-mail' },
-        { class: 'fa-solid fa-location-dot', title: 'Adresse' },
-        { class: 'fa-solid fa-car', title: 'Permis de conduire' },
-        { class: 'fa-solid fa-briefcase', title: 'Portfolio / Travail' },
-        { class: 'fa-solid fa-cake-candles', title: 'Anniversaire' },
-        { class: 'fa-solid fa-user', title: 'Profil' },
-        { class: 'fa-solid fa-award', title: 'Certification' },
-        { class: 'fa-solid fa-code', title: 'Code' },
-        { class: 'fa-solid fa-book', title: 'Loisirs / Études' },
-        { class: 'fa-solid fa-heart', title: 'Intérêts' },
-        { class: 'fa-brands fa-stack-overflow', title: 'Stack Overflow' },
-        { class: 'fa-brands fa-medium', title: 'Medium' },
-        { class: 'fa-solid fa-pen-nib', title: 'Blog / Habr' },
-        { class: 'fa-brands fa-behance', title: 'Behance' },
-        { class: 'fa-brands fa-dribbble', title: 'Dribbble' },
-        { class: 'fa-brands fa-slack', title: 'Slack' },
-        { class: 'fa-brands fa-viber', title: 'Viber' },
-        { class: 'fa-brands fa-discord', title: 'Discord' },
-        { class: 'fa-brands fa-x-twitter', title: 'Twitter / X' },
-        { class: 'fa-brands fa-youtube', title: 'YouTube' },
-        { class: 'fa-brands fa-instagram', title: 'Instagram' },
-        { class: 'fa-solid fa-graduation-cap', title: 'Google Scholar / Académique' }
+    const categories = [
+        {
+            id: 'all',
+            title: 'Toutes',
+            shortTitle: 'Toutes'
+        },
+        {
+            id: 'contacts',
+            title: 'Contacts principaux',
+            shortTitle: 'Contacts',
+            icons: [
+                { class: 'fa-solid fa-phone', title: 'Téléphone' },
+                { class: 'fa-solid fa-envelope', title: 'E-mail' },
+                { class: 'fa-solid fa-location-dot', title: 'Adresse' },
+                { class: 'fa-solid fa-globe', title: 'Site Web' },
+                { class: 'fa-solid fa-user', title: 'Profil' },
+                { class: 'fa-solid fa-cake-candles', title: 'Anniversaire' },
+                { class: 'fa-solid fa-car', title: 'Permis' }
+            ]
+        },
+        {
+            id: 'messageries',
+            title: 'Messageries',
+            shortTitle: 'Messages',
+            icons: [
+                { class: 'fa-brands fa-telegram', title: 'Telegram' },
+                { class: 'fa-brands fa-whatsapp', title: 'WhatsApp' },
+                { class: 'fa-brands fa-weixin', title: 'WeChat' },
+                { class: 'fa-brands fa-viber', title: 'Viber' },
+                { class: 'fa-brands fa-discord', title: 'Discord' },
+                { class: 'fa-brands fa-slack', title: 'Slack' }
+            ]
+        },
+        {
+            id: 'reseaux',
+            title: 'Réseaux & Dev',
+            shortTitle: 'Réseaux',
+            icons: [
+                { class: 'fa-brands fa-linkedin', title: 'LinkedIn' },
+                { class: 'fa-brands fa-github', title: 'GitHub' },
+                { class: 'fa-brands fa-gitlab', title: 'GitLab' },
+                { class: 'fa-brands fa-stack-overflow', title: 'Stack Overflow' },
+                { class: 'fa-solid fa-code', title: 'Code' },
+                { class: 'fa-solid fa-graduation-cap', title: 'Google Scholar' }
+            ]
+        },
+        {
+            id: 'creatif',
+            title: 'Créatif & Contenu',
+            shortTitle: 'Créatif',
+            icons: [
+                { class: 'fa-brands fa-behance', title: 'Behance' },
+                { class: 'fa-brands fa-dribbble', title: 'Dribbble' },
+                { class: 'fa-solid fa-briefcase', title: 'Portfolio' },
+                { class: 'fa-brands fa-medium', title: 'Medium' },
+                { class: 'fa-solid fa-pen-nib', title: 'Habr / Blog' }
+            ]
+        },
+        {
+            id: 'loisirs',
+            title: 'Loisirs & Autres',
+            shortTitle: 'Loisirs',
+            icons: [
+                { class: 'fa-brands fa-x-twitter', title: 'Twitter / X' },
+                { class: 'fa-brands fa-youtube', title: 'YouTube' },
+                { class: 'fa-brands fa-instagram', title: 'Instagram' },
+                { class: 'fa-solid fa-award', title: 'Certification' },
+                { class: 'fa-solid fa-book', title: 'Loisirs / Études' },
+                { class: 'fa-solid fa-heart', title: 'Intérêts' }
+            ]
+        }
     ];
-    
-    icons.forEach(icon => {
-        const btn = document.createElement('button');
-        btn.innerHTML = `<i class="${icon.class}" style="font-size:16px;color:#fff;"></i>`;
-        btn.style.background = 'transparent';
-        btn.style.border = 'none';
-        btn.style.cursor = 'pointer';
-        btn.style.padding = '8px';
-        btn.style.borderRadius = '4px';
-        btn.style.transition = 'background 0.2s';
-        btn.style.display = 'flex';
-        btn.style.alignItems = 'center';
-        btn.style.justifyContent = 'center';
-        btn.title = icon.title;
-        
-        btn.addEventListener('mouseover', () => {
-            btn.style.background = 'rgba(255,255,255,0.1)';
-        });
-        btn.addEventListener('mouseout', () => {
-            btn.style.background = 'transparent';
-        });
-        
-        btn.addEventListener('click', (e) => {
+
+    // Search bar container (sticky at top)
+    const searchContainer = document.createElement('div');
+    searchContainer.style.position = 'sticky';
+    searchContainer.style.top = '0';
+    searchContainer.style.background = 'rgba(15, 15, 30, 0.96)';
+    searchContainer.style.zIndex = '10';
+    searchContainer.style.paddingBottom = '8px';
+    searchContainer.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Rechercher une icône...';
+    searchInput.style.width = '100%';
+    searchInput.style.padding = '6px 10px';
+    searchInput.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+    searchInput.style.borderRadius = '6px';
+    searchInput.style.background = 'rgba(255, 255, 255, 0.05)';
+    searchInput.style.color = '#fff';
+    searchInput.style.fontSize = '12px';
+    searchInput.style.outline = 'none';
+    searchInput.style.boxSizing = 'border-box';
+    searchInput.style.fontFamily = 'inherit';
+    searchContainer.appendChild(searchInput);
+
+    // Tabs container
+    const tabsContainer = document.createElement('div');
+    tabsContainer.style.display = 'flex';
+    tabsContainer.style.flexWrap = 'wrap';
+    tabsContainer.style.gap = '4px';
+    tabsContainer.style.marginTop = '8px';
+
+    let activeTabId = 'all';
+
+    const tabButtons = [];
+    categories.forEach(cat => {
+        const tabBtn = document.createElement('button');
+        tabBtn.textContent = cat.shortTitle;
+        tabBtn.style.padding = '3px 8px';
+        tabBtn.style.fontSize = '10.5px';
+        tabBtn.style.border = 'none';
+        tabBtn.style.borderRadius = '4px';
+        tabBtn.style.cursor = 'pointer';
+        tabBtn.style.background = cat.id === activeTabId ? 'rgba(99, 102, 241, 0.3)' : 'transparent';
+        tabBtn.style.color = cat.id === activeTabId ? '#fff' : '#94a3b8';
+        tabBtn.style.transition = 'all 0.2s';
+        tabBtn.style.fontWeight = '500';
+
+        tabBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            cvData.contacts[contactIndex].icon = icon.class;
-            renderCV(true);
-            autoSave();
-            popover.remove();
+            activeTabId = cat.id;
+            tabButtons.forEach(btn => {
+                const isCurrent = btn.dataset.id === activeTabId;
+                btn.style.background = isCurrent ? 'rgba(99, 102, 241, 0.3)' : 'transparent';
+                btn.style.color = isCurrent ? '#fff' : '#94a3b8';
+            });
+            updateList();
         });
-        
-        popover.appendChild(btn);
+
+        tabBtn.dataset.id = cat.id;
+        tabButtons.push(tabBtn);
+        tabsContainer.appendChild(tabBtn);
     });
-    
+
+    searchContainer.appendChild(tabsContainer);
+    popover.appendChild(searchContainer);
+
+    // Icon list container
+    const listContainer = document.createElement('div');
+    listContainer.style.display = 'flex';
+    listContainer.style.flexDirection = 'column';
+    listContainer.style.gap = '12px';
+    popover.appendChild(listContainer);
+
+    function updateList() {
+        listContainer.innerHTML = '';
+        const searchVal = searchInput.value.toLowerCase().trim();
+
+        const categoriesToRender = categories.filter(c => c.id !== 'all' && (activeTabId === 'all' || activeTabId === c.id));
+        let matchCount = 0;
+
+        categoriesToRender.forEach(cat => {
+            const filteredIcons = cat.icons.filter(icon => {
+                if (!searchVal) return true;
+                return icon.title.toLowerCase().includes(searchVal) || icon.class.toLowerCase().includes(searchVal);
+            });
+
+            if (filteredIcons.length === 0) return;
+            matchCount += filteredIcons.length;
+
+            const catBox = document.createElement('div');
+            catBox.style.display = 'flex';
+            catBox.style.flexDirection = 'column';
+            catBox.style.gap = '6px';
+
+            const header = document.createElement('div');
+            header.textContent = cat.title;
+            header.style.fontSize = '9px';
+            header.style.textTransform = 'uppercase';
+            header.style.color = '#94a3b8';
+            header.style.fontWeight = '700';
+            header.style.letterSpacing = '0.5px';
+            header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
+            header.style.paddingBottom = '3px';
+            header.style.marginBottom = '2px';
+            catBox.appendChild(header);
+
+            const grid = document.createElement('div');
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(6, 1fr)';
+            grid.style.gap = '6px';
+
+            filteredIcons.forEach(icon => {
+                const btn = document.createElement('button');
+                btn.innerHTML = `<i class="${icon.class}" style="font-size:15px;color:#fff;"></i>`;
+                btn.style.background = 'transparent';
+                btn.style.border = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.padding = '6px';
+                btn.style.borderRadius = '4px';
+                btn.style.transition = 'background 0.2s';
+                btn.style.display = 'flex';
+                btn.style.alignItems = 'center';
+                btn.style.justifyContent = 'center';
+                btn.title = icon.title;
+
+                btn.addEventListener('mouseover', () => {
+                    btn.style.background = 'rgba(255,255,255,0.1)';
+                });
+                btn.addEventListener('mouseout', () => {
+                    btn.style.background = 'transparent';
+                });
+
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    cvData.contacts[contactIndex].icon = icon.class;
+                    renderCV(true);
+                    autoSave();
+                    popover.remove();
+                });
+
+                grid.appendChild(btn);
+            });
+
+            catBox.appendChild(grid);
+            listContainer.appendChild(catBox);
+        });
+
+        if (matchCount === 0) {
+            const noResult = document.createElement('div');
+            noResult.textContent = 'Aucune icône trouvée';
+            noResult.style.color = '#94a3b8';
+            noResult.style.fontSize = '12px';
+            noResult.style.textAlign = 'center';
+            noResult.style.padding = '12px 0';
+            listContainer.appendChild(noResult);
+        }
+    }
+
+    searchInput.addEventListener('input', updateList);
+
+    // Initial render
+    updateList();
+
     document.body.appendChild(popover);
-    
+
     const rect = targetEl.getBoundingClientRect();
     const top = rect.bottom + window.scrollY + 6;
     const left = rect.left + window.scrollX - 10;
-    
+
     popover.style.top = `${top}px`;
     popover.style.left = `${left}px`;
-    
+
     const closePicker = (e) => {
         if (!popover.contains(e.target) && e.target !== targetEl) {
             popover.remove();
