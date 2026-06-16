@@ -248,10 +248,15 @@
             background-size: 24px 24px;
             opacity: var(--grid-bg-opacity);
         }
+
+        .disable-transitions,
+        .disable-transitions * {
+            transition: none !important;
+        }
     </style>
 </head>
 
-<body class="bg-background font-body-md text-on-surface overflow-hidden h-screen flex flex-col transition-colors duration-200">
+<body class="bg-background font-body-md text-on-surface overflow-hidden h-screen flex flex-col">
     <!-- TopNavBar -->
     <header
         class="bg-surface/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline-variant/10 dark:border-outline-variant/20 shadow-sm flex justify-between items-center w-full px-gutter h-16">
@@ -636,6 +641,8 @@
         const htmlElement = document.documentElement;
 
         function setTheme(theme) {
+            htmlElement.classList.add('disable-transitions');
+
             if (theme === 'dark') {
                 htmlElement.classList.remove('light');
                 htmlElement.classList.add('dark');
@@ -649,6 +656,13 @@
                 themeToggle.setAttribute('data-icon', 'dark_mode');
                 localStorage.setItem('theme', 'light');
             }
+
+            // Force browser reflow to apply theme classes before enabling transitions again
+            window.getComputedStyle(htmlElement).opacity;
+
+            requestAnimationFrame(() => {
+                htmlElement.classList.remove('disable-transitions');
+            });
         }
 
         // Initialize theme from localStorage or system preference
