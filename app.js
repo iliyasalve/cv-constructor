@@ -11,11 +11,11 @@ const DEFAULT_CV = {
     summary: 'Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases.',
     accentColor: '#2563eb',
     contacts: [
-        { emoji: '📍', text: 'Ville, Pays', url: '' },
-        { emoji: '📞', text: '00 00 00 00 00', url: '' },
-        { emoji: '✉️', text: 'email@example.com', url: 'mailto:email@example.com' },
-        { emoji: '🌐', text: 'votresite.com', url: 'https://votresite.com' },
-        { emoji: '💼', text: 'linkedin.com/in/votre-nom', url: 'https://linkedin.com/in/votre-nom' }
+        { icon: 'fa-solid fa-location-dot', text: 'Ville, Pays', url: '' },
+        { icon: 'fa-solid fa-phone', text: '00 00 00 00 00', url: '' },
+        { icon: 'fa-solid fa-envelope', text: 'email@example.com', url: 'mailto:email@example.com' },
+        { icon: 'fa-solid fa-globe', text: 'votresite.com', url: 'https://votresite.com' },
+        { icon: 'fa-brands fa-linkedin', text: 'linkedin.com/in/votre-nom', url: 'https://linkedin.com/in/votre-nom' }
     ],
     experienceTitle: 'Expériences Professionnelles',
     experiences: [{
@@ -91,6 +91,14 @@ body {
 .contact-item { color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 5px; }
 .contact-item a { color: var(--accent); text-decoration: none; font-weight: 500; }
 .contact-item a:hover { text-decoration: underline; }
+
+.contact-item i {
+    font-size: 11.5px;
+    width: 16px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
 
 .main-content { display: flex; flex: 1; gap: 20px; min-height: 0; }
 .col-left { width: 61%; display: flex; flex-direction: column; gap: 12px; }
@@ -202,7 +210,7 @@ function renderHeader() {
 function renderContact(ct, i) {
     return `
     <div class="contact-item" style="position:relative;">
-        <span class="contact-emoji" data-index="${i}" style="min-width:16px;text-align:center;cursor:pointer;user-select:none;" title="Changer l'icône">${esc(ct.emoji)}</span>
+        <span class="contact-emoji" data-index="${i}" style="min-width:16px;text-align:center;cursor:pointer;user-select:none;display:inline-flex;align-items:center;" title="Changer l'icône"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i></span>
         <span contenteditable="true" data-path="contacts.${i}.text" data-placeholder="Texte">${esc(ct.text)}</span>
         <div class="contact-actions">
             <button data-action="edit-link" data-index="${i}" title="Modifier le lien URL">🔗</button>
@@ -354,7 +362,6 @@ function syncField(el) {
     let value;
     if (el.dataset.html !== undefined && el.dataset.html !== '') {
         value = el.innerHTML.trim();
-        // Clean browser artifacts
         if (value === '<br>' || value === '<br/>') value = '';
     } else {
         value = el.textContent.trim();
@@ -409,7 +416,7 @@ function handleAction(btn) {
             break;
         }
         case 'add-contact':
-            cvData.contacts.push({ emoji: '📌', text: '', url: '' });
+            cvData.contacts.push({ icon: 'fa-solid fa-location-dot', text: '', url: '' });
             break;
         case 'remove-contact':
             cvData.contacts.splice(index, 1);
@@ -469,7 +476,7 @@ function exportHTML() {
 
     const title = `${(cvData.name || 'CV').toUpperCase()} - ${cvData.title || 'CV'}`;
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n</head>\n<body>\n\n    <div class="cv-container">\n`;
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
@@ -480,9 +487,9 @@ function exportHTML() {
     cvData.contacts.forEach(ct => {
         if (ct.url) {
             const target = ct.url.startsWith('mailto:') ? '' : ' target="_blank"';
-            html += `                <div class="contact-item">${ct.emoji} <a href="${escHTML(ct.url)}"${target}>${escHTML(ct.text)}</a></div>\n`;
+            html += `                <div class="contact-item"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i> <a href="${escHTML(ct.url)}"${target}>${escHTML(ct.text)}</a></div>\n`;
         } else {
-            html += `                <div class="contact-item">${ct.emoji} ${escHTML(ct.text)}</div>\n`;
+            html += `                <div class="contact-item"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i> ${escHTML(ct.text)}</div>\n`;
         }
     });
     html += `            </div>\n        </div>\n\n`;
@@ -591,7 +598,6 @@ function escHTML(str) {
    ========================================== */
 function exportPDF() {
     syncFromDOM();
-    // Temporarily hide empty sections and editor artifacts
     showToast('Utilisez « Enregistrer en PDF » dans la boîte de dialogue', 'info');
     setTimeout(() => window.print(), 300);
 }
@@ -627,18 +633,15 @@ function parseCV(htmlString) {
     const doc = parser.parseFromString(htmlString, 'text/html');
     const data = deepClone(DEFAULT_CV);
 
-    // Accent color from CSS
     const styleText = doc.querySelector('style')?.textContent || '';
     const accentMatch = styleText.match(/--accent:\s*([^;]+)/);
     if (accentMatch) {
         const val = accentMatch[1].trim();
-        // Skip "var(...)" values, take only hex/named colors
         if (val.startsWith('#') || val.match(/^[a-z]+$/i)) {
             data.accentColor = val;
         }
     }
 
-    // Header
     const nameEl = doc.querySelector('.name');
     if (nameEl) data.name = nameEl.textContent.trim();
 
@@ -654,19 +657,58 @@ function parseCV(htmlString) {
         data.contacts = [];
         contactEls.forEach(el => {
             const link = el.querySelector('a');
-            const fullText = el.textContent.trim();
-            // Extract emoji: first codepoint(s)
-            let emoji = '';
-            let rest = fullText;
-            const emojiRegex = /^([\p{Emoji_Presentation}\p{Emoji}\uFE0F\u200D]+)/u;
-            const m = fullText.match(emojiRegex);
-            if (m) {
-                emoji = m[1];
-                rest = fullText.slice(m[0].length).trim();
+            const iconEl = el.querySelector('i[class*="fa-"]');
+            let iconClass = iconEl ? iconEl.className : '';
+            
+            if (!iconClass) {
+                // Fallback to check text emoji or old Lucide data-lucide
+                const lucideEl = el.querySelector('[data-lucide]');
+                const oldLucideName = lucideEl ? lucideEl.getAttribute('data-lucide') : '';
+                
+                const fullText = el.textContent.trim();
+                const emojiRegex = /^([\p{Emoji_Presentation}\p{Emoji}\uFE0F\u200D]+)/u;
+                const m = fullText.match(emojiRegex);
+                
+                if (oldLucideName) {
+                    const mapping = {
+                        'github': 'fa-brands fa-github',
+                        'linkedin': 'fa-brands fa-linkedin',
+                        'send': 'fa-brands fa-telegram',
+                        'phone': 'fa-solid fa-phone',
+                        'globe': 'fa-solid fa-globe',
+                        'mail': 'fa-solid fa-envelope',
+                        'map-pin': 'fa-solid fa-location-dot',
+                        'car': 'fa-solid fa-car',
+                        'briefcase': 'fa-solid fa-briefcase',
+                        'calendar': 'fa-solid fa-cake-candles',
+                        'user': 'fa-solid fa-user',
+                        'award': 'fa-solid fa-award',
+                        'code': 'fa-solid fa-code',
+                        'heart': 'fa-solid fa-heart'
+                    };
+                    iconClass = mapping[oldLucideName] || 'fa-solid fa-location-dot';
+                } else if (m) {
+                    const emoji = m[1];
+                    const mapping = {
+                        '🐙': 'fa-brands fa-github', '🐱': 'fa-brands fa-github', '💻': 'fa-solid fa-code', '🧑‍💻': 'fa-solid fa-code',
+                        '💼': 'fa-solid fa-briefcase', '👔': 'fa-solid fa-briefcase',
+                        '💬': 'fa-brands fa-telegram', '✈️': 'fa-brands fa-telegram',
+                        '📞': 'fa-solid fa-phone', '📱': 'fa-solid fa-phone',
+                        '🌐': 'fa-solid fa-globe', '🔗': 'fa-solid fa-globe',
+                        '✉️': 'fa-solid fa-envelope', '📧': 'fa-solid fa-envelope',
+                        '📍': 'fa-solid fa-location-dot', '🏠': 'fa-solid fa-location-dot',
+                        '🚗': 'fa-solid fa-car', '🪪': 'fa-solid fa-car',
+                        '🎂': 'fa-solid fa-cake-candles', '📅': 'fa-solid fa-cake-candles',
+                        '🌍': 'fa-solid fa-globe', '💍': 'fa-solid fa-heart', '👨‍👩‍👧‍👦': 'fa-solid fa-user', '👶': 'fa-solid fa-user', '🐦': 'fa-brands fa-twitter'
+                    };
+                    iconClass = mapping[emoji] || 'fa-solid fa-location-dot';
+                } else {
+                    iconClass = 'fa-solid fa-location-dot';
+                }
             }
-            const text = link ? link.textContent.trim() : rest;
+            const text = link ? link.textContent.trim() : el.textContent.trim().replace(/^[\p{Emoji}\s]+/u, '');
             const url = link ? (link.getAttribute('href') || '') : '';
-            data.contacts.push({ emoji, text, url });
+            data.contacts.push({ icon: iconClass, text, url });
         });
     }
 
@@ -743,7 +785,6 @@ function parseCV(htmlString) {
                 });
             } else if (titleLower.includes('qualité')) {
                 data.qualitiesTitle = titleText;
-                // Find the content div (not the section-title)
                 const contentDiv = Array.from(section.children).find(c => !c.classList.contains('section-title'));
                 if (contentDiv) {
                     const text = contentDiv.innerHTML;
@@ -794,15 +835,39 @@ function loadFromStorage() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             const parsed = JSON.parse(saved);
-            // Merge with defaults to ensure all fields exist
             cvData = { ...deepClone(DEFAULT_CV), ...parsed };
+            
+            // Map older emoji or Lucide properties to Font Awesome classes
+            if (cvData.contacts) {
+                const mapping = {
+                    '🐙': 'fa-brands fa-github', '🐱': 'fa-brands fa-github', 'github': 'fa-brands fa-github',
+                    '💼': 'fa-solid fa-briefcase', 'briefcase': 'fa-solid fa-briefcase',
+                    '💬': 'fa-brands fa-telegram', 'telegram': 'fa-brands fa-telegram', 'send': 'fa-brands fa-telegram',
+                    '📞': 'fa-solid fa-phone', 'phone': 'fa-solid fa-phone',
+                    '🌐': 'fa-solid fa-globe', 'globe': 'fa-solid fa-globe', '🔗': 'fa-solid fa-globe',
+                    '✉️': 'fa-solid fa-envelope', 'mail': 'fa-solid fa-envelope', '📧': 'fa-solid fa-envelope',
+                    '📍': 'fa-solid fa-location-dot', 'map-pin': 'fa-solid fa-location-dot', '🏠': 'fa-solid fa-location-dot',
+                    '🚗': 'fa-solid fa-car', 'car': 'fa-solid fa-car', '🪪': 'fa-solid fa-car',
+                    '🎂': 'fa-solid fa-cake-candles', 'calendar': 'fa-solid fa-cake-candles', '📅': 'fa-solid fa-cake-candles',
+                    '🌍': 'fa-solid fa-globe', '💍': 'fa-solid fa-heart', 'heart': 'fa-solid fa-heart',
+                    '👨‍👩‍👧‍👦': 'fa-solid fa-user', 'user': 'fa-solid fa-user', '👶': 'fa-solid fa-user',
+                    'linkedin': 'fa-brands fa-linkedin', 'fa-brands fa-linkedin-in': 'fa-brands fa-linkedin'
+                };
+                cvData.contacts.forEach(ct => {
+                    if (ct.emoji && !ct.icon) {
+                        ct.icon = mapping[ct.emoji] || 'fa-solid fa-location-dot';
+                    } else if (ct.icon && !ct.icon.startsWith('fa-')) {
+                        ct.icon = mapping[ct.icon] || 'fa-solid fa-location-dot';
+                    }
+                });
+            }
             return true;
         }
     } catch (e) { /* corrupted — ignore */ }
     return false;
 }
 
-function showEmojiPicker(targetEl, contactIndex) {
+function showIconPicker(targetEl, contactIndex) {
     document.querySelectorAll('.emoji-picker-popover').forEach(el => el.remove());
 
     const popover = document.createElement('div');
@@ -816,26 +881,55 @@ function showEmojiPicker(targetEl, contactIndex) {
     popover.style.padding = '8px';
     popover.style.display = 'grid';
     popover.style.gridTemplateColumns = 'repeat(6, 1fr)';
-    popover.style.gap = '6px';
+    popover.style.gap = '8px';
     popover.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
     
-    const emojis = [
-        '🐙', '💼', '💬', '📞', '🌐', '✉️', '📍', 
-        '💻', '🧑‍💻', '🦊', '🎨', '📂', '✍️', '📝', 
-        '🚗', '🪪', '🎂', '📅', '🌍', '💍', '👨‍👩‍👧‍👦', '👶', 
-        '📱', '🐦'
+    const icons = [
+        { class: 'fa-brands fa-github', title: 'GitHub' },
+        { class: 'fa-brands fa-linkedin', title: 'LinkedIn' },
+        { class: 'fa-brands fa-telegram', title: 'Telegram' },
+        { class: 'fa-brands fa-whatsapp', title: 'WhatsApp' },
+        { class: 'fa-brands fa-weixin', title: 'WeChat' },
+        { class: 'fa-brands fa-gitlab', title: 'GitLab' },
+        { class: 'fa-solid fa-phone', title: 'Téléphone' },
+        { class: 'fa-solid fa-globe', title: 'Site Web' },
+        { class: 'fa-solid fa-envelope', title: 'E-mail' },
+        { class: 'fa-solid fa-location-dot', title: 'Adresse' },
+        { class: 'fa-solid fa-car', title: 'Permis de conduire' },
+        { class: 'fa-solid fa-briefcase', title: 'Portfolio / Travail' },
+        { class: 'fa-solid fa-cake-candles', title: 'Anniversaire' },
+        { class: 'fa-solid fa-user', title: 'Profil' },
+        { class: 'fa-solid fa-award', title: 'Certification' },
+        { class: 'fa-solid fa-code', title: 'Code' },
+        { class: 'fa-solid fa-book', title: 'Loisirs / Études' },
+        { class: 'fa-solid fa-heart', title: 'Intérêts' },
+        { class: 'fa-brands fa-stack-overflow', title: 'Stack Overflow' },
+        { class: 'fa-brands fa-medium', title: 'Medium' },
+        { class: 'fa-solid fa-pen-nib', title: 'Blog / Habr' },
+        { class: 'fa-brands fa-behance', title: 'Behance' },
+        { class: 'fa-brands fa-dribbble', title: 'Dribbble' },
+        { class: 'fa-brands fa-slack', title: 'Slack' },
+        { class: 'fa-brands fa-viber', title: 'Viber' },
+        { class: 'fa-brands fa-discord', title: 'Discord' },
+        { class: 'fa-brands fa-x-twitter', title: 'Twitter / X' },
+        { class: 'fa-brands fa-youtube', title: 'YouTube' },
+        { class: 'fa-brands fa-instagram', title: 'Instagram' },
+        { class: 'fa-solid fa-graduation-cap', title: 'Google Scholar / Académique' }
     ];
     
-    emojis.forEach(emoji => {
+    icons.forEach(icon => {
         const btn = document.createElement('button');
-        btn.textContent = emoji;
+        btn.innerHTML = `<i class="${icon.class}" style="font-size:16px;color:#fff;"></i>`;
         btn.style.background = 'transparent';
         btn.style.border = 'none';
-        btn.style.fontSize = '18px';
         btn.style.cursor = 'pointer';
-        btn.style.padding = '6px';
+        btn.style.padding = '8px';
         btn.style.borderRadius = '4px';
         btn.style.transition = 'background 0.2s';
+        btn.style.display = 'flex';
+        btn.style.alignItems = 'center';
+        btn.style.justifyContent = 'center';
+        btn.title = icon.title;
         
         btn.addEventListener('mouseover', () => {
             btn.style.background = 'rgba(255,255,255,0.1)';
@@ -846,7 +940,7 @@ function showEmojiPicker(targetEl, contactIndex) {
         
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            cvData.contacts[contactIndex].emoji = emoji;
+            cvData.contacts[contactIndex].icon = icon.class;
             renderCV(true);
             autoSave();
             popover.remove();
@@ -856,8 +950,8 @@ function showEmojiPicker(targetEl, contactIndex) {
     });
     
     document.body.appendChild(popover);
-    const rect = targetEl.getBoundingClientRect();
     
+    const rect = targetEl.getBoundingClientRect();
     const top = rect.bottom + window.scrollY + 6;
     const left = rect.left + window.scrollX - 10;
     
@@ -879,7 +973,6 @@ function showEmojiPicker(targetEl, contactIndex) {
 function setupEvents() {
     const cv = document.getElementById('cv-container');
 
-    // Action buttons (delegated)
     cv.addEventListener('click', (e) => {
         const btn = e.target.closest('[data-action]');
         if (btn) {
@@ -894,15 +987,13 @@ function setupEvents() {
             e.preventDefault();
             e.stopPropagation();
             const idx = parseInt(emojiBtn.dataset.index);
-            showEmojiPicker(emojiBtn, idx);
+            showIconPicker(emojiBtn, idx);
         }
     });
 
-    // Blur on contenteditable → sync field
     cv.addEventListener('focusout', (e) => {
         const el = e.target.closest('[data-path]');
         if (el) {
-            // Clean empty fields
             if (el.textContent.trim() === '' || el.innerHTML.trim() === '<br>') {
                 el.innerHTML = '';
             }
@@ -911,21 +1002,16 @@ function setupEvents() {
         }
     });
 
-    // Enter key handling
     cv.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && e.target.matches('[contenteditable]')) {
             const el = e.target;
-            // Allow Shift+Enter in summary for line breaks
             if (el.classList.contains('summary') && e.shiftKey) return;
-            // Allow Enter in bullet content for <br>
             if (el.classList.contains('bullet-content') && e.shiftKey) return;
-            // Otherwise prevent and blur
             e.preventDefault();
             el.blur();
         }
     });
 
-    // Toolbar buttons
     document.getElementById('btn-new').addEventListener('click', () => {
         if (confirm('Créer un nouveau CV ? Les modifications non exportées seront perdues.')) {
             cvData = deepClone(DEFAULT_CV);
@@ -940,7 +1026,6 @@ function setupEvents() {
     document.getElementById('btn-export-html').addEventListener('click', exportHTML);
     document.getElementById('btn-export-pdf').addEventListener('click', exportPDF);
 
-    // Color swatches
     document.getElementById('color-options').addEventListener('click', (e) => {
         const swatch = e.target.closest('.color-swatch');
         if (swatch) {
@@ -950,14 +1035,12 @@ function setupEvents() {
         }
     });
 
-    // Custom color
     document.getElementById('custom-color').addEventListener('input', (e) => {
         cvData.accentColor = e.target.value;
         applyAccentColor();
         autoSave();
     });
 
-    // Auto-save on input
     cv.addEventListener('input', () => {
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => autoSave(), 1000);
