@@ -387,6 +387,11 @@ body {
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
+    
+    /* Subtle weight enhancement for non-heading/non-bold text in Chromium print PDF */
+    body, p, li, span, div, a {
+        -webkit-text-stroke: 0.015px currentColor;
+    }
 }
 .section-hidden { display: none !important; }
 
