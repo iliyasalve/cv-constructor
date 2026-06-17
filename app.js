@@ -831,7 +831,7 @@ async function downloadFile(content, filename, mimeType) {
 /* ==========================================
    EXPORT: Standalone HTML
    ========================================== */
-function exportHTML() {
+function generateStandaloneHTML() {
     syncFromDOM();
 
     const accent = cvData.accentColor;
@@ -922,7 +922,7 @@ function exportHTML() {
         html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="education">\n`;
         html += exportEduSection(cvData.educationTitle, cvData.education);
         html += `                </div>\n`;
-  }
+    }
     // Certifications
     if (cvData.certifications.length > 0) {
         const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('certifications');
@@ -950,6 +950,11 @@ function exportHTML() {
     }
 
     html += `            </div>\n        </div>\n    </div>\n\n</body>\n</html>\n`;
+    return html;
+}
+
+function exportHTML() {
+    const html = generateStandaloneHTML();
 
     const sanitize = (str) => {
         if (!str) return '';
@@ -1012,10 +1017,8 @@ function escHTML(str) {
 /* ==========================================
    EXPORT: PDF (via Print)
    ========================================== */
-function exportPDF() {
+async function exportPDF() {
     syncFromDOM();
-
-    const originalTitle = document.title;
 
     const sanitize = (str) => {
         if (!str) return '';
@@ -1032,17 +1035,55 @@ function exportPDF() {
     let newTitle = 'CV';
     if (titlePart) newTitle += '_' + titlePart;
     if (namePart) newTitle += '_' + namePart;
+    const filename = `${newTitle.toUpperCase()}.pdf`;
 
-    document.title = newTitle.toUpperCase();
+    showToast(t('toast-pdf-generating'), 'info');
 
-    showToast(t('toast-print-info'), 'info');
-    
-    setTimeout(() => {
-        window.print();
+    const htmlContent = generateStandaloneHTML();
+
+    try {
+        const response = await fetch('/api/print', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ html: htmlContent })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        downloadPDFBlob(blob, filename);
+        
+    } catch (err) {
+        console.error('Server PDF generation failed, falling back to local print:', err);
+        showToast(t('toast-pdf-failed'), 'error');
+        
+        // Local print fallback
+        const originalTitle = document.title;
+        document.title = newTitle.toUpperCase();
+        
         setTimeout(() => {
-            document.title = originalTitle;
-        }, 500);
-    }, 300);
+            window.print();
+            setTimeout(() => {
+                document.title = originalTitle;
+            }, 500);
+        }, 300);
+    }
+}
+
+function downloadPDFBlob(blob, filename) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
 }
 
 /* ==========================================

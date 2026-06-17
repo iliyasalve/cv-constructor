@@ -93,6 +93,8 @@ const TRANSLATIONS = {
 
         // Toasts & Alerts
         "toast-export-html": "CV exporté en HTML ✓",
+        "toast-pdf-generating": "Génération du PDF sur le serveur...",
+        "toast-pdf-failed": "Échec. Ouverture de la boîte d'impression...",
         "toast-print-info": "Utilisez « Enregistrer en PDF » dans la boîte de dialogue",
         "toast-loaded": "CV chargé : ",
         "toast-error": "Erreur : ",
@@ -216,7 +218,9 @@ const TRANSLATIONS = {
 
         // Toasts & Alerts
         "toast-export-html": "CV exported to HTML ✓",
-        "toast-print-info": "Use 'Save as PDF' in the print dialog box",
+        "toast-pdf-generating": "Generating PDF on the server...",
+        "toast-pdf-failed": "Failed. Opening local print dialog...",
+        "toast-print-info": "Use 'Save as PDF' in the dialog box",
         "toast-loaded": "CV loaded: ",
         "toast-error": "Error: ",
         "confirm-delete-item": "Delete this item?",
@@ -339,6 +343,8 @@ const TRANSLATIONS = {
 
         // Toasts & Alerts
         "toast-export-html": "Резюме экспортировано в HTML ✓",
+        "toast-pdf-generating": "Генерация PDF на сервере...",
+        "toast-pdf-failed": "Не удалось. Открытие встроенной печати...",
         "toast-print-info": "Используйте «Сохранить как PDF» в открывшемся окне печати",
         "toast-loaded": "Резюме загружено: ",
         "toast-error": "Ошибка: ",
