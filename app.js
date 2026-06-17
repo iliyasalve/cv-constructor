@@ -383,15 +383,10 @@ body {
 .edu-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; }
 
 @media print {
-    body { background-color: #ffffff; }
-    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
+    body { background-color: #ffffff; font-weight: 500; }
+    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; font-weight: 500; }
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
-    
-    /* Subtle weight enhancement for non-heading/non-bold text in Chromium print PDF */
-    body, p, li, span, div, a {
-        -webkit-text-stroke: 0.008px currentColor;
-    }
 }
 .section-hidden { display: none !important; }
 
