@@ -84,6 +84,8 @@ const TRANSLATIONS = {
         "help-bg": "Graphismes d'arrière-plan :",
         "help-bg-val": "ACTIVÉ ☑",
         "btn-got-it": "Compris",
+        "mobile-overlay-title": "Version mobile non prise en charge",
+        "mobile-overlay-desc": "La version mobile n'est pas prise en charge actuellement. Veuillez ouvrir l'application sur un ordinateur de bureau ou portable.",
 
         // Toasts & Alerts
         "toast-export-html": "CV exporté en HTML ✓",
@@ -201,6 +203,8 @@ const TRANSLATIONS = {
         "help-bg": "Background graphics:",
         "help-bg-val": "ENABLED ☑",
         "btn-got-it": "Got it",
+        "mobile-overlay-title": "Mobile version not supported",
+        "mobile-overlay-desc": "Mobile version is currently not supported. Please open the application on a desktop or laptop computer.",
 
         // Toasts & Alerts
         "toast-export-html": "CV exported to HTML ✓",
@@ -318,6 +322,8 @@ const TRANSLATIONS = {
         "help-bg": "Фоновые рисунки (графика):",
         "help-bg-val": "ВКЛЮЧЕНО ☑",
         "btn-got-it": "Понятно",
+        "mobile-overlay-title": "Мобильная версия не поддерживается",
+        "mobile-overlay-desc": "Мобильная версия в настоящий момент не поддерживается. Пожалуйста, откройте приложение на компьютере или ноутбуке.",
 
         // Toasts & Alerts
         "toast-export-html": "Резюме экспортировано в HTML ✓",
