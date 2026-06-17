@@ -1,4 +1,6 @@
 const os = require('os');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -24,6 +26,11 @@ module.exports = async (req, res) => {
         executablePath: await chromium.executablePath(),
         headless: chromium.headless,
       };
+
+      // Set LD_LIBRARY_PATH to help Chromium find extracted system libraries (like libnss3.so)
+      const execPath = options.executablePath;
+      const execDir = path.dirname(execPath);
+      process.env.LD_LIBRARY_PATH = `${execDir}:${execDir}/lib:/tmp:/tmp/lib:/tmp/aws/lib:${process.env.LD_LIBRARY_PATH || ''}`;
     } else {
       // Local development fallback
       try {
@@ -66,7 +73,27 @@ module.exports = async (req, res) => {
     return res.send(pdf);
   } catch (error) {
     console.error('PDF generation error:', error);
-    return res.status(500).json({ error: 'Failed to generate PDF', details: error.message });
+    
+    // Diagnostic log of /tmp directory to identify where the shared libraries are extracted
+    let tmpContents = {};
+    try {
+      const files = fs.readdirSync('/tmp');
+      tmpContents.tmp = files;
+      for (const file of files) {
+        const fullPath = path.join('/tmp', file);
+        if (fs.statSync(fullPath).isDirectory()) {
+          tmpContents[`tmp_${file}`] = fs.readdirSync(fullPath);
+        }
+      }
+    } catch (e) {
+      tmpContents.error = e.message;
+    }
+
+    return res.status(500).json({ 
+      error: 'Failed to generate PDF', 
+      details: error.message,
+      tmpContents
+    });
   } finally {
     if (browser !== null) {
       await browser.close();
