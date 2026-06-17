@@ -642,9 +642,26 @@ function exportHTML() {
     html += `                <p class="summary">\n                    ${cvData.summary}\n                </p>\n`;
     html += `            </div>\n            <div class="header-right">\n`;
     cvData.contacts.forEach(ct => {
-        if (ct.url) {
-            const target = ct.url.startsWith('mailto:') ? '' : ' target="_blank"';
-            html += `                <div class="contact-item"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i> <a href="${escHTML(ct.url)}"${target}>${escHTML(ct.text)}</a></div>\n`;
+        let url = ct.url;
+        if (!url && ct.text) {
+            const text = ct.text.trim();
+            const icon = ct.icon || '';
+            if (icon.includes('fa-phone')) {
+                // Remove all spaces and non-digits/non-plus to make a clean phone dial link
+                url = 'tel:' + text.replace(/[^0-9+]/g, '');
+            } else if (icon.includes('fa-envelope') || text.includes('@')) {
+                url = 'mailto:' + text;
+            } else if (icon.includes('fa-globe') || icon.includes('linkedin') || icon.includes('github')) {
+                url = text;
+                if (!/^https?:\/\//i.test(url)) {
+                    url = 'https://' + url;
+                }
+            }
+        }
+
+        if (url) {
+            const target = (url.startsWith('mailto:') || url.startsWith('tel:')) ? '' : ' target="_blank"';
+            html += `                <div class="contact-item"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i> <a href="${escHTML(url)}"${target}>${escHTML(ct.text)}</a></div>\n`;
         } else {
             html += `                <div class="contact-item"><i class="${ct.icon || 'fa-solid fa-location-dot'}"></i> ${escHTML(ct.text)}</div>\n`;
         }
