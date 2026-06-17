@@ -58,6 +58,12 @@ const DEFAULT_CV = {
 
 const FONT_PAIRINGS = {
     'default': {
+        name: 'Outfit (Original)',
+        header: "'Outfit', sans-serif",
+        body: "'Outfit', sans-serif",
+        googleFonts: 'Outfit:wght@300;400;500;600;700'
+    },
+    'inter': {
         name: 'Outfit + Inter',
         header: "'Outfit', sans-serif",
         body: "'Inter', sans-serif",
@@ -806,11 +812,14 @@ function parseCV(htmlString) {
 
     // Parse font pairing from style tag
     const fontHeaderMatch = styleText.match(/--cv-font-header:\s*([^;]+)/);
-    if (fontHeaderMatch) {
-        const val = fontHeaderMatch[1].trim().replace(/['"]/g, '');
+    const fontBodyMatch = styleText.match(/--cv-font-body:\s*([^;]+)/);
+    if (fontHeaderMatch && fontBodyMatch) {
+        const headerVal = fontHeaderMatch[1].trim().replace(/['"]/g, '');
+        const bodyVal = fontBodyMatch[1].trim().replace(/['"]/g, '');
         for (const [key, pair] of Object.entries(FONT_PAIRINGS)) {
             const cleanHeader = pair.header.replace(/['"]/g, '').split(',')[0].trim();
-            if (val.includes(cleanHeader)) {
+            const cleanBody = pair.body.replace(/['"]/g, '').split(',')[0].trim();
+            if (headerVal.includes(cleanHeader) && bodyVal.includes(cleanBody)) {
                 data.fontPairing = key;
                 break;
             }
