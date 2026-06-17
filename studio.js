@@ -578,4 +578,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateStructurePanel();
     syncLayoutUIFromData();
+
+    // Privacy Notice Banner logic
+    const privacyBanner = document.getElementById('privacy-banner');
+    const btnAcceptPrivacy = document.getElementById('btn-accept-privacy');
+    if (privacyBanner && btnAcceptPrivacy) {
+        const accepted = localStorage.getItem('privacyAccepted');
+        if (!accepted) {
+            privacyBanner.classList.remove('hidden');
+        }
+        btnAcceptPrivacy.addEventListener('click', () => {
+            localStorage.setItem('privacyAccepted', 'true');
+            privacyBanner.classList.add('hidden');
+        });
+    }
 });
