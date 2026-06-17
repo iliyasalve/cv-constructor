@@ -19,17 +19,20 @@ module.exports = async (req, res) => {
 
     if (process.env.VERCEL) {
       puppeteer = require('puppeteer-core');
-      const chromium = require('@sparticuz/chromium');
+      const chromium = require('@sparticuz/chromium-min');
+      
+      const remoteBinUrl = 'https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar';
+      const executablePath = await chromium.executablePath(remoteBinUrl);
+      
       options = {
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
+        executablePath: executablePath,
         headless: chromium.headless,
       };
 
       // Set LD_LIBRARY_PATH to help Chromium find extracted system libraries (like libnss3.so)
-      const execPath = options.executablePath;
-      const execDir = path.dirname(execPath);
+      const execDir = path.dirname(executablePath);
       process.env.LD_LIBRARY_PATH = `${execDir}:${execDir}/lib:/tmp:/tmp/lib:/tmp/aws/lib:${process.env.LD_LIBRARY_PATH || ''}`;
     } else {
       // Local development fallback
