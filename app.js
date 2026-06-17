@@ -571,6 +571,49 @@ function handleAction(btn) {
 }
 
 /* ==========================================
+   DOWNLOAD HELPER (fixes file:// sandbox restrictions in Chrome)
+   ========================================== */
+async function downloadFile(content, filename, mimeType) {
+    if (window.showSaveFilePicker) {
+        try {
+            const handle = await window.showSaveFilePicker({
+                suggestedName: filename,
+                types: [{
+                    description: 'Document HTML',
+                    accept: {
+                        [mimeType]: ['.html']
+                    }
+                }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(content);
+            await writable.close();
+            return true;
+        } catch (err) {
+            if (err.name === 'AbortError') {
+                return false; // User cancelled
+            }
+            console.warn('showSaveFilePicker failed, falling back:', err);
+        }
+    }
+
+    // Fallback: standard link download using binary octet-stream to bypass file:// filename stripping
+    try {
+        const dataUri = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(content);
+        const a = document.createElement('a');
+        a.href = dataUri;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return true;
+    } catch (err) {
+        console.error('Data URI download failed:', err);
+    }
+    return false;
+}
+
+/* ==========================================
    EXPORT: Standalone HTML
    ========================================== */
 function exportHTML() {
@@ -676,18 +719,12 @@ function exportHTML() {
 
     html += `            </div>\n        </div>\n    </div>\n\n</body>\n</html>\n`;
 
-    // Download
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
     const safeName = (cvData.name || 'CV').replace(/[^a-zA-ZÀ-ÿ0-9_\- ]/g, '').replace(/\s+/g, '_');
-    a.download = `CV_${safeName}.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    showToast('CV exporté en HTML ✓');
+    const filename = `CV_${safeName}.html`;
+
+    downloadFile(html, filename, 'text/html').then(success => {
+        if (success) showToast('CV exporté en HTML ✓');
+    });
 }
 
 function exportItemSection(title, items) {
