@@ -282,13 +282,13 @@ const FONT_PAIRINGS = {
         name: 'Outfit + Inter',
         header: "'Outfit', sans-serif",
         body: "'Inter', sans-serif",
-        googleFonts: 'Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600'
+        googleFonts: 'Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700'
     },
     'serif': {
         name: 'Playfair Display + Lora',
         header: "'Playfair Display', serif",
         body: "'Lora', serif",
-        googleFonts: 'Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400'
+        googleFonts: 'Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700'
     },
     'modern': {
         name: 'Montserrat + Merriweather',
@@ -298,7 +298,7 @@ const FONT_PAIRINGS = {
     }
 };
 
-const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@600;700;800&family=Merriweather:wght@300;400;700&display=swap');
+const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800&family=Merriweather:wght@300;400;700&display=swap');
 
 :root {
     --primary: #0f172a;
@@ -387,6 +387,24 @@ body {
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
+    
+    /* Increase color contrast for printed text */
+    :root {
+        --text-main: #1e293b !important;
+        --text-dark: #000000 !important;
+    }
+    
+    /* Force high-quality text smoothing and legibility */
+    * {
+        -webkit-font-smoothing: subpixel-antialiased !important;
+        -moz-osx-font-smoothing: auto !important;
+        text-rendering: optimizeLegibility !important;
+    }
+    
+    /* Subtle weight enhancement for Chromium headless rendering */
+    body, p, li, span, div, a, h1, h2, h3, strong {
+        -webkit-text-stroke: 0.05px currentColor;
+    }
 }
 .section-hidden { display: none !important; }
 
