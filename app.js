@@ -1051,7 +1051,12 @@ async function exportPDF() {
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            let errorDetails = '';
+            try {
+                errorDetails = await response.text();
+            } catch (_) {}
+            console.error('API Error details:', errorDetails);
+            throw new Error(`HTTP error! status: ${response.status}. Details: ${errorDetails}`);
         }
 
         const blob = await response.blob();
