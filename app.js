@@ -390,7 +390,7 @@ body {
     
     /* Subtle weight enhancement for non-heading/non-bold text in Chromium print PDF */
     body, p, li, span, div, a {
-        -webkit-text-stroke: 0.015px currentColor;
+        -webkit-text-stroke: 0.008px currentColor;
     }
 }
 .section-hidden { display: none !important; }
