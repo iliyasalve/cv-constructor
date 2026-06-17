@@ -85,6 +85,9 @@ const TRANSLATIONS = {
         "help-bg-val": "ACTIVÉ ☑",
         "btn-got-it": "Compris",
         "privacy-message": "Ce site ne collecte ni ne suit vos données personnelles. Toutes les données de votre CV sont stockées localement dans votre navigateur.",
+        "help-author-title": "À propos de l'auteur",
+        "help-author-tagline": "Développeur Mobile, Full-Stack & Data",
+        "help-author-link-website": "Site web",
         "mobile-overlay-title": "Version mobile non prise en charge",
         "mobile-overlay-desc": "La version mobile n'est pas prise en charge actuellement. Veuillez ouvrir l'application sur un ordinateur de bureau ou portable.",
 
@@ -205,6 +208,9 @@ const TRANSLATIONS = {
         "help-bg-val": "ENABLED ☑",
         "btn-got-it": "Got it",
         "privacy-message": "This website does not collect or track your personal data. All your CV data is stored locally in your browser.",
+        "help-author-title": "About the Author",
+        "help-author-tagline": "Mobile, Full-Stack & Data Developer",
+        "help-author-link-website": "Website",
         "mobile-overlay-title": "Mobile version not supported",
         "mobile-overlay-desc": "Mobile version is currently not supported. Please open the application on a desktop or laptop computer.",
 
@@ -325,6 +331,9 @@ const TRANSLATIONS = {
         "help-bg-val": "ВКЛЮЧЕНО ☑",
         "btn-got-it": "Понятно",
         "privacy-message": "Этот сайт не собирает и не отслеживает ваши личные данные. Все данные вашего резюме хранятся локально в вашем браузере.",
+        "help-author-title": "Об авторе",
+        "help-author-tagline": "Разработчик мобильных приложений, Full-Stack и Data",
+        "help-author-link-website": "Сайт",
         "mobile-overlay-title": "Мобильная версия не поддерживается",
         "mobile-overlay-desc": "Мобильная версия в настоящий момент не поддерживается. Пожалуйста, откройте приложение на компьютере или ноутбуке.",
 
