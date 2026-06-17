@@ -1510,6 +1510,9 @@ function setupEvents() {
    INIT
    ========================================== */
 function init() {
+    if (typeof window.initLanguage === 'function') {
+        window.initLanguage();
+    }
     if (!loadFromStorage()) {
         cvData = deepClone(DEFAULT_CV);
     }

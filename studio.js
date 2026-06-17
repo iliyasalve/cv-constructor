@@ -396,9 +396,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Bind language select change listener
+    const selectLang = document.getElementById('select-language');
+    if (selectLang) {
+        selectLang.addEventListener('change', (e) => {
+            const newLang = e.target.value;
+            if (typeof applyLanguage === 'function') {
+                applyLanguage(newLang);
+                localStorage.setItem('cv_studio_lang', newLang);
+            }
+            if (window.cvData) {
+                window.cvData.cvLanguage = newLang;
+                if (typeof window.autoSave === 'function') {
+                    window.autoSave();
+                }
+            }
+        });
+    }
+
     // Run initial panel sync
-    setTimeout(() => {
-        updateStructurePanel();
-        syncLayoutUIFromData();
-    }, 200);
+    if (typeof initLanguage === 'function') {
+        initLanguage();
+    }
+    updateStructurePanel();
+    syncLayoutUIFromData();
 });
