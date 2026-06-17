@@ -401,9 +401,9 @@ body {
         text-rendering: optimizeLegibility !important;
     }
     
-    /* Subtle weight enhancement for Chromium headless rendering */
-    body, p, li, span, div, a, h1, h2, h3, strong {
-        -webkit-text-stroke: 0.05px currentColor;
+    /* Subtle weight enhancement for non-heading/non-bold text in Chromium headless rendering */
+    body, p, li, span, div, a {
+        -webkit-text-stroke: 0.02px currentColor;
     }
 }
 .section-hidden { display: none !important; }
