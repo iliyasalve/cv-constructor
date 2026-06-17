@@ -5,6 +5,7 @@ const COLOR_PRESETS = [
     '#0284c7','#2563eb','#0d9488','#4f46e5','#059669','#e11d48','#d97706','#7c3aed'
 ];
 
+
 const DEFAULT_CV = {
     hiddenSections: [],
     name: 'Votre Nom',
@@ -55,6 +56,220 @@ const DEFAULT_CV = {
         { name: 'Anglais', level: 'Intermédiaire' }
     ]
 };
+
+const LOCALIZED_DEFAULTS = {
+    name: {
+        fr: "Votre Nom",
+        en: "Your Name",
+        ru: "Ваше Имя"
+    },
+    title: {
+        fr: "Titre du Poste",
+        en: "Job Title",
+        ru: "Желаемая Должность"
+    },
+    summary: {
+        fr: "Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases.",
+        en: "Describe your professional profile, key skills, and career goals in a few sentences.",
+        ru: "Опишите свой профессиональный профиль, ключевые компетенции и карьерные цели в нескольких предложениях."
+    },
+    experienceTitle: {
+        fr: "Expériences Professionnelles",
+        en: "Professional Experience",
+        ru: "Опыт работы"
+    },
+    projectsTitle: {
+        fr: "Projets",
+        en: "Projects",
+        ru: "Проекты"
+    },
+    skillsTitle: {
+        fr: "Compétences",
+        en: "Skills",
+        ru: "Навыки"
+    },
+    educationTitle: {
+        fr: "Diplômes et Formations",
+        en: "Education",
+        ru: "Образование"
+    },
+    certificationsTitle: {
+        fr: "Certifications",
+        en: "Certifications",
+        ru: "Сертификаты"
+    },
+    qualitiesTitle: {
+        fr: "Qualités Personnelles",
+        en: "Personal Qualities",
+        ru: "Личные качества"
+    },
+    languagesTitle: {
+        fr: "Langues",
+        en: "Languages",
+        ru: "Языки"
+    }
+};
+
+function getLocalizedDefaultCV(lang) {
+    const base = deepClone(DEFAULT_CV);
+    base.cvLanguage = lang;
+
+    if (lang === 'fr') {
+        return base;
+    }
+
+    if (lang === 'en') {
+        base.name = 'Your Name';
+        base.title = 'Job Title';
+        base.summary = 'Describe your professional profile, key skills, and career goals in a few sentences.';
+        base.contacts = [
+            { icon: 'fa-solid fa-location-dot', text: 'City, Country', url: '' },
+            { icon: 'fa-solid fa-phone', text: '00 00 00 00 00', url: '' },
+            { icon: 'fa-solid fa-envelope', text: 'email@example.com', url: 'mailto:email@example.com' },
+            { icon: 'fa-solid fa-globe', text: 'yoursite.com', url: 'https://yoursite.com' },
+            { icon: 'fa-brands fa-linkedin', text: 'linkedin.com/in/your-name', url: 'https://linkedin.com/in/your-name' }
+        ];
+        base.experienceTitle = 'Professional Experience';
+        base.experiences = [{
+            role: 'Job Title',
+            company: 'Company',
+            location: 'City, Country',
+            dates: 'Month Year – Present',
+            bullets: [
+                'Description of your achievement or main responsibility.',
+                'Another achievement or skill demonstrated in this role.'
+            ]
+        }];
+        base.projectsTitle = 'Projects';
+        base.skillsTitle = 'Skills';
+        base.skills = [
+            { title: 'Category 1', tags: 'Skill A, Skill B, Skill C' },
+            { title: 'Category 2', tags: 'Skill D, Skill E' }
+        ];
+        base.educationTitle = 'Education';
+        base.education = [
+            { title: 'Degree Name', institution: 'Institution', dates: '2020 – 2024' }
+        ];
+        base.certificationsTitle = 'Certifications';
+        base.qualitiesTitle = 'Personal Qualities';
+        base.qualities = ['Quality 1', 'Quality 2', 'Quality 3'];
+        base.languagesTitle = 'Languages';
+        base.languages = [
+            { name: 'English', level: 'Native' },
+            { name: 'French', level: 'Intermediate' }
+        ];
+    } else if (lang === 'ru') {
+        base.name = 'Ваше Имя';
+        base.title = 'Желаемая Должность';
+        base.summary = 'Опишите свой профессиональный профиль, ключевые компетенции и карьерные цели в нескольких предложениях.';
+        base.contacts = [
+            { icon: 'fa-solid fa-location-dot', text: 'Город, Страна', url: '' },
+            { icon: 'fa-solid fa-phone', text: '00 00 00 00 00', url: '' },
+            { icon: 'fa-solid fa-envelope', text: 'email@example.com', url: 'mailto:email@example.com' },
+            { icon: 'fa-solid fa-globe', text: 'yoursite.com', url: 'https://yoursite.com' },
+            { icon: 'fa-brands fa-linkedin', text: 'linkedin.com/in/your-name', url: 'https://linkedin.com/in/your-name' }
+        ];
+        base.experienceTitle = 'Опыт работы';
+        base.experiences = [{
+            role: 'Название должности',
+            company: 'Компания',
+            location: 'Город, Страна',
+            dates: 'Месяц Год – Наст. время',
+            bullets: [
+                'Описание вашего ключевого достижения или основной обязанности.',
+                'Другое достижение или продемонстрированный навык на этой должности.'
+            ]
+        }];
+        base.projectsTitle = 'Проекты';
+        base.skillsTitle = 'Навыки';
+        base.skills = [
+            { title: 'Категория 1', tags: 'Навык А, Навык Б, Навык В' },
+            { title: 'Категория 2', tags: 'Навык Г, Навык Д' }
+        ];
+        base.educationTitle = 'Образование';
+        base.education = [
+            { title: 'Название степени / диплома', institution: 'Учебное заведение', dates: '2020 – 2024' }
+        ];
+        base.certificationsTitle = 'Сертификаты';
+        base.qualitiesTitle = 'Личные качества';
+        base.qualities = ['Качество 1', 'Качество 2', 'Качество 3'];
+        base.languagesTitle = 'Языки';
+        base.languages = [
+            { name: 'Русский', level: 'Родной' },
+            { name: 'Английский', level: 'Средний' }
+        ];
+    }
+    return base;
+}
+
+function translateCVData(data, newLang) {
+    if (!data) return;
+    
+    // Translate top-level default fields (name, title, summary, titles)
+    for (const key in LOCALIZED_DEFAULTS) {
+        const currentVal = data[key];
+        if (currentVal !== undefined) {
+            const isDefault = Object.values(LOCALIZED_DEFAULTS[key]).some(val => val.trim() === currentVal.trim());
+            if (isDefault) {
+                data[key] = LOCALIZED_DEFAULTS[key][newLang];
+            }
+        }
+    }
+    
+    // Check if contacts are default
+    const isContactsDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.contacts) === JSON.stringify(loc.contacts);
+    });
+    if (isContactsDefault) {
+        data.contacts = getLocalizedDefaultCV(newLang).contacts;
+    }
+    
+    // Check if experiences are default
+    const isExperiencesDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.experiences) === JSON.stringify(loc.experiences);
+    });
+    if (isExperiencesDefault) {
+        data.experiences = getLocalizedDefaultCV(newLang).experiences;
+    }
+    
+    // Check if skills are default
+    const isSkillsDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.skills) === JSON.stringify(loc.skills);
+    });
+    if (isSkillsDefault) {
+        data.skills = getLocalizedDefaultCV(newLang).skills;
+    }
+    
+    // Check if education is default
+    const isEducationDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.education) === JSON.stringify(loc.education);
+    });
+    if (isEducationDefault) {
+        data.education = getLocalizedDefaultCV(newLang).education;
+    }
+    
+    // Check if qualities are default
+    const isQualitiesDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.qualities) === JSON.stringify(loc.qualities);
+    });
+    if (isQualitiesDefault) {
+        data.qualities = getLocalizedDefaultCV(newLang).qualities;
+    }
+    
+    // Check if languages are default
+    const isLanguagesDefault = ['fr', 'en', 'ru'].some(l => {
+        const loc = getLocalizedDefaultCV(l);
+        return JSON.stringify(data.languages) === JSON.stringify(loc.languages);
+    });
+    if (isLanguagesDefault) {
+        data.languages = getLocalizedDefaultCV(newLang).languages;
+    }
+}
 
 const FONT_PAIRINGS = {
     'default': {
@@ -303,7 +518,7 @@ function renderHeader() {
         </div>
         <div class="header-right">
             ${d.contacts.map((ct, i) => renderContact(ct, i)).join('')}
-            <button class="add-btn" data-action="add-contact" style="font-size:10px;padding:4px 8px;margin-top:4px;">+ Contact</button>
+            <button class="add-btn" data-action="add-contact" style="font-size:10px;padding:4px 8px;margin-top:4px;">${esc(t('btn-add-contact'))}</button>
         </div>
     </div>`;
 }
@@ -344,8 +559,8 @@ function renderLeftSection(section, sectionTitle) {
     return `
     <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="${section}">
         <h3 class="section-title" contenteditable="true" data-path="${titlePath}" data-placeholder="Titre de section">${esc(sectionTitle)}</h3>
-        ${items.length > 0 ? items.map((item, i) => renderItem(item, section, i)).join('') : '<div class="section-empty">Aucun élément</div>'}
-        <button class="add-btn" data-action="add-item" data-section="${section}">+ Ajouter ${section === 'experiences' ? 'une expérience' : 'un projet'}</button>
+        ${items.length > 0 ? items.map((item, i) => renderItem(item, section, i)).join('') : '<div class="section-empty">' + esc(t('empty-section')) + '</div>'}
+        <button class="add-btn" data-action="add-item" data-section="${section}">${esc(t(section === 'experiences' ? 'btn-add-experience' : 'btn-add-project'))}</button>
     </div>`;
 }
 
@@ -390,7 +605,7 @@ function renderSkillsSection() {
                 <div class="skill-group-tags" contenteditable="true" data-path="skills.${i}.tags" data-placeholder="Compétence 1, Compétence 2...">${esc(s.tags)}</div>
             </div>`).join('')}
         </div>
-        <button class="add-btn" data-action="add-skill">+ Ajouter un groupe de compétences</button>
+        <button class="add-btn" data-action="add-skill">${esc(t('btn-add-skill-group'))}</button>
     </div>`;
 }
 
@@ -411,8 +626,8 @@ function renderEduSection(section, sectionTitle) {
                 <span contenteditable="true" data-path="${section}.${i}.dates" data-placeholder="Dates">${esc(item.dates)}</span>
             </div>
         </div>`).join('')}
-        ${items.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
-        <button class="add-btn" data-action="add-${section === 'education' ? 'education' : 'certification'}">+ Ajouter ${label}</button>
+        ${items.length === 0 ? '<div class="section-empty">' + esc(t('empty-section')) + '</div>' : ''}
+        <button class="add-btn" data-action="add-${section === 'education' ? 'education' : 'certification'}">${esc(t(section === 'education' ? 'btn-add-education' : 'btn-add-certification'))}</button>
     </div>`;
 }
 
@@ -429,8 +644,8 @@ function renderQualitiesSection() {
                 <span contenteditable="true" data-path="qualities.${i}" data-placeholder="Qualité">${esc(q)}</span>
             </div>`).join('')}
         </div>
-        ${d.qualities.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
-        <button class="add-btn" data-action="add-quality">+ Ajouter une qualité</button>
+        ${d.qualities.length === 0 ? '<div class="section-empty">' + esc(t('empty-section')) + '</div>' : ''}
+        <button class="add-btn" data-action="add-quality">${esc(t('btn-add-quality'))}</button>
     </div>`;
 }
 
@@ -448,8 +663,8 @@ function renderLanguagesSection() {
                 <span contenteditable="true" data-path="languages.${i}.level" data-placeholder="Niveau">${esc(l.level)}</span>
             </div>`).join('')}
         </div>
-        ${d.languages.length === 0 ? '<div class="section-empty">Aucun élément</div>' : ''}
-        <button class="add-btn" data-action="add-language">+ Ajouter une langue</button>
+        ${d.languages.length === 0 ? '<div class="section-empty">' + esc(t('empty-section')) + '</div>' : ''}
+        <button class="add-btn" data-action="add-language">${esc(t('btn-add-language'))}</button>
     </div>`;
 }
 
@@ -504,7 +719,7 @@ function handleAction(btn) {
             cvData[section].push({ role: '', company: '', location: '', dates: '', bullets: [''] });
             break;
         case 'remove-item':
-            if (confirm('Supprimer cet élément ?')) cvData[section].splice(index, 1);
+            if (confirm(t('confirm-delete-item'))) cvData[section].splice(index, 1);
             else return;
             break;
         case 'move-up':
@@ -529,7 +744,7 @@ function handleAction(btn) {
             break;
         case 'edit-link': {
             const ct = cvData.contacts[index];
-            const url = prompt('URL du lien (vide = aucun lien) :', ct.url || '');
+            const url = prompt(t('prompt-contact-url'), ct.url || '');
             if (url !== null) ct.url = url;
             break;
         }
@@ -755,7 +970,7 @@ function exportHTML() {
     const filename = `${newTitle.toUpperCase()}.html`;
 
     downloadFile(html, filename, 'text/html').then(success => {
-        if (success) showToast('CV exporté en HTML ✓');
+        if (success) showToast(t('toast-export-html'));
     });
 }
 
@@ -820,7 +1035,7 @@ function exportPDF() {
 
     document.title = newTitle.toUpperCase();
 
-    showToast('Utilisez « Enregistrer en PDF » dans la boîte de dialogue', 'info');
+    showToast(t('toast-print-info'), 'info');
     
     setTimeout(() => {
         window.print();
@@ -849,9 +1064,9 @@ function handleFileLoad(e) {
             if (typeof window.syncLayoutUIFromData === 'function') {
                 window.syncLayoutUIFromData();
             }
-            showToast('CV chargé : ' + file.name);
+            showToast(t('toast-loaded') + file.name);
         } catch (err) {
-            showToast('Erreur : ' + err.message, 'error');
+            showToast(t('toast-error') + err.message, 'error');
             console.error(err);
         }
     };
@@ -862,7 +1077,8 @@ function handleFileLoad(e) {
 function parseCV(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
-    const data = deepClone(DEFAULT_CV);
+    const lang = doc.documentElement.lang || (window.getCurrentLanguage ? window.getCurrentLanguage() : 'fr');
+    const data = getLocalizedDefaultCV(lang);
 
     // Parse hidden sections
     data.hiddenSections = [];
@@ -1115,7 +1331,8 @@ function loadFromStorage() {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             const parsed = JSON.parse(saved);
-            cvData = { ...deepClone(DEFAULT_CV), ...parsed };
+            const lang = parsed.cvLanguage || (window.getCurrentLanguage ? window.getCurrentLanguage() : 'fr');
+            cvData = { ...getLocalizedDefaultCV(lang), ...parsed };
             
             // Map older emoji or Lucide properties to Font Awesome classes
             if (cvData.contacts) {
@@ -1391,7 +1608,7 @@ function showIconPicker(targetEl, contactIndex) {
 
         if (matchCount === 0) {
             const noResult = document.createElement('div');
-            noResult.textContent = 'Aucune icône trouvée';
+            noResult.textContent = t('no-icons-found');
             noResult.style.color = '#94a3b8';
             noResult.style.fontSize = '12px';
             noResult.style.textAlign = 'center';
@@ -1469,14 +1686,18 @@ function setupEvents() {
     });
 
     document.getElementById('btn-new').addEventListener('click', () => {
-        if (confirm('Créer un nouveau CV ? Les modifications non exportées seront perdues.')) {
-            cvData = deepClone(DEFAULT_CV);
+        const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'fr';
+        if (confirm(t('confirm-new-cv'))) {
+            cvData = getLocalizedDefaultCV(lang);
             renderCV(true);
             autoSave();
             if (typeof window.syncLayoutUIFromData === 'function') {
                 window.syncLayoutUIFromData();
             }
-            showToast('Nouveau CV créé ✨');
+            if (typeof window.updateStructurePanel === 'function') {
+                window.updateStructurePanel();
+            }
+            showToast(t('toast-new-cv-created'));
         }
     });
 
@@ -1514,7 +1735,8 @@ function init() {
         window.initLanguage();
     }
     if (!loadFromStorage()) {
-        cvData = deepClone(DEFAULT_CV);
+        const lang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'fr';
+        cvData = getLocalizedDefaultCV(lang);
     }
     setupEvents();
     renderCV(true);
@@ -1529,5 +1751,7 @@ function init() {
 // Expose functions to window
 window.renderCV = renderCV;
 window.autoSave = autoSave;
+window.getLocalizedDefaultCV = getLocalizedDefaultCV;
+window.translateCVData = translateCVData;
 
 document.addEventListener('DOMContentLoaded', init);

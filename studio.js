@@ -155,30 +155,32 @@ function updateProgressIndicator() {
 
     const percent = Math.round((filledFields / totalFields) * 100);
     
+    const translate = (key) => (window.t ? window.t(key) : key);
+
     // Update status elements
-    const statusTitle = document.querySelector('aside .mt-auto p:first-child');
-    const statusText = document.querySelector('aside .mt-auto p:last-child');
-    const statusIcon = document.querySelector('aside .mt-auto .material-symbols-outlined');
+    const statusTitle = document.getElementById('status-title');
+    const statusText = document.getElementById('status-text');
+    const statusIcon = document.getElementById('status-icon');
     
     if (statusText) {
-        statusText.textContent = `${percent}% des champs remplis`;
+        statusText.textContent = `${percent}% ${translate('fields-filled')}`;
     }
     
     if (statusTitle) {
         if (percent < 40) {
-            statusTitle.textContent = 'En cours de rédaction';
+            statusTitle.textContent = translate('status-writing');
             if (statusIcon) {
                 statusIcon.textContent = 'edit_note';
                 statusIcon.setAttribute('data-icon', 'edit_note');
             }
         } else if (percent < 80) {
-            statusTitle.textContent = 'Presque terminé';
+            statusTitle.textContent = translate('status-almost');
             if (statusIcon) {
                 statusIcon.textContent = 'hourglass_empty';
                 statusIcon.setAttribute('data-icon', 'hourglass_empty');
             }
         } else {
-            statusTitle.textContent = 'Prêt à exporter';
+            statusTitle.textContent = translate('status-ready');
             if (statusIcon) {
                 statusIcon.textContent = 'check_circle';
                 statusIcon.setAttribute('data-icon', 'check_circle');
@@ -270,6 +272,7 @@ function syncLayoutUIFromData() {
     });
 }
 window.syncLayoutUIFromData = syncLayoutUIFromData;
+window.updateStructurePanel = updateStructurePanel;
 
 // Help Modal controls
 const helpModal = document.getElementById('help-modal');
@@ -407,6 +410,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (window.cvData) {
                 window.cvData.cvLanguage = newLang;
+                if (typeof window.translateCVData === 'function') {
+                    window.translateCVData(window.cvData, newLang);
+                }
+                if (typeof window.renderCV === 'function') {
+                    window.renderCV(false);
+                }
+                if (typeof window.updateStructurePanel === 'function') {
+                    window.updateStructurePanel();
+                }
                 if (typeof window.autoSave === 'function') {
                     window.autoSave();
                 }

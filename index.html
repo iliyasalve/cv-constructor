@@ -446,11 +446,11 @@
             </div>
             <div class="mt-auto p-4 bg-tertiary-fixed dark:bg-tertiary-container/30 border border-transparent dark:border-tertiary-container/40 rounded-xl flex items-center gap-4">
                 <div class="w-10 h-10 rounded-full bg-on-tertiary-fixed-variant dark:bg-tertiary-container flex items-center justify-center">
-                    <span class="material-symbols-outlined text-white dark:text-tertiary-fixed-dim" data-icon="check_circle">check_circle</span>
+                    <span id="status-icon" class="material-symbols-outlined text-white dark:text-tertiary-fixed-dim" data-icon="check_circle">check_circle</span>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-on-tertiary-fixed dark:text-tertiary-fixed-dim">Prêt à exporter</p>
-                    <p class="text-[10px] text-on-tertiary-fixed-variant dark:text-on-surface-variant">85% des champs remplis</p>
+                    <p id="status-title" class="text-xs font-bold text-on-tertiary-fixed dark:text-tertiary-fixed-dim">Prêt à exporter</p>
+                    <p id="status-text" class="text-[10px] text-on-tertiary-fixed-variant dark:text-on-surface-variant">85% des champs remplis</p>
                 </div>
             </div>
         </aside>
@@ -515,6 +515,10 @@
                         <li class="flex items-start gap-2">
                             <span class="text-primary font-bold">•</span>
                             <span data-i18n="help-autosave-line">Le CV est automatiquement sauvegardé dans votre navigateur à chaque modification.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-bold">•</span>
+                            <span data-i18n="help-language-line">Le changement de langue ne traduit pas automatiquement le contenu d'un CV existant. Pour traduire les rubriques standard, créez un nouveau CV ou modifiez-les manuellement.</span>
                         </li>
                     </ul>
                 </div>
