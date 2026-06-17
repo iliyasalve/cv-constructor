@@ -605,7 +605,7 @@ html.dark .cv-container {
     cursor: text;
 }
 [contenteditable]:focus {
-    background-color: rgba(99, 102, 241, 0.07);
+    background-color: color-mix(in srgb, var(--accent, #2563eb) 7%, transparent);
 }
 [contenteditable]:empty::before {
     content: attr(data-placeholder);
@@ -620,7 +620,7 @@ html.dark .cv-container {
     border-radius: 3px;
 }
 .cv-editable:hover {
-    outline: 1.5px dashed rgba(99, 102, 241, 0.3);
+    outline: 1.5px dashed color-mix(in srgb, var(--accent, #2563eb) 35%, transparent);
     outline-offset: 3px;
 }
 
@@ -628,7 +628,8 @@ html.dark .cv-container {
 .item-actions {
     position: absolute;
     top: -4px;
-    right: -32px;
+    left: -32px;
+    right: auto;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -643,7 +644,7 @@ html.dark .cv-container {
     height: 22px;
     border: none;
     border-radius: 4px;
-    background: rgba(99,102,241,0.85);
+    background: color-mix(in srgb, var(--accent, #2563eb) 85%, transparent);
     color: #fff;
     font-size: 11px;
     cursor: pointer;
@@ -655,34 +656,41 @@ html.dark .cv-container {
     line-height: 1;
 }
 .item-actions button:hover, .contact-actions button:hover {
-    background: rgba(99,102,241,1);
+    background: var(--accent, #2563eb);
     transform: scale(1.1);
 }
-.item-actions button.btn-danger:hover,
-.contact-actions button.btn-danger:hover {
-    background: rgba(239,68,68,0.9);
+/* Danger (delete) button colors (now using Export PDF button color, var(--primary-container)) */
+.btn-danger {
+    background: var(--primary-container) !important;
+    color: #fff !important;
+}
+.btn-danger:hover {
+    background: color-mix(in srgb, var(--primary-container) 80%, #000) !important;
 }
 
 /* Bullet remove button */
 .bullet-remove-btn {
     position: absolute;
-    right: -20px;
+    right: 4px;
     top: 1px;
     width: 16px;
     height: 16px;
     border: none;
     border-radius: 3px;
-    background: rgba(239,68,68,0.7);
+    background: var(--primary-container);
     color: #fff;
     font-size: 9px;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, background-color 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     line-height: 1;
+}
+.bullet-remove-btn:hover {
+    background: color-mix(in srgb, var(--primary-container) 80%, #000);
 }
 .cv-container .item-bullets li:hover .bullet-remove-btn { opacity: 1; }
 
@@ -708,17 +716,20 @@ html.dark .cv-container {
     height: 16px;
     border: none;
     border-radius: 3px;
-    background: rgba(239,68,68,0.7);
+    background: var(--primary-container);
     color: #fff;
     font-size: 9px;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, background-color 0.15s;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     line-height: 1;
+}
+.inline-remove-btn:hover {
+    background: color-mix(in srgb, var(--primary-container) 80%, #000);
 }
 .cv-editable:hover > .inline-remove-btn { opacity: 1; }
 
@@ -728,10 +739,10 @@ html.dark .cv-container {
     width: 100%;
     padding: 6px 10px;
     margin-top: 6px;
-    border: 1.5px dashed rgba(99,102,241,0.25);
+    border: 1.5px dashed color-mix(in srgb, var(--accent, #2563eb) 25%, transparent);
     border-radius: 6px;
     background: transparent;
-    color: rgba(99,102,241,0.5);
+    color: color-mix(in srgb, var(--accent, #2563eb) 60%, transparent);
     font-family: 'Inter', sans-serif;
     font-size: 11px;
     font-weight: 500;
@@ -740,9 +751,9 @@ html.dark .cv-container {
     text-align: center;
 }
 .add-btn:hover {
-    border-color: rgba(99,102,241,0.5);
-    color: rgba(99,102,241,0.8);
-    background: rgba(99,102,241,0.04);
+    border-color: color-mix(in srgb, var(--accent, #2563eb) 50%, transparent);
+    color: var(--accent, #2563eb);
+    background: color-mix(in srgb, var(--accent, #2563eb) 4%, transparent);
 }
 
 .add-bullet-btn {
@@ -750,10 +761,10 @@ html.dark .cv-container {
     padding: 3px 8px;
     margin-top: 3px;
     margin-left: 10px;
-    border: 1px dashed rgba(99,102,241,0.2);
+    border: 1px dashed color-mix(in srgb, var(--accent, #2563eb) 20%, transparent);
     border-radius: 4px;
     background: transparent;
-    color: rgba(99,102,241,0.4);
+    color: color-mix(in srgb, var(--accent, #2563eb) 50%, transparent);
     font-family: 'Inter', sans-serif;
     font-size: 10px;
     cursor: pointer;
@@ -762,9 +773,9 @@ html.dark .cv-container {
 }
 .cv-editable:hover .add-bullet-btn { opacity: 1; }
 .add-bullet-btn:hover {
-    border-color: rgba(99,102,241,0.5);
-    color: rgba(99,102,241,0.7);
-    background: rgba(99,102,241,0.04);
+    border-color: color-mix(in srgb, var(--accent, #2563eb) 50%, transparent);
+    color: var(--accent, #2563eb);
+    background: color-mix(in srgb, var(--accent, #2563eb) 4%, transparent);
 }
 
 /* Section empty state */
