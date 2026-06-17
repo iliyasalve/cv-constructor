@@ -166,9 +166,156 @@ html.dark .cv-container {
     display: none !important;
 }
 
-/* Fix dialog overlay color-picker layout issues */
-.color-custom input {
-    transform: scale(1.5) !important;
+/* --- Color Swatches & Custom Color Picker --- */
+.color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    padding: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+.color-swatch:hover {
+    transform: scale(1.18);
+}
+.color-swatch.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--primary);
+}
+.color-custom {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--outline-variant);
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.color-custom:hover {
+    transform: scale(1.18);
+}
+.color-custom input[type="color"] {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    background: none;
+    transform: scale(1.4);
+}
+
+/* --- Layout Spacing Density --- */
+.cv-container.density-compact {
+    padding: 6mm 8mm !important;
+}
+.cv-container.density-compact .main-content {
+    gap: 12px !important;
+}
+.cv-container.density-compact .item {
+    margin-bottom: 4px !important;
+}
+.cv-container.density-compact .edu-item {
+    margin-bottom: 3px !important;
+}
+.cv-container.density-compact .item-bullets li {
+    margin-bottom: 2px !important;
+}
+.cv-container.density-compact .section-title {
+    margin-bottom: 5px !important;
+    padding-bottom: 1px !important;
+}
+.cv-container.density-compact .header {
+    margin-bottom: 8px !important;
+    padding-bottom: 6px !important;
+}
+.cv-container.density-compact .col-left,
+.cv-container.density-compact .col-right {
+    gap: 8px !important;
+}
+
+.cv-container.density-spacious {
+    padding: 14mm 16mm !important;
+}
+.cv-container.density-spacious .main-content {
+    gap: 28px !important;
+}
+.cv-container.density-spacious .item {
+    margin-bottom: 12px !important;
+}
+.cv-container.density-spacious .edu-item {
+    margin-bottom: 10px !important;
+}
+.cv-container.density-spacious .item-bullets li {
+    margin-bottom: 6px !important;
+}
+.cv-container.density-spacious .section-title {
+    margin-bottom: 12px !important;
+    padding-bottom: 6px !important;
+}
+.cv-container.density-spacious .header {
+    margin-bottom: 18px !important;
+    padding-bottom: 14px !important;
+}
+.cv-container.density-spacious .col-left,
+.cv-container.density-spacious .col-right {
+    gap: 18px !important;
+}
+
+/* --- Header Alignment Options --- */
+.cv-container.header-align-center .header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+.cv-container.header-align-center .header-left {
+    padding-right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+.cv-container.header-align-center .header-right {
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    padding-top: 10px !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+.cv-container.header-align-center .contact-item {
+    justify-content: center !important;
+}
+
+/* --- Hide Contact Icons Option --- */
+.cv-container.hide-contact-icons .contact-emoji,
+.cv-container.hide-contact-icons .contact-item i {
+    display: none !important;
+}
+.cv-container.hide-contact-icons .contact-item {
+    padding-left: 0 !important;
+}
+
+/* --- Typography System Bindings --- */
+.cv-container {
+    font-family: var(--cv-font-body, 'Outfit', sans-serif) !important;
+}
+.cv-container .name,
+.cv-container .cv-title,
+.cv-container .section-title {
+    font-family: var(--cv-font-header, 'Outfit', sans-serif) !important;
 }
 
 

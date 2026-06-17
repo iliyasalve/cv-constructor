@@ -28,7 +28,7 @@
         rel="stylesheet">
     <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700;800&amp;family=Geist:wght@400;500&amp;family=Outfit:wght@300;400;500;600;700&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700;800&amp;family=Geist:wght@400;500&amp;family=Outfit:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@600;700;800&amp;family=Lora:ital,wght@0,400;0,500;0,600;1,400&amp;family=Montserrat:wght@600;700;800&amp;family=Merriweather:wght@300;400;700&amp;display=swap"
         rel="stylesheet">
     <!-- Font Awesome (for contact icons in CV) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -173,133 +173,166 @@
         <aside
             class="hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/10 dark:border-outline-variant/20 w-72 p-6 overflow-y-auto custom-scrollbar">
             <div class="mb-6">
-                <h2 class="font-headline-md text-headline-md text-primary mb-1">Studio Controls</h2>
-                <p class="text-body-md text-on-surface-variant text-xs opacity-70">Customize your CV</p>
+                <h2 class="font-headline-md text-headline-md text-primary mb-1">Contrôles du Studio</h2>
+                <p class="text-body-md text-on-surface-variant text-xs opacity-70">Personnalisez votre CV</p>
             </div>
-            <nav class="space-y-2">
-                <div
-                    class="group flex items-center gap-3 p-3 border border-transparent dark:border-primary-container/30 rounded-lg font-bold translate-x-1 duration-200 cursor-pointer bg-secondary-container dark:bg-primary-container/20 text-on-secondary-container dark:text-inverse-primary">
-                    <span class="material-symbols-outlined" data-icon="palette">palette</span>
-                    <span class="font-body-md text-body-md">Theme</span>
-                </div>
-                <div
-                    class="group flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
-                    <span class="material-symbols-outlined" data-icon="font_download">font_download</span>
-                    <span class="font-body-md text-body-md">Typography</span>
-                </div>
-                <div
-                    class="group flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
-                    <span class="material-symbols-outlined" data-icon="colorize">colorize</span>
-                    <span class="font-body-md text-body-md">Accent Color</span>
-                </div>
-                <div
-                    class="group flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
-                    <span class="material-symbols-outlined" data-icon="draft">draft</span>
-                    <span class="font-body-md text-body-md">File</span>
-                </div>
-                <div
-                    class="group flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
-                    <span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
-                    <span class="font-body-md text-body-md">Export</span>
-                </div>
-            </nav>
-
-            <!-- Sidebar Tab Contents -->
-            <div class="mt-6 border-t border-outline-variant/10 pt-6 flex-1 flex flex-col justify-between" id="sidebar-panels">
-                <div>
-                    <!-- Theme Panel -->
-                    <div id="panel-theme" class="space-y-4">
-                        <h3 class="font-headline-md text-sm text-primary font-bold">Options de Thème</h3>
-                        <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Personnalisez l'ambiance de l'éditeur.</p>
-                        <div class="flex items-center justify-between p-3 bg-surface rounded-lg border border-outline-variant/20">
-                            <span class="text-label-sm font-label-sm text-on-surface">Mode sombre / clair</span>
-                            <button id="sidebar-theme-toggle" class="px-3 py-1 rounded bg-primary-container/10 border border-primary-container/30 text-[10px] text-primary uppercase font-bold hover:bg-primary-container/20 transition-all select-none">Basculer</button>
+            <!-- Sidebar Accordion Container -->
+            <div class="flex-1 flex flex-col justify-between" id="sidebar-accordion">
+                <div class="space-y-2">
+                    <!-- Accordion Item 1: Layout -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-layout">
+                            <span class="material-symbols-outlined" data-icon="tune">tune</span>
+                            <span class="font-body-md text-body-md">Mise en page</span>
                         </div>
-                    </div>
-
-                    <!-- Typography Panel -->
-                    <div id="panel-typography" class="hidden space-y-4">
-                        <h3 class="font-headline-md text-sm text-primary font-bold">Typographie</h3>
-                        <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Polices de caractères utilisées pour le CV.</p>
-                        <div class="p-3 bg-surface rounded-lg border border-outline-variant/20 space-y-2">
-                            <div>
-                                <span class="text-label-sm font-label-sm text-on-surface font-bold block">Outfit (En-têtes)</span>
-                                <span class="text-[10px] text-on-surface-variant">Police élégante sans-serif géométrique.</span>
+                        <div id="panel-layout" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
+                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Ajustez la densité et l'agencement visuel de votre CV.</p>
+                            
+                            <!-- Density -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-on-surface">Densité du contenu</label>
+                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                    <button data-density="compact" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Compact</button>
+                                    <button data-density="normal" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">Normal</button>
+                                    <button data-density="spacious" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Spacieux</button>
+                                </div>
                             </div>
-                            <div class="pt-2 border-t border-outline-variant/10">
-                                <span class="text-label-sm font-label-sm text-on-surface font-bold block">Inter (Corps de texte)</span>
-                                <span class="text-[10px] text-on-surface-variant">Optimisée pour une excellente lisibilité à l'écran et à l'impression.</span>
+
+                            <!-- Header Alignment -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-on-surface">Alignement de l'en-tête</label>
+                                <div class="grid grid-cols-2 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                    <button data-header-align="left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
+                                    <button data-header-align="center" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Centré</button>
+                                </div>
+                            </div>
+
+                            <!-- Contact Icons Toggle -->
+                            <div class="flex items-center justify-between p-2.5 bg-surface rounded-lg border border-outline-variant/20">
+                                <span class="text-[11px] font-bold text-on-surface">Icônes de contact</span>
+                                <label class="relative inline-flex items-center cursor-pointer select-none">
+                                    <input type="checkbox" id="toggle-contact-icons" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-outline-variant/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
+                                </label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Accent Color Panel -->
-                    <div id="panel-accent" class="hidden space-y-4">
-                        <h3 class="font-headline-md text-sm text-primary font-bold">Couleur d'Accentuation</h3>
-                        <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Sélectionnez une couleur pour mettre en valeur les éléments clés de votre CV.</p>
-                        <div class="p-4 bg-surface rounded-lg border border-outline-variant/20">
-                            <div class="color-picker">
-                                <div class="color-options flex flex-wrap gap-2 justify-start items-center" id="color-options">
-                                    <button class="color-swatch" data-color="#0284c7" style="background:#0284c7;color:#0284c7" title="Sky Blue"></button>
-                                    <button class="color-swatch" data-color="#2563eb" style="background:#2563eb;color:#2563eb" title="Royal Blue"></button>
-                                    <button class="color-swatch" data-color="#0d9488" style="background:#0d9488;color:#0d9488" title="Teal"></button>
-                                    <button class="color-swatch" data-color="#4f46e5" style="background:#4f46e5;color:#4f46e5" title="Indigo"></button>
-                                    <button class="color-swatch" data-color="#059669" style="background:#059669;color:#059669" title="Emerald"></button>
-                                    <button class="color-swatch" data-color="#e11d48" style="background:#e11d48;color:#e11d48" title="Rose"></button>
-                                    <button class="color-swatch" data-color="#d97706" style="background:#d97706;color:#d97706" title="Amber"></button>
-                                    <button class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;color:#7c3aed" title="Violet"></button>
-                                    <div class="w-px h-5 bg-outline-variant/30 mx-1"></div>
-                                    <div class="color-custom" title="Couleur personnalisée" style="display:flex;align-items:center;justify-content:center;">
-                                        <input type="color" id="custom-color" value="#2563eb" class="w-full h-full border-none cursor-pointer">
+                    <!-- Accordion Item 2: Typography -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-typography">
+                            <span class="material-symbols-outlined" data-icon="font_download">font_download</span>
+                            <span class="font-body-md text-body-md">Typographie</span>
+                        </div>
+                        <div id="panel-typography" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
+                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Choisissez une combinaison de polices pour votre CV.</p>
+                            
+                            <div class="space-y-2" id="typography-pairings">
+                                <!-- Preset 1: Default -->
+                                <div data-pairing="default" class="p-3 bg-surface hover:bg-surface-variant/30 rounded-lg border border-primary-container text-on-surface cursor-pointer transition-all">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-on-surface">Outfit + Inter</span>
+                                        <span class="text-[9px] bg-primary-container/10 text-primary-container px-1.5 py-0.5 rounded font-bold">Par défaut</span>
+                                    </div>
+                                    <span class="text-[10px] text-on-surface-variant">Sans-serif géométrique & lisible.</span>
+                                </div>
+                                <!-- Preset 2: Serif -->
+                                <div data-pairing="serif" class="p-3 bg-surface hover:bg-surface-variant/30 rounded-lg border border-outline-variant/20 text-on-surface cursor-pointer transition-all">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-on-surface" style="font-family:'Playfair Display', serif">Playfair + Lora</span>
+                                    </div>
+                                    <span class="text-[10px] text-on-surface-variant">Style classique, académique et littéraire.</span>
+                                </div>
+                                <!-- Preset 3: Modern -->
+                                <div data-pairing="modern" class="p-3 bg-surface hover:bg-surface-variant/30 rounded-lg border border-outline-variant/20 text-on-surface cursor-pointer transition-all">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-xs font-bold text-on-surface" style="font-family:'Montserrat', sans-serif">Montserrat + Merriweather</span>
+                                    </div>
+                                    <span class="text-[10px] text-on-surface-variant">En-tête moderne & corps avec empattement.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 3: Couleur -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-accent">
+                            <span class="material-symbols-outlined" data-icon="colorize">colorize</span>
+                            <span class="font-body-md text-body-md">Couleur</span>
+                        </div>
+                        <div id="panel-accent" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
+                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Sélectionnez une couleur pour mettre en valeur les éléments clés de votre CV.</p>
+                            <div class="p-4 bg-surface rounded-lg border border-outline-variant/20">
+                                <div class="color-picker">
+                                    <div class="color-options flex flex-wrap gap-2 justify-start items-center" id="color-options">
+                                        <button class="color-swatch" data-color="#0284c7" style="background:#0284c7;color:#0284c7" title="Bleu ciel"></button>
+                                        <button class="color-swatch" data-color="#2563eb" style="background:#2563eb;color:#2563eb" title="Bleu royal"></button>
+                                        <button class="color-swatch" data-color="#0d9488" style="background:#0d9488;color:#0d9488" title="Turquoise"></button>
+                                        <button class="color-swatch" data-color="#4f46e5" style="background:#4f46e5;color:#4f46e5" title="Indigo"></button>
+                                        <button class="color-swatch" data-color="#059669" style="background:#059669;color:#059669" title="Émeraude"></button>
+                                        <button class="color-swatch" data-color="#e11d48" style="background:#e11d48;color:#e11d48" title="Rose"></button>
+                                        <button class="color-swatch" data-color="#d97706" style="background:#d97706;color:#d97706" title="Ambre"></button>
+                                        <button class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;color:#7c3aed" title="Violet"></button>
+                                        <div class="w-px h-5 bg-outline-variant/30 mx-1"></div>
+                                        <div class="color-custom" title="Couleur personnalisée" style="display:flex;align-items:center;justify-content:center;">
+                                            <input type="color" id="custom-color" value="#2563eb" class="w-full h-full border-none cursor-pointer">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- File Panel -->
-                    <div id="panel-file" class="hidden space-y-4">
-                        <h3 class="font-headline-md text-sm text-primary font-bold">Gestion de Fichier</h3>
-                        <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Gérez votre document actuel.</p>
-                        <div class="space-y-2">
-                            <button id="btn-new" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
-                                <span class="material-symbols-outlined text-sm">description</span>
-                                Nouveau CV vide
-                            </button>
-                            <button id="btn-load" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
-                                <span class="material-symbols-outlined text-sm">folder_open</span>
-                                Charger un projet (.html)
-                            </button>
+                    <!-- Accordion Item 4: Projet -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-file">
+                            <span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+                            <span class="font-body-md text-body-md">Projet</span>
                         </div>
-                    </div>
-
-                    <!-- Export Panel -->
-                    <div id="panel-export" class="hidden space-y-4">
-                        <h3 class="font-headline-md text-sm text-primary font-bold">Options d'Exportation</h3>
-                        <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Téléchargez votre CV terminé.</p>
-                        <div class="space-y-2">
-                            <button id="btn-sidebar-export-pdf" onclick="exportPDF()" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-primary text-white dark:bg-primary-container border border-transparent rounded-lg text-label-sm transition-all active:scale-95 duration-75">
-                                <span class="material-symbols-outlined text-sm">picture_as_pdf</span>
-                                Exporter en PDF
-                            </button>
-                            <button id="btn-sidebar-export-html" onclick="exportHTML()" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
-                                <span class="material-symbols-outlined text-sm">code</span>
-                                Exporter en HTML
-                            </button>
+                        <div id="panel-file" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
+                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Commencez un nouveau CV ou rechargez un fichier de projet sauvegardé.</p>
+                            <div class="space-y-2">
+                                <button id="btn-new" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
+                                    <span class="material-symbols-outlined text-sm">description</span>
+                                    Nouveau CV vide
+                                </button>
+                                <button id="btn-load" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
+                                    <span class="material-symbols-outlined text-sm">folder_open</span>
+                                    Charger un projet (.html)
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="pt-6 border-t border-outline-variant/10 mt-auto space-y-2">
-                    <div
-                        class="flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
+                    <!-- Help Button (Direct modal trigger) -->
+                    <div id="btn-help-trigger"
+                        class="flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30 select-none">
                         <span class="material-symbols-outlined" data-icon="help">help</span>
-                        <span class="font-body-md text-body-md">Help</span>
+                        <span class="font-body-md text-body-md">Aide</span>
                     </div>
-                    <div
-                        class="flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30">
-                        <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                        <span class="font-body-md text-body-md">Settings</span>
+                    
+                    <!-- Accordion Item 5: Settings -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-settings">
+                            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                            <span class="font-body-md text-body-md">Paramètres</span>
+                        </div>
+                        <div id="panel-settings" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
+                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed">Configurez les paramètres globaux de l'application.</p>
+                            
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-bold text-on-surface">Langue du CV</label>
+                                <select id="select-language" disabled class="w-full bg-surface border border-outline-variant/20 rounded-lg p-2 text-xs text-on-surface opacity-70 cursor-not-allowed">
+                                    <option value="fr" selected>Français</option>
+                                    <option value="en">English (Bientôt disponible)</option>
+                                </select>
+                                <span class="text-[10px] text-on-surface-variant leading-relaxed block">
+                                    💡 <em>La traduction automatique des rubriques standard et le support multilingue sont en cours de développement.</em>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -429,6 +462,82 @@
         <div class="flex flex-col items-center gap-1 text-on-surface-variant">
             <span class="material-symbols-outlined" data-icon="download">download</span>
             <span class="text-[10px]">Exporter</span>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden opacity-0 transition-all duration-300">
+        <div class="bg-surface dark:bg-surface-container-high border border-outline-variant/20 rounded-2xl w-[90%] max-w-lg p-6 shadow-2xl transform scale-95 transition-all duration-300">
+            <div class="flex justify-between items-center mb-4 border-b border-outline-variant/10 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl" data-icon="help">help</span>
+                    <h3 class="text-headline-md text-base text-primary font-bold">Centre d'aide &amp; Astuces</h3>
+                </div>
+                <button id="close-help-modal" class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-xs text-on-surface leading-relaxed max-h-[60vh] overflow-y-auto pr-1 custom-scrollbar">
+                <!-- Keyboard shortcuts -->
+                <div>
+                    <h4 class="font-bold text-primary mb-2 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm" data-icon="keyboard">keyboard</span>
+                        Raccourcis Clavier &amp; Édition
+                    </h4>
+                    <ul class="space-y-2 pl-1">
+                        <li class="flex items-start gap-2">
+                            <kbd class="px-1.5 py-0.5 bg-surface-variant rounded border border-outline-variant/30 font-mono text-[9px] font-bold shadow-sm whitespace-nowrap">Shift + Entrée</kbd>
+                            <span>Insère un retour à la ligne simple dans n'importe quel champ de texte.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-bold">•</span>
+                            <span>Survolez une section (Expériences, Projets) pour afficher les flèches <span class="font-bold">▲ ▼</span> de réordonnancement ou la croix <span class="font-bold text-red-500">✕</span> de suppression.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-bold">•</span>
+                            <span>Le CV est automatiquement sauvegardé dans votre navigateur à chaque modification.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- PDF Export settings -->
+                <div class="border-t border-outline-variant/10 pt-3">
+                    <h4 class="font-bold text-primary mb-2 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm" data-icon="picture_as_pdf">picture_as_pdf</span>
+                        Configuration d'Export PDF
+                    </h4>
+                    <p class="mb-2">Pour obtenir un rendu PDF parfait sur une seule page A4, appliquez ces options dans la fenêtre d'impression :</p>
+                    <ul class="space-y-2 bg-surface-variant/40 dark:bg-surface-variant/20 p-3 rounded-lg border border-outline-variant/10">
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium">Destination :</span>
+                            <span class="font-bold text-primary">Enregistrer au format PDF</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium">Mise en page :</span>
+                            <span class="font-bold text-primary">Portrait</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium">Taille du papier :</span>
+                            <span class="font-bold text-primary">A4</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium">Marges :</span>
+                            <span class="font-bold text-primary">Aucune</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium font-bold text-primary">Graphismes d'arrière-plan :</span>
+                            <span class="font-bold text-green-600 dark:text-green-400">ACTIVÉ ☑</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6 border-t border-outline-variant/10 pt-4 flex justify-end">
+                <button id="btn-close-help-confirm" class="px-4 py-2 bg-primary-container text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all active:scale-95">
+                    Compris
+                </button>
+            </div>
         </div>
     </div>
 

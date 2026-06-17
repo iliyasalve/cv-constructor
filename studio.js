@@ -13,38 +13,34 @@ document.querySelectorAll('button, a, div[role="button"]').forEach(btn => {
     });
 });
 
-// Sidebar Tab content panel switching logic
-const tabs = document.querySelectorAll('aside nav > div');
+// Sidebar Accordion content panel switching logic
 const activeClasses = ['bg-secondary-container', 'dark:bg-primary-container/20', 'text-on-secondary-container', 'dark:text-inverse-primary', 'font-bold', 'translate-x-1', 'dark:border-primary-container/30'];
 const inactiveClasses = ['text-on-surface-variant', 'hover:bg-surface-variant/50', 'dark:hover:bg-surface-variant/30'];
+const accordionHeaders = document.querySelectorAll('.accordion-header');
 
-const panels = [
-    document.getElementById('panel-theme'),
-    document.getElementById('panel-typography'),
-    document.getElementById('panel-accent'),
-    document.getElementById('panel-file'),
-    document.getElementById('panel-export')
-];
+accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+        const targetId = header.dataset.target;
+        const panel = document.getElementById(targetId);
+        if (!panel) return;
 
-tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(t => {
-            t.classList.remove(...activeClasses);
-            t.classList.add(...inactiveClasses);
+        const isAlreadyOpen = !panel.classList.contains('hidden');
+
+        // Close all accordion panels
+        document.querySelectorAll('.accordion-content').forEach(p => {
+            p.classList.add('hidden');
         });
-        tab.classList.add(...activeClasses);
-        tab.classList.remove(...inactiveClasses);
-
-        // Hide all panels, show active
-        panels.forEach((panel, pIdx) => {
-            if (panel) {
-                if (pIdx === index) {
-                    panel.classList.remove('hidden');
-                } else {
-                    panel.classList.add('hidden');
-                }
-            }
+        document.querySelectorAll('.accordion-header').forEach(h => {
+            h.classList.remove(...activeClasses);
+            h.classList.add(...inactiveClasses);
         });
+
+        // Toggle the clicked one
+        if (!isAlreadyOpen) {
+            panel.classList.remove('hidden');
+            header.classList.add(...activeClasses);
+            header.classList.remove(...inactiveClasses);
+        }
     });
 });
 
@@ -236,6 +232,77 @@ function scrollToSection(secId) {
     }
 }
 
+// Sync UI components with cvData properties
+function syncLayoutUIFromData() {
+    const data = window.cvData;
+    if (!data) return;
+
+    // 1. Density
+    const density = data.density || 'normal';
+    document.querySelectorAll('[data-density]').forEach(btn => {
+        const isActive = btn.dataset.density === density;
+        btn.classList.toggle('bg-primary-container', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('hover:bg-surface-variant', !isActive);
+    });
+
+    // 2. Header Alignment
+    const align = data.headerAlignment || 'left';
+    document.querySelectorAll('[data-header-align]').forEach(btn => {
+        const isActive = btn.dataset.headerAlign === align;
+        btn.classList.toggle('bg-primary-container', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('hover:bg-surface-variant', !isActive);
+    });
+
+    // 3. Contact Icons
+    const checkbox = document.getElementById('toggle-contact-icons');
+    if (checkbox) {
+        checkbox.checked = data.showContactIcons !== false;
+    }
+
+    // 4. Typography
+    const pairing = data.fontPairing || 'default';
+    document.querySelectorAll('#typography-pairings > div').forEach(card => {
+        const isSelected = card.dataset.pairing === pairing;
+        card.classList.toggle('border-primary-container', isSelected);
+        card.classList.toggle('border-outline-variant/20', !isSelected);
+    });
+}
+window.syncLayoutUIFromData = syncLayoutUIFromData;
+
+// Help Modal controls
+const helpModal = document.getElementById('help-modal');
+const btnHelp = document.getElementById('btn-help-trigger');
+const btnCloseModal = document.getElementById('close-help-modal');
+const btnCloseConfirm = document.getElementById('btn-close-help-confirm');
+
+function openHelpModal() {
+    if (!helpModal) return;
+    helpModal.classList.remove('hidden');
+    setTimeout(() => {
+        helpModal.classList.remove('opacity-0');
+        const card = helpModal.querySelector('.transform');
+        if (card) {
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+    }, 10);
+}
+
+function closeHelpModal() {
+    if (!helpModal) return;
+    helpModal.classList.add('opacity-0');
+    const card = helpModal.querySelector('.transform');
+    if (card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+    }
+    setTimeout(() => {
+        helpModal.classList.add('hidden');
+    }, 300);
+}
+
 // Bind event listeners on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     const list = document.getElementById('cv-structure-list');
@@ -256,8 +323,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Bind layout density buttons
+    document.querySelectorAll('[data-density]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (!window.cvData) return;
+            window.cvData.density = btn.dataset.density;
+            if (typeof window.renderCV === 'function') {
+                window.renderCV(false);
+            }
+            if (typeof window.autoSave === 'function') {
+                window.autoSave();
+            }
+            syncLayoutUIFromData();
+        });
+    });
+
+    // Bind header alignment buttons
+    document.querySelectorAll('[data-header-align]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (!window.cvData) return;
+            window.cvData.headerAlignment = btn.dataset.headerAlign;
+            if (typeof window.renderCV === 'function') {
+                window.renderCV(false);
+            }
+            if (typeof window.autoSave === 'function') {
+                window.autoSave();
+            }
+            syncLayoutUIFromData();
+        });
+    });
+
+    // Bind contact icons toggle
+    const checkboxIcons = document.getElementById('toggle-contact-icons');
+    if (checkboxIcons) {
+        checkboxIcons.addEventListener('change', (e) => {
+            if (!window.cvData) return;
+            window.cvData.showContactIcons = e.target.checked;
+            if (typeof window.renderCV === 'function') {
+                window.renderCV(false);
+            }
+            if (typeof window.autoSave === 'function') {
+                window.autoSave();
+            }
+            syncLayoutUIFromData();
+        });
+    }
+
+    // Bind typography preset cards
+    document.querySelectorAll('#typography-pairings > div').forEach(card => {
+        card.addEventListener('click', () => {
+            if (!window.cvData) return;
+            window.cvData.fontPairing = card.dataset.pairing;
+            if (typeof window.renderCV === 'function') {
+                window.renderCV(false);
+            }
+            if (typeof window.autoSave === 'function') {
+                window.autoSave();
+            }
+            syncLayoutUIFromData();
+        });
+    });
+
+    // Bind help modal elements
+    if (btnHelp) btnHelp.addEventListener('click', openHelpModal);
+    if (btnCloseModal) btnCloseModal.addEventListener('click', closeHelpModal);
+    if (btnCloseConfirm) btnCloseConfirm.addEventListener('click', closeHelpModal);
+    if (helpModal) {
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                closeHelpModal();
+            }
+        });
+    }
+
     // Run initial panel sync
     setTimeout(() => {
         updateStructurePanel();
+        syncLayoutUIFromData();
     }, 200);
 });

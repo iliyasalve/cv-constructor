@@ -11,6 +11,11 @@ const DEFAULT_CV = {
     title: 'Titre du Poste',
     summary: 'Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases.',
     accentColor: '#2563eb',
+    density: 'normal',
+    headerAlignment: 'left',
+    showContactIcons: true,
+    fontPairing: 'default',
+    cvLanguage: 'fr',
     contacts: [
         { icon: 'fa-solid fa-location-dot', text: 'Ville, Pays', url: '' },
         { icon: 'fa-solid fa-phone', text: '00 00 00 00 00', url: '' },
@@ -51,7 +56,28 @@ const DEFAULT_CV = {
     ]
 };
 
-const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+const FONT_PAIRINGS = {
+    'default': {
+        name: 'Outfit + Inter',
+        header: "'Outfit', sans-serif",
+        body: "'Inter', sans-serif",
+        googleFonts: 'Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600'
+    },
+    'serif': {
+        name: 'Playfair Display + Lora',
+        header: "'Playfair Display', serif",
+        body: "'Lora', serif",
+        googleFonts: 'Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400'
+    },
+    'modern': {
+        name: 'Montserrat + Merriweather',
+        header: "'Montserrat', sans-serif",
+        body: "'Merriweather', serif",
+        googleFonts: 'Montserrat:wght@600;700;800&family=Merriweather:wght@300;400;700'
+    }
+};
+
+const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@600;700;800&family=Merriweather:wght@300;400;700&display=swap');
 
 :root {
     --primary: #0f172a;
@@ -60,12 +86,14 @@ const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit
     --text-main: #334155;
     --text-dark: #0f172a;
     --border: #e2e8f0;
+    --cv-font-header: __FONT_HEADER__;
+    --cv-font-body: __FONT_BODY__;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--cv-font-body, 'Outfit', sans-serif);
     color: var(--text-main);
     background-color: #f8fafc;
     line-height: 1.4;
@@ -74,10 +102,15 @@ body {
 }
 
 .cv-container {
-    width: 210mm; height: 297mm; background-color: #ffffff;
+    width: 210mm; min-height: 297mm; background-color: #ffffff;
     margin: 20px auto; padding: 10mm 12mm;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     display: flex; flex-direction: column; overflow: hidden; position: relative;
+    font-family: var(--cv-font-body, 'Outfit', sans-serif);
+}
+
+.name, .title, .section-title {
+    font-family: var(--cv-font-header, 'Outfit', sans-serif);
 }
 
 .header {
@@ -131,8 +164,40 @@ body {
 @media print {
     body { background-color: #ffffff; }
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
+    .cv-container.density-compact { padding: 6mm 8mm !important; }
+    .cv-container.density-spacious { padding: 14mm 16mm !important; }
 }
-.section-hidden { display: none !important; }`;
+.section-hidden { display: none !important; }
+
+/* Density */
+.cv-container.density-compact { padding: 6mm 8mm; }
+.cv-container.density-compact .main-content { gap: 12px; }
+.cv-container.density-compact .item { margin-bottom: 4px; }
+.cv-container.density-compact .edu-item { margin-bottom: 3px; }
+.cv-container.density-compact .item-bullets li { margin-bottom: 2px; }
+.cv-container.density-compact .section-title { margin-bottom: 5px; padding-bottom: 1px; }
+.cv-container.density-compact .header { margin-bottom: 8px; padding-bottom: 6px; }
+.cv-container.density-compact .col-left, .cv-container.density-compact .col-right { gap: 8px; }
+
+.cv-container.density-spacious { padding: 14mm 16mm; }
+.cv-container.density-spacious .main-content { gap: 28px; }
+.cv-container.density-spacious .item { margin-bottom: 12px; }
+.cv-container.density-spacious .edu-item { margin-bottom: 10px; }
+.cv-container.density-spacious .item-bullets li { margin-bottom: 6px; }
+.cv-container.density-spacious .section-title { margin-bottom: 12px; padding-bottom: 6px; }
+.cv-container.density-spacious .header { margin-bottom: 18px; padding-bottom: 14px; }
+.cv-container.density-spacious .col-left, .cv-container.density-spacious .col-right { gap: 18px; }
+
+/* Header Alignment */
+.cv-container.header-align-center .header { flex-direction: column; align-items: center; text-align: center; }
+.cv-container.header-align-center .header-left { padding-right: 0; display: flex; flex-direction: column; align-items: center; width: 100%; }
+.cv-container.header-align-center .header-right { align-items: center; justify-content: center; flex-direction: row; flex-wrap: wrap; gap: 12px; padding-top: 10px; min-width: 0; width: 100%; }
+.cv-container.header-align-center .contact-item { justify-content: center; }
+
+/* Hide Icons */
+.cv-container.hide-contact-icons .contact-item i { display: none !important; }
+.cv-container.hide-contact-icons .contact-item { padding-left: 0 !important; }
+`;
 
 let cvData = null;
 Object.defineProperty(window, 'cvData', {
@@ -184,14 +249,37 @@ function showToast(msg, type = 'success') {
     setTimeout(() => t.remove(), 3000);
 }
 
-/* ==========================================
-   RENDER FUNCTIONS
-   ========================================== */
+function applyLayoutAndStyles() {
+    const c = document.getElementById('cv-container');
+    if (!c) return;
+
+    // 1. Density classes
+    c.classList.remove('density-compact', 'density-normal', 'density-spacious');
+    c.classList.add(`density-${cvData.density || 'normal'}`);
+
+    // 2. Alignment classes
+    c.classList.remove('header-align-left', 'header-align-center');
+    c.classList.add(`header-align-${cvData.headerAlignment || 'left'}`);
+
+    // 3. Contact icons
+    if (cvData.showContactIcons === false) {
+        c.classList.add('hide-contact-icons');
+    } else {
+        c.classList.remove('hide-contact-icons');
+    }
+
+    // 4. Font pairing variables
+    const pairing = FONT_PAIRINGS[cvData.fontPairing || 'default'] || FONT_PAIRINGS.default;
+    c.style.setProperty('--cv-font-header', pairing.header);
+    c.style.setProperty('--cv-font-body', pairing.body);
+}
+
 function renderCV(doSkipSync) {
     if (!doSkipSync) syncFromDOM();
 
     const c = document.getElementById('cv-container');
     c.innerHTML = renderHeader() + renderMainContent();
+    applyLayoutAndStyles();
     applyAccentColor();
     if (typeof updateStructurePanel === 'function') {
         updateStructurePanel();
@@ -484,11 +572,19 @@ function exportHTML() {
 
     const accent = cvData.accentColor;
     const accentLight = getAccentLight(accent);
-    const css = EXPORT_CSS.replace('__ACCENT__', accent).replace('__ACCENT_LIGHT__', accentLight);
+    const pairing = FONT_PAIRINGS[cvData.fontPairing || 'default'] || FONT_PAIRINGS.default;
+    const css = EXPORT_CSS.replace('__ACCENT__', accent)
+                          .replace('__ACCENT_LIGHT__', accentLight)
+                          .replace('__FONT_HEADER__', pairing.header)
+                          .replace('__FONT_BODY__', pairing.body);
 
     const title = `${(cvData.name || 'CV').toUpperCase()} - ${cvData.title || 'CV'}`;
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container">\n`;
+    const densityClass = `density-${cvData.density || 'normal'}`;
+    const alignClass = `header-align-${cvData.headerAlignment || 'left'}`;
+    const iconsClass = cvData.showContactIcons === false ? 'hide-contact-icons' : '';
+
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${iconsClass}">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
@@ -648,6 +744,9 @@ function handleFileLoad(e) {
             cvData = parseCV(evt.target.result);
             renderCV(true);
             autoSave();
+            if (typeof window.syncLayoutUIFromData === 'function') {
+                window.syncLayoutUIFromData();
+            }
             showToast('CV chargé : ' + file.name);
         } catch (err) {
             showToast('Erreur : ' + err.message, 'error');
@@ -678,6 +777,43 @@ function parseCV(htmlString) {
         const val = accentMatch[1].trim();
         if (val.startsWith('#') || val.match(/^[a-z]+$/i)) {
             data.accentColor = val;
+        }
+    }
+
+    // Parse density, alignment, and contact icons visibility
+    const container = doc.querySelector('.cv-container');
+    if (container) {
+        if (container.classList.contains('density-compact')) {
+            data.density = 'compact';
+        } else if (container.classList.contains('density-spacious')) {
+            data.density = 'spacious';
+        } else {
+            data.density = 'normal';
+        }
+
+        if (container.classList.contains('header-align-center')) {
+            data.headerAlignment = 'center';
+        } else {
+            data.headerAlignment = 'left';
+        }
+
+        if (container.classList.contains('hide-contact-icons')) {
+            data.showContactIcons = false;
+        } else {
+            data.showContactIcons = true;
+        }
+    }
+
+    // Parse font pairing from style tag
+    const fontHeaderMatch = styleText.match(/--cv-font-header:\s*([^;]+)/);
+    if (fontHeaderMatch) {
+        const val = fontHeaderMatch[1].trim().replace(/['"]/g, '');
+        for (const [key, pair] of Object.entries(FONT_PAIRINGS)) {
+            const cleanHeader = pair.header.replace(/['"]/g, '').split(',')[0].trim();
+            if (val.includes(cleanHeader)) {
+                data.fontPairing = key;
+                break;
+            }
         }
     }
 
@@ -1232,6 +1368,9 @@ function setupEvents() {
             cvData = deepClone(DEFAULT_CV);
             renderCV(true);
             autoSave();
+            if (typeof window.syncLayoutUIFromData === 'function') {
+                window.syncLayoutUIFromData();
+            }
             showToast('Nouveau CV créé ✨');
         }
     });
