@@ -2,6 +2,14 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
+// Force @sparticuz/chromium-min to recognize Vercel as an AWS Lambda environment
+// and extract the system libraries (al2/al2023) from the remote tarball
+if (process.env.VERCEL) {
+  process.env.AWS_EXECUTION_ENV = 'AWS_Lambda_nodejs20.x';
+  process.env.LAMBDA_TASK_ROOT = '/var/task';
+}
+
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
