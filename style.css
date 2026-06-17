@@ -628,7 +628,7 @@ html.dark .cv-container {
 .item-actions {
     position: absolute;
     top: -4px;
-    left: -32px;
+    left: -38px;
     right: auto;
     display: flex;
     flex-direction: column;
@@ -671,7 +671,7 @@ html.dark .cv-container {
 /* Bullet remove button */
 .bullet-remove-btn {
     position: absolute;
-    right: 4px;
+    left: -14px;
     top: 1px;
     width: 16px;
     height: 16px;

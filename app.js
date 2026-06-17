@@ -367,7 +367,7 @@ function renderItem(item, section, index) {
         </div>
         <ul class="item-bullets">
             ${item.bullets.map((b, bi) => `
-            <li style="position:relative;padding-right:22px;">
+            <li style="position:relative;">
                 <span class="bullet-content" contenteditable="true" data-path="${section}.${index}.bullets.${bi}" data-html="1" data-placeholder="Description...">${b}</span>
                 <button class="bullet-remove-btn" data-action="remove-bullet" data-section="${section}" data-index="${index}" data-bullet="${bi}" title="Supprimer">✕</button>
             </li>`).join('')}
