@@ -736,8 +736,23 @@ function exportHTML() {
 
     html += `            </div>\n        </div>\n    </div>\n\n</body>\n</html>\n`;
 
-    const safeName = (cvData.name || 'CV').replace(/[^a-zA-ZÀ-ÿ0-9_\- ]/g, '').replace(/\s+/g, '_');
-    const filename = `CV_${safeName}.html`;
+    const sanitize = (str) => {
+        if (!str) return '';
+        return str
+            .trim()
+            .replace(/[^a-zA-Z0-9À-ÿ\-_ ]/g, '_')
+            .replace(/\s+/g, '_')
+            .replace(/_+/g, '_');
+    };
+
+    const titlePart = sanitize(cvData.title);
+    const namePart = sanitize(cvData.name);
+
+    let newTitle = 'CV';
+    if (titlePart) newTitle += '_' + titlePart;
+    if (namePart) newTitle += '_' + namePart;
+
+    const filename = `${newTitle.toUpperCase()}.html`;
 
     downloadFile(html, filename, 'text/html').then(success => {
         if (success) showToast('CV exporté en HTML ✓');
@@ -784,8 +799,35 @@ function escHTML(str) {
    ========================================== */
 function exportPDF() {
     syncFromDOM();
+
+    const originalTitle = document.title;
+
+    const sanitize = (str) => {
+        if (!str) return '';
+        return str
+            .trim()
+            .replace(/[^a-zA-Z0-9À-ÿ\-_ ]/g, '_')
+            .replace(/\s+/g, '_')
+            .replace(/_+/g, '_');
+    };
+
+    const titlePart = sanitize(cvData.title);
+    const namePart = sanitize(cvData.name);
+
+    let newTitle = 'CV';
+    if (titlePart) newTitle += '_' + titlePart;
+    if (namePart) newTitle += '_' + namePart;
+
+    document.title = newTitle.toUpperCase();
+
     showToast('Utilisez « Enregistrer en PDF » dans la boîte de dialogue', 'info');
-    setTimeout(() => window.print(), 300);
+    
+    setTimeout(() => {
+        window.print();
+        setTimeout(() => {
+            document.title = originalTitle;
+        }, 500);
+    }, 300);
 }
 
 /* ==========================================
