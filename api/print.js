@@ -64,13 +64,7 @@ module.exports = async (req, res) => {
     browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     
-    // Set viewport to A4 aspect ratio at high resolution (2x scale factor)
-    // to improve text rendering and hinting.
-    await page.setViewport({
-      width: 794,
-      height: 1123,
-      deviceScaleFactor: 2
-    });
+
 
     // Set content and wait until it's loaded (networkidle0 is key for webfonts/css)
     await page.setContent(html, { waitUntil: 'networkidle0' });
