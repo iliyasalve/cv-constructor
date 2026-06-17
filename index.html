@@ -24,7 +24,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- Material Symbols Outlined -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block"
         rel="stylesheet">
     <!-- Fonts -->
     <link
@@ -34,6 +34,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Original CV Styles -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Prevent FOUC and Layout Shift on load -->
+    <style>
+        @media screen {
+            body {
+                opacity: 0;
+                transition: opacity 0.15s ease-in-out !important;
+            }
+        }
+    </style>
 
     <script id="tailwind-config">
         function cssVar(name) {

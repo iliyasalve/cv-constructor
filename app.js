@@ -1420,6 +1420,11 @@ function init() {
     setupEvents();
     renderCV(true);
     applyAccentColor();
+
+    // Smoothly fade in the body once rendering is done and styles are applied
+    requestAnimationFrame(() => {
+        document.body.style.opacity = '1';
+    });
 }
 
 // Expose functions to window
