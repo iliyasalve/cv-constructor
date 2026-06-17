@@ -152,7 +152,7 @@
 <body class="bg-background font-body-md text-on-surface overflow-hidden h-screen flex flex-col">
     <!-- TopNavBar -->
     <header
-        class="bg-surface/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline-variant/10 dark:border-outline-variant/20 shadow-sm flex justify-between items-center w-full px-gutter h-20">
+        class="bg-surface/80 backdrop-blur-xl fixed top-0 left-0 z-50 border-b border-outline-variant/10 dark:border-outline-variant/20 shadow-sm flex justify-between items-center w-full px-gutter h-20">
         <div class="flex items-center gap-4">
             <span class="material-symbols-outlined text-primary text-2xl" data-icon="edit_note">edit_note</span>
             <h1 class="text-headline-md font-headline-md font-bold text-primary">CV Constructor Studio</h1>
@@ -181,7 +181,7 @@
     <div class="flex flex-1 overflow-hidden">
         <!-- SideNavBar -->
         <aside
-            class="hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/10 dark:border-outline-variant/20 w-80 p-6 overflow-y-auto custom-scrollbar shrink-0">
+            class="hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/10 dark:border-outline-variant/20 w-80 pt-[104px] pb-6 px-6 overflow-y-auto custom-scrollbar shrink-0">
             <div class="mb-6">
                 <h2 class="font-headline-md text-xl text-primary mb-1 tracking-tight whitespace-nowrap" data-i18n="studio-controls">Contrôles du Studio</h2>
                 <p class="text-body-md text-on-surface-variant text-xs opacity-70" data-i18n="customize-cv">Personnalisez votre CV</p>
@@ -340,7 +340,7 @@
         </aside>
 
         <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto relative bg-surface-dim/30 dark:bg-surface-dim custom-scrollbar flex justify-center p-12">
+        <main class="flex-1 overflow-y-auto relative bg-surface-dim/30 dark:bg-surface-dim custom-scrollbar flex justify-center pt-[112px] pb-12 px-12">
             <div class="absolute inset-0 grid-bg pointer-events-none"></div>
             <!-- CV Preview Paper Container styled by style.css -->
             <div id="cv-container" class="cv-container z-10">
@@ -350,7 +350,7 @@
 
         <!-- Right Structure Panel -->
         <aside
-            class="hidden xl:flex flex-col bg-surface-container-low border-l border-outline-variant/10 dark:border-outline-variant/20 w-80 p-6 overflow-y-auto custom-scrollbar">
+            class="hidden xl:flex flex-col bg-surface-container-low border-l border-outline-variant/10 dark:border-outline-variant/20 w-80 pt-[104px] pb-6 px-6 overflow-y-auto custom-scrollbar">
             <div class="mb-6">
                 <h2 class="font-headline-md text-headline-md text-on-surface mb-2" data-i18n="structure-title">Structure du CV</h2>
                 <p class="text-body-md text-xs text-on-surface-variant" data-i18n="structure-desc">Activez/désactivez les sections et cliquez pour y accéder.</p>
