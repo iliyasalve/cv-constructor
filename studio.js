@@ -306,6 +306,100 @@ function closeHelpModal() {
     }, 300);
 }
 
+// Settings Modal controls
+const settingsModal = document.getElementById('settings-modal');
+const btnSettings = document.getElementById('btn-settings-trigger');
+const btnCloseSettingsModal = document.getElementById('close-settings-modal');
+const btnCloseSettingsConfirm = document.getElementById('btn-close-settings-confirm');
+
+function openSettingsModal() {
+    if (!settingsModal) return;
+    settingsModal.classList.remove('hidden');
+    setTimeout(() => {
+        settingsModal.classList.remove('opacity-0');
+        const card = settingsModal.querySelector('.transform');
+        if (card) {
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+    }, 10);
+}
+
+function closeSettingsModal() {
+    if (!settingsModal) return;
+    settingsModal.classList.add('opacity-0');
+    const card = settingsModal.querySelector('.transform');
+    if (card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+    }
+    setTimeout(() => {
+        settingsModal.classList.add('hidden');
+    }, 300);
+}
+
+// Custom Language Dropdown logic
+function syncCustomLangDropdown(lang) {
+    const selectLanguageBtn = document.getElementById('select-language-btn');
+    if (!selectLanguageBtn) return;
+
+    const langNames = {
+        fr: 'Français',
+        en: 'English',
+        ru: 'Русский'
+    };
+
+    const textSpan = selectLanguageBtn.querySelector('#current-lang-text span:last-child');
+    if (textSpan) {
+        textSpan.textContent = langNames[lang] || langNames['fr'];
+    }
+
+    // Update checkmark visibility in the dropdown options
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        const check = opt.querySelector('.check-icon');
+        if (check) {
+            if (opt.dataset.value === lang) {
+                check.classList.remove('hidden');
+                opt.classList.add('font-bold');
+            } else {
+                check.classList.add('hidden');
+                opt.classList.remove('font-bold');
+            }
+        }
+    });
+}
+
+function openCustomLangDropdown() {
+    const optionsDiv = document.getElementById('select-language-options');
+    const chevron = document.getElementById('lang-dropdown-chevron');
+    if (!optionsDiv) return;
+
+    optionsDiv.classList.remove('hidden');
+    optionsDiv.offsetHeight; // Force reflow
+    optionsDiv.classList.remove('opacity-0', 'translate-y-[-10px]');
+    optionsDiv.classList.add('opacity-100', 'translate-y-0');
+    if (chevron) {
+        chevron.style.transform = 'rotate(180deg)';
+    }
+}
+
+function closeCustomLangDropdown() {
+    const optionsDiv = document.getElementById('select-language-options');
+    const chevron = document.getElementById('lang-dropdown-chevron');
+    if (!optionsDiv) return;
+
+    optionsDiv.classList.remove('opacity-100', 'translate-y-0');
+    optionsDiv.classList.add('opacity-0', 'translate-y-[-10px]');
+    if (chevron) {
+        chevron.style.transform = '';
+    }
+    setTimeout(() => {
+        if (optionsDiv.classList.contains('opacity-0')) {
+            optionsDiv.classList.add('hidden');
+        }
+    }, 200);
+}
+
 // Bind event listeners on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     const list = document.getElementById('cv-structure-list');
@@ -399,6 +493,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Bind settings modal elements
+    if (btnSettings) btnSettings.addEventListener('click', openSettingsModal);
+    if (btnCloseSettingsModal) btnCloseSettingsModal.addEventListener('click', closeSettingsModal);
+    if (btnCloseSettingsConfirm) btnCloseSettingsConfirm.addEventListener('click', closeSettingsModal);
+    if (settingsModal) {
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                closeSettingsModal();
+            }
+        });
+    }
+
     // Bind language select change listener
     const selectLang = document.getElementById('select-language');
     if (selectLang) {
@@ -408,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 applyLanguage(newLang);
                 localStorage.setItem('cv_studio_lang', newLang);
             }
+            syncCustomLangDropdown(newLang);
             if (window.cvData) {
                 window.cvData.cvLanguage = newLang;
                 if (typeof window.translateCVData === 'function') {
@@ -426,9 +533,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Bind custom language dropdown triggers
+    const selectLanguageBtn = document.getElementById('select-language-btn');
+    if (selectLanguageBtn) {
+        selectLanguageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const optionsDiv = document.getElementById('select-language-options');
+            const isOpen = optionsDiv && !optionsDiv.classList.contains('hidden') && !optionsDiv.classList.contains('opacity-0');
+            if (isOpen) {
+                closeCustomLangDropdown();
+            } else {
+                openCustomLangDropdown();
+            }
+        });
+    }
+
+    // Bind options click listeners for custom dropdown
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            const val = opt.dataset.value;
+            const select = document.getElementById('select-language');
+            if (select) {
+                select.value = val;
+                select.dispatchEvent(new Event('change'));
+            }
+            closeCustomLangDropdown();
+        });
+    });
+
+    // Close custom dropdown on click outside
+    document.addEventListener('click', (e) => {
+        const dropdown = document.getElementById('custom-language-dropdown');
+        if (dropdown && !dropdown.contains(e.target)) {
+            closeCustomLangDropdown();
+        }
+    });
+
     // Run initial panel sync
     if (typeof initLanguage === 'function') {
         initLanguage();
+    }
+    if (selectLang) {
+        syncCustomLangDropdown(selectLang.value);
     }
     updateStructurePanel();
     syncLayoutUIFromData();

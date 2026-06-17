@@ -42,7 +42,7 @@ const TRANSLATIONS = {
         // Project panel
         "project-desc": "Commencez un nouveau CV ou rechargez un fichier de projet sauvegardé.",
         "btn-new-cv": "Nouveau CV vide",
-        "btn-load-cv": "Charger un projet (.html)",
+        "btn-load-cv": "Charger un projet",
 
         // Settings panel
         "settings-desc": "Configurez les paramètres globaux de l'application.",
@@ -159,7 +159,7 @@ const TRANSLATIONS = {
         // Project panel
         "project-desc": "Start a new CV or load a saved project file.",
         "btn-new-cv": "New Blank CV",
-        "btn-load-cv": "Load Project (.html)",
+        "btn-load-cv": "Load Project",
 
         // Settings panel
         "settings-desc": "Configure global application settings.",
@@ -253,9 +253,9 @@ const TRANSLATIONS = {
         // Layout panel
         "layout-desc": "Настройте плотность отступов и структуру шапки резюме.",
         "layout-density": "Плотность контента",
-        "density-compact": "Компактный",
+        "density-compact": "Компакт",
         "density-normal": "Обычный",
-        "density-spacious": "Просторный",
+        "density-spacious": "Простор",
         "layout-align": "Выравнивание шапки",
         "align-left": "По левому краю",
         "align-center": "По центру",
@@ -276,7 +276,7 @@ const TRANSLATIONS = {
         // Project panel
         "project-desc": "Начните новое резюме или загрузите сохраненный HTML-проект.",
         "btn-new-cv": "Новое резюме",
-        "btn-load-cv": "Загрузить проект (.html)",
+        "btn-load-cv": "Загрузить проект",
 
         // Settings panel
         "settings-desc": "Глобальные настройки интерфейса.",

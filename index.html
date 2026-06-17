@@ -181,9 +181,9 @@
     <div class="flex flex-1 overflow-hidden">
         <!-- SideNavBar -->
         <aside
-            class="hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/10 dark:border-outline-variant/20 w-72 p-6 overflow-y-auto custom-scrollbar">
+            class="hidden lg:flex flex-col bg-surface-container-low border-r border-outline-variant/10 dark:border-outline-variant/20 w-80 p-6 overflow-y-auto custom-scrollbar shrink-0">
             <div class="mb-6">
-                <h2 class="font-headline-md text-headline-md text-primary mb-1" data-i18n="studio-controls">Contrôles du Studio</h2>
+                <h2 class="font-headline-md text-xl text-primary mb-1 tracking-tight whitespace-nowrap" data-i18n="studio-controls">Contrôles du Studio</h2>
                 <p class="text-body-md text-on-surface-variant text-xs opacity-70" data-i18n="customize-cv">Personnalisez votre CV</p>
             </div>
             <!-- Sidebar Accordion Container -->
@@ -309,13 +309,13 @@
                         <div id="panel-file" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
                             <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed" data-i18n="project-desc">Commencez un nouveau CV ou rechargez un fichier de projet sauvegardé.</p>
                             <div class="space-y-2">
-                                <button id="btn-new" data-i18n="btn-new-cv" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
+                                <button id="btn-new" data-i18n="btn-new-cv" class="w-full flex items-center justify-center gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
                                     <span class="material-symbols-outlined text-sm">description</span>
-                                    Nouveau CV vide
+                                    <span>Nouveau CV vide</span>
                                 </button>
-                                <button id="btn-load" data-i18n="btn-load-cv" class="w-full flex items-center justify-start gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
+                                <button id="btn-load" data-i18n="btn-load-cv" class="w-full flex items-center justify-center gap-3 py-2.5 px-4 bg-surface hover:bg-surface-variant/50 border border-outline-variant/30 rounded-lg text-label-sm text-on-surface transition-all active:scale-95 duration-75">
                                     <span class="material-symbols-outlined text-sm">folder_open</span>
-                                    Charger un projet (.html)
+                                    <span>Charger un projet</span>
                                 </button>
                             </div>
                         </div>
@@ -329,28 +329,11 @@
                         <span class="material-symbols-outlined" data-icon="help">help</span>
                         <span class="font-body-md text-body-md" data-i18n="accordion-help">Aide</span>
                     </div>
-                    
-                    <!-- Accordion Item 5: Settings -->
-                    <div class="accordion-item">
-                        <div class="accordion-header flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30" data-target="panel-settings">
-                            <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                            <span class="font-body-md text-body-md" data-i18n="accordion-settings">Paramètres</span>
-                        </div>
-                        <div id="panel-settings" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
-                            <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed" data-i18n="settings-desc">Configurez les paramètres globaux de l'application.</p>
-                            
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-bold text-on-surface" data-i18n="cv-language">Langue du CV</label>
-                                <select id="select-language" class="w-full bg-surface border border-outline-variant/20 rounded-lg p-2 text-xs text-on-surface">
-                                    <option value="fr" selected>Français</option>
-                                    <option value="en">English</option>
-                                    <option value="ru">Русский</option>
-                                </select>
-                                <span class="text-[10px] text-on-surface-variant leading-relaxed block" data-i18n="cv-language-help">
-                                    💡 <em>La traduction automatique des rubriques standard et le support multilingue sont en cours de développement.</em>
-                                </span>
-                            </div>
-                        </div>
+                    <!-- Settings Button (Direct modal trigger) -->
+                    <div id="btn-settings-trigger"
+                        class="flex items-center gap-3 p-3 border border-transparent rounded-lg transition-all cursor-pointer text-on-surface-variant hover:bg-surface-variant/50 dark:hover:bg-surface-variant/30 select-none">
+                        <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                        <span class="font-body-md text-body-md" data-i18n="accordion-settings">Paramètres</span>
                     </div>
                 </div>
             </div>
@@ -557,6 +540,69 @@
             
             <div class="mt-6 border-t border-outline-variant/10 pt-4 flex justify-end">
                 <button id="btn-close-help-confirm" data-i18n="btn-got-it" class="px-4 py-2 bg-primary-container text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all active:scale-95">
+                    Compris
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden opacity-0 transition-all duration-300">
+        <div class="bg-surface dark:bg-surface-container-high border border-outline-variant/20 rounded-2xl w-[90%] max-w-md p-6 shadow-2xl transform scale-95 transition-all duration-300">
+            <div class="flex justify-between items-center mb-4 border-b border-outline-variant/10 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary text-xl" data-icon="settings">settings</span>
+                    <h3 class="text-headline-md text-base text-primary font-bold" data-i18n="accordion-settings">Paramètres</h3>
+                </div>
+                <button id="close-settings-modal" class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-xs text-on-surface leading-relaxed">
+                <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed" data-i18n="settings-desc">Configurez les paramètres globaux de l'application.</p>
+                
+                <div class="space-y-2">
+                    <label class="text-[11px] font-bold text-on-surface" data-i18n="cv-language">Langue du CV</label>
+                    <select id="select-language" class="hidden">
+                        <option value="fr">Français</option>
+                        <option value="en">English</option>
+                        <option value="ru">Русский</option>
+                    </select>
+                    <!-- Custom styled dropdown -->
+                    <div class="relative w-full" id="custom-language-dropdown">
+                        <button type="button" id="select-language-btn" class="w-full flex items-center justify-between bg-surface border border-outline-variant/20 dark:border-outline-variant/40 rounded-lg p-2.5 text-xs text-on-surface hover:bg-surface-variant/20 transition-all select-none">
+                            <span class="flex items-center gap-2" id="current-lang-text">
+                                <span class="material-symbols-outlined text-sm text-primary" data-icon="translate">translate</span>
+                                <span>Français</span>
+                            </span>
+                            <span class="material-symbols-outlined text-xs text-on-surface-variant transition-transform duration-200" id="lang-dropdown-chevron" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+                        </button>
+                        <div id="select-language-options" class="absolute left-0 right-0 mt-1.5 bg-surface dark:bg-surface-container-high border border-outline-variant/20 dark:border-outline-variant/40 rounded-lg shadow-lg hidden opacity-0 translate-y-[-10px] transition-all duration-200 z-[110] overflow-hidden">
+                            <div class="py-1">
+                                <div data-value="fr" class="lang-option flex items-center justify-between px-3 py-2 text-xs cursor-pointer hover:bg-primary/10 dark:hover:bg-primary-container/20 text-on-surface transition-colors">
+                                    <span>Français</span>
+                                    <span class="material-symbols-outlined text-sm text-primary check-icon" data-icon="check">check</span>
+                                </div>
+                                <div data-value="en" class="lang-option flex items-center justify-between px-3 py-2 text-xs cursor-pointer hover:bg-primary/10 dark:hover:bg-primary-container/20 text-on-surface transition-colors">
+                                    <span>English</span>
+                                    <span class="material-symbols-outlined text-sm text-primary check-icon" data-icon="check">check</span>
+                                </div>
+                                <div data-value="ru" class="lang-option flex items-center justify-between px-3 py-2 text-xs cursor-pointer hover:bg-primary/10 dark:hover:bg-primary-container/20 text-on-surface transition-colors">
+                                    <span>Русский</span>
+                                    <span class="material-symbols-outlined text-sm text-primary check-icon" data-icon="check">check</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-on-surface-variant leading-relaxed block" data-i18n="cv-language-help">
+                        💡 <em>La traduction automatique des rubriques standard et le support multilingue sont en cours de développement.</em>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="mt-6 border-t border-outline-variant/10 pt-4 flex justify-end">
+                <button id="btn-close-settings-confirm" data-i18n="btn-got-it" class="px-4 py-2 bg-primary-container text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all active:scale-95">
                     Compris
                 </button>
             </div>
