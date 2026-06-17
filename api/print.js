@@ -64,7 +64,13 @@ module.exports = async (req, res) => {
     browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     
-
+    // Set viewport with 1.5x scale factor to achieve a balanced font thickness
+    // between standard (1x) and Retina (2x) rendering.
+    await page.setViewport({
+      width: 794,
+      height: 1123,
+      deviceScaleFactor: 1.5
+    });
 
     // Set content and wait until it's loaded (networkidle0 is key for webfonts/css)
     await page.setContent(html, { waitUntil: 'networkidle0' });
