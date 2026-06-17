@@ -387,24 +387,6 @@ body {
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; }
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
-    
-    /* Increase color contrast for printed text */
-    :root {
-        --text-main: #1e293b !important;
-        --text-dark: #000000 !important;
-    }
-    
-    /* Force high-quality text smoothing and legibility */
-    * {
-        -webkit-font-smoothing: subpixel-antialiased !important;
-        -moz-osx-font-smoothing: auto !important;
-        text-rendering: optimizeLegibility !important;
-    }
-    
-    /* Subtle weight enhancement for non-heading/non-bold text in Chromium headless rendering */
-    body, p, li, span, div, a {
-        -webkit-text-stroke: 0.02px currentColor;
-    }
 }
 .section-hidden { display: none !important; }
 
