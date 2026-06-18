@@ -267,6 +267,15 @@ function syncLayoutUIFromData() {
         btn.classList.toggle('hover:bg-surface-variant', !isActive);
     });
 
+    // 3.5. Columns Layout
+    const cols = data.columnsLayout || '2';
+    document.querySelectorAll('[data-columns-layout]').forEach(btn => {
+        const isActive = btn.dataset.columnsLayout === cols;
+        btn.classList.toggle('bg-primary-container', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('hover:bg-surface-variant', !isActive);
+    });
+
     // 4. Typography
     const pairing = data.fontPairing || 'default';
     document.querySelectorAll('#typography-pairings > div').forEach(card => {
@@ -463,6 +472,21 @@ document.addEventListener('DOMContentLoaded', () => {
             window.cvData.showContactIcons = btn.dataset.contactIcons !== 'hidden';
             window.cvData.contactIconsRight = btn.dataset.contactIcons === 'right';
             
+            if (typeof window.renderCV === 'function') {
+                window.renderCV(false);
+            }
+            if (typeof window.autoSave === 'function') {
+                window.autoSave();
+            }
+            syncLayoutUIFromData();
+        });
+    });
+
+    // Bind columns layout buttons
+    document.querySelectorAll('[data-columns-layout]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (!window.cvData) return;
+            window.cvData.columnsLayout = btn.dataset.columnsLayout;
             if (typeof window.renderCV === 'function') {
                 window.renderCV(false);
             }

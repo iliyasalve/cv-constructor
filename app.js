@@ -14,6 +14,7 @@ const DEFAULT_CV = {
     accentColor: '#2563eb',
     density: 'normal',
     headerAlignment: 'left',
+    columnsLayout: '2',
     showContactIcons: true,
     contactIconsRight: false,
     fontPairing: 'default',
@@ -439,6 +440,20 @@ body {
 
 /* Contact Icons on the Right Option */
 .cv-container.contact-icons-right .contact-item { flex-direction: row-reverse !important; }
+
+/* One Column Layout Option */
+.cv-container.layout-1col .main-content { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+.cv-container.layout-1col .col-left, .cv-container.layout-1col .col-right { display: contents !important; }
+.cv-container.layout-1col .cv-section[data-section="skills"] { order: 1 !important; }
+.cv-container.layout-1col .cv-section[data-section="experiences"] { order: 2 !important; }
+.cv-container.layout-1col .cv-section[data-section="projects"] { order: 3 !important; }
+.cv-container.layout-1col .cv-section[data-section="education"] { order: 4 !important; }
+.cv-container.layout-1col .cv-section[data-section="certifications"] { order: 5 !important; }
+.cv-container.layout-1col .cv-section[data-section="qualities"] { order: 6 !important; }
+.cv-container.layout-1col .cv-section[data-section="languages"] { order: 7 !important; }
+.cv-container.layout-1col .skills-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 10px 24px !important; }
+.cv-container.layout-1col .qualities-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 6px 24px !important; }
+.cv-container.layout-1col .languages-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 6px 24px !important; }
 `;
 
 let cvData = null;
@@ -502,6 +517,10 @@ function applyLayoutAndStyles() {
     // 2. Alignment classes
     c.classList.remove('header-align-left', 'header-align-center', 'header-align-right');
     c.classList.add(`header-align-${cvData.headerAlignment || 'left'}`);
+
+    // 2.5. Columns layout classes
+    c.classList.remove('layout-1col', 'layout-2col');
+    c.classList.add(`layout-${cvData.columnsLayout === '1' ? '1col' : '2col'}`);
 
     // 3. Contact icons mode
     const iconsMode = cvData.contactIconsMode || 
@@ -871,12 +890,13 @@ function generateStandaloneHTML() {
 
     const densityClass = `density-${cvData.density || 'normal'}`;
     const alignClass = `header-align-${cvData.headerAlignment || 'left'}`;
+    const columnsClass = `layout-${cvData.columnsLayout === '1' ? '1col' : '2col'}`;
     const iconsMode = cvData.contactIconsMode || 
         (cvData.showContactIcons === false ? 'hidden' : (cvData.contactIconsRight === true ? 'right' : 'left'));
     const iconsClass = iconsMode === 'hidden' ? 'hide-contact-icons' : '';
     const iconsRightClass = iconsMode === 'right' ? 'contact-icons-right' : '';
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${iconsClass} ${iconsRightClass}">\n`;
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${columnsClass} ${iconsClass} ${iconsRightClass}">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
@@ -1203,6 +1223,12 @@ function parseCV(htmlString) {
             data.contactIconsMode = 'right';
         } else {
             data.contactIconsMode = 'left';
+        }
+
+        if (container.classList.contains('layout-1col')) {
+            data.columnsLayout = '1';
+        } else {
+            data.columnsLayout = '2';
         }
     }
 

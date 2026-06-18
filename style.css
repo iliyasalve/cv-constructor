@@ -321,6 +321,43 @@ html.dark .cv-container {
     justify-content: flex-start !important;
 }
 
+/* --- One Column Layout Option --- */
+.cv-container.layout-1col .main-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+.cv-container.layout-1col .col-left,
+.cv-container.layout-1col .col-right {
+    display: contents !important;
+}
+
+/* Set order of sections in one-column layout */
+.cv-container.layout-1col .cv-section[data-section="skills"] { order: 1 !important; }
+.cv-container.layout-1col .cv-section[data-section="experiences"] { order: 2 !important; }
+.cv-container.layout-1col .cv-section[data-section="projects"] { order: 3 !important; }
+.cv-container.layout-1col .cv-section[data-section="education"] { order: 4 !important; }
+.cv-container.layout-1col .cv-section[data-section="certifications"] { order: 5 !important; }
+.cv-container.layout-1col .cv-section[data-section="qualities"] { order: 6 !important; }
+.cv-container.layout-1col .cv-section[data-section="languages"] { order: 7 !important; }
+
+/* Grid layouts for lists in one-column layout */
+.cv-container.layout-1col .skills-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px 24px !important;
+}
+.cv-container.layout-1col .qualities-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px 24px !important;
+}
+.cv-container.layout-1col .languages-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px 24px !important;
+}
+
 /* --- Hide Contact Icons Option --- */
 .cv-container.hide-contact-icons .contact-emoji,
 .cv-container.hide-contact-icons .contact-item i {

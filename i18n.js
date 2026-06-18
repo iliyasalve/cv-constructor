@@ -35,6 +35,9 @@ const TRANSLATIONS = {
         "icons-left": "À gauche",
         "icons-hidden": "Masquées",
         "icons-right": "À droite",
+        "layout-columns": "Disposition des colonnes",
+        "cols-1": "1 colonne",
+        "cols-2": "2 colonnes",
 
         // Typography panel
         "typo-desc": "Choisissez une combinaison de polices pour votre CV.",
@@ -169,6 +172,9 @@ const TRANSLATIONS = {
         "icons-left": "Left",
         "icons-hidden": "Hidden",
         "icons-right": "Right",
+        "layout-columns": "Columns Layout",
+        "cols-1": "1 Column",
+        "cols-2": "2 Columns",
 
         // Typography panel
         "typo-desc": "Choose a font combination for your CV.",
@@ -303,6 +309,9 @@ const TRANSLATIONS = {
         "icons-left": "Слева",
         "icons-hidden": "Скрыты",
         "icons-right": "Справа",
+        "layout-columns": "Колонки",
+        "cols-1": "1 колонка",
+        "cols-2": "2 колонки",
 
         // Typography panel
         "typo-desc": "Выберите гарнитуру шрифтов для вашего резюме.",

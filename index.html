@@ -52,7 +52,7 @@
     <!-- Font Awesome (for contact icons in CV) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Original CV Styles -->
-    <link rel="stylesheet" href="style.css?v=1.0.21">
+    <link rel="stylesheet" href="style.css?v=1.0.23">
 
     <!-- Prevent FOUC and Layout Shift on load -->
     <style>
@@ -234,6 +234,15 @@
                                     <button data-header-align="left" data-i18n="align-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
                                     <button data-header-align="center" data-i18n="align-center" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Centré</button>
                                     <button data-header-align="right" data-i18n="align-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
+                                </div>
+                            </div>
+
+                            <!-- Columns Layout -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-columns">Disposition des colonnes</label>
+                                <div class="grid grid-cols-2 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                    <button data-columns-layout="1" data-i18n="cols-1" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">1 colonne</button>
+                                    <button data-columns-layout="2" data-i18n="cols-2" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">2 colonnes</button>
                                 </div>
                             </div>
 
@@ -693,7 +702,7 @@
     <script src="i18n.js" defer></script>
 
     <!-- Original CV Script logic -->
-    <script src="app.js?v=1.0.21" defer></script>
+    <script src="app.js?v=1.0.23" defer></script>
 
     <!-- UI Interaction Scripts -->
     <script src="studio.js" defer></script>
