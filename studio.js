@@ -258,10 +258,14 @@ function syncLayoutUIFromData() {
     });
 
     // 3. Contact Icons
-    const checkbox = document.getElementById('toggle-contact-icons');
-    if (checkbox) {
-        checkbox.checked = data.showContactIcons !== false;
-    }
+    const iconsMode = data.contactIconsMode || 
+        (data.showContactIcons === false ? 'hidden' : (data.contactIconsRight === true ? 'right' : 'left'));
+    document.querySelectorAll('[data-contact-icons]').forEach(btn => {
+        const isActive = btn.dataset.contactIcons === iconsMode;
+        btn.classList.toggle('bg-primary-container', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('hover:bg-surface-variant', !isActive);
+    });
 
     // 4. Typography
     const pairing = data.fontPairing || 'default';
@@ -450,12 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Bind contact icons toggle
-    const checkboxIcons = document.getElementById('toggle-contact-icons');
-    if (checkboxIcons) {
-        checkboxIcons.addEventListener('change', (e) => {
+    // Bind contact icons mode buttons
+    document.querySelectorAll('[data-contact-icons]').forEach(btn => {
+        btn.addEventListener('click', () => {
             if (!window.cvData) return;
-            window.cvData.showContactIcons = e.target.checked;
+            window.cvData.contactIconsMode = btn.dataset.contactIcons;
+            // Also reset legacy properties to be safe
+            window.cvData.showContactIcons = btn.dataset.contactIcons !== 'hidden';
+            window.cvData.contactIconsRight = btn.dataset.contactIcons === 'right';
+            
             if (typeof window.renderCV === 'function') {
                 window.renderCV(false);
             }
@@ -464,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             syncLayoutUIFromData();
         });
-    }
+    });
 
     // Bind typography preset cards
     document.querySelectorAll('#typography-pairings > div').forEach(card => {

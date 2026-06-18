@@ -15,6 +15,7 @@ const DEFAULT_CV = {
     density: 'normal',
     headerAlignment: 'left',
     showContactIcons: true,
+    contactIconsRight: false,
     fontPairing: 'default',
     cvLanguage: 'fr',
     contacts: [
@@ -426,9 +427,18 @@ body {
 .cv-container.header-align-center .header-right { align-items: center; justify-content: center; flex-direction: row; flex-wrap: wrap; gap: 12px; padding-top: 10px; min-width: 0; width: 100%; }
 .cv-container.header-align-center .contact-item { justify-content: center; }
 
+.cv-container.header-align-right .header { flex-direction: row-reverse !important; }
+.cv-container.header-align-right .header-left { padding-right: 0 !important; padding-left: 20px !important; text-align: right !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
+.cv-container.header-align-right .summary { text-align: right !important; }
+.cv-container.header-align-right .header-right { align-items: flex-start !important; }
+.cv-container.header-align-right .contact-item { justify-content: flex-start !important; }
+
 /* Hide Icons */
 .cv-container.hide-contact-icons .contact-item i { display: none !important; }
 .cv-container.hide-contact-icons .contact-item { padding-left: 0 !important; }
+
+/* Contact Icons on the Right Option */
+.cv-container.contact-icons-right .contact-item { flex-direction: row-reverse !important; }
 `;
 
 let cvData = null;
@@ -490,14 +500,18 @@ function applyLayoutAndStyles() {
     c.classList.add(`density-${cvData.density || 'normal'}`);
 
     // 2. Alignment classes
-    c.classList.remove('header-align-left', 'header-align-center');
+    c.classList.remove('header-align-left', 'header-align-center', 'header-align-right');
     c.classList.add(`header-align-${cvData.headerAlignment || 'left'}`);
 
-    // 3. Contact icons
-    if (cvData.showContactIcons === false) {
+    // 3. Contact icons mode
+    const iconsMode = cvData.contactIconsMode || 
+        (cvData.showContactIcons === false ? 'hidden' : (cvData.contactIconsRight === true ? 'right' : 'left'));
+
+    c.classList.remove('hide-contact-icons', 'contact-icons-right');
+    if (iconsMode === 'hidden') {
         c.classList.add('hide-contact-icons');
-    } else {
-        c.classList.remove('hide-contact-icons');
+    } else if (iconsMode === 'right') {
+        c.classList.add('contact-icons-right');
     }
 
     // 4. Font pairing variables
@@ -857,9 +871,12 @@ function generateStandaloneHTML() {
 
     const densityClass = `density-${cvData.density || 'normal'}`;
     const alignClass = `header-align-${cvData.headerAlignment || 'left'}`;
-    const iconsClass = cvData.showContactIcons === false ? 'hide-contact-icons' : '';
+    const iconsMode = cvData.contactIconsMode || 
+        (cvData.showContactIcons === false ? 'hidden' : (cvData.contactIconsRight === true ? 'right' : 'left'));
+    const iconsClass = iconsMode === 'hidden' ? 'hide-contact-icons' : '';
+    const iconsRightClass = iconsMode === 'right' ? 'contact-icons-right' : '';
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${iconsClass}">\n`;
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${iconsClass} ${iconsRightClass}">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
@@ -1174,14 +1191,18 @@ function parseCV(htmlString) {
 
         if (container.classList.contains('header-align-center')) {
             data.headerAlignment = 'center';
+        } else if (container.classList.contains('header-align-right')) {
+            data.headerAlignment = 'right';
         } else {
             data.headerAlignment = 'left';
         }
 
         if (container.classList.contains('hide-contact-icons')) {
-            data.showContactIcons = false;
+            data.contactIconsMode = 'hidden';
+        } else if (container.classList.contains('contact-icons-right')) {
+            data.contactIconsMode = 'right';
         } else {
-            data.showContactIcons = true;
+            data.contactIconsMode = 'left';
         }
     }
 

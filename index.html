@@ -52,7 +52,7 @@
     <!-- Font Awesome (for contact icons in CV) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Original CV Styles -->
-    <link rel="stylesheet" href="style.css?v=1.0.19">
+    <link rel="stylesheet" href="style.css?v=1.0.21">
 
     <!-- Prevent FOUC and Layout Shift on load -->
     <style>
@@ -230,19 +230,21 @@
                             <!-- Header Alignment -->
                             <div class="space-y-1.5">
                                 <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-align">Alignement de l'en-tête</label>
-                                <div class="grid grid-cols-2 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
                                     <button data-header-align="left" data-i18n="align-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
                                     <button data-header-align="center" data-i18n="align-center" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Centré</button>
+                                    <button data-header-align="right" data-i18n="align-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
                                 </div>
                             </div>
 
-                            <!-- Contact Icons Toggle -->
-                            <div class="flex items-center justify-between p-2.5 bg-surface rounded-lg border border-outline-variant/20">
-                                <span class="text-[11px] font-bold text-on-surface" data-i18n="layout-icons">Icônes de contact</span>
-                                <label class="relative inline-flex items-center cursor-pointer select-none">
-                                    <input type="checkbox" id="toggle-contact-icons" class="sr-only peer" checked>
-                                    <div class="w-9 h-5 bg-outline-variant/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-container"></div>
-                                </label>
+                            <!-- Contact Icons Mode -->
+                            <div class="space-y-1.5">
+                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-icons">Icônes de contact</label>
+                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                    <button data-contact-icons="left" data-i18n="icons-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
+                                    <button data-contact-icons="hidden" data-i18n="icons-hidden" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Masquées</button>
+                                    <button data-contact-icons="right" data-i18n="icons-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -691,7 +693,7 @@
     <script src="i18n.js" defer></script>
 
     <!-- Original CV Script logic -->
-    <script src="app.js?v=1.0.19" defer></script>
+    <script src="app.js?v=1.0.21" defer></script>
 
     <!-- UI Interaction Scripts -->
     <script src="studio.js" defer></script>

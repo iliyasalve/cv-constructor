@@ -299,6 +299,28 @@ html.dark .cv-container {
     justify-content: center !important;
 }
 
+/* Right-aligned header layout option */
+.cv-container.header-align-right .header {
+    flex-direction: row-reverse !important;
+}
+.cv-container.header-align-right .header-left {
+    padding-right: 0 !important;
+    padding-left: 20px !important;
+    text-align: right !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+}
+.cv-container.header-align-right .summary {
+    text-align: right !important;
+}
+.cv-container.header-align-right .header-right {
+    align-items: flex-start !important;
+}
+.cv-container.header-align-right .contact-item {
+    justify-content: flex-start !important;
+}
+
 /* --- Hide Contact Icons Option --- */
 .cv-container.hide-contact-icons .contact-emoji,
 .cv-container.hide-contact-icons .contact-item i {
@@ -306,6 +328,11 @@ html.dark .cv-container {
 }
 .cv-container.hide-contact-icons .contact-item {
     padding-left: 0 !important;
+}
+
+/* --- Contact Icons on the Right Option --- */
+.cv-container.contact-icons-right .contact-item {
+    flex-direction: row-reverse !important;
 }
 
 /* --- Typography System Bindings --- */

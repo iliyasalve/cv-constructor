@@ -30,7 +30,11 @@ const TRANSLATIONS = {
         "layout-align": "Alignement de l'en-tête",
         "align-left": "À gauche",
         "align-center": "Centré",
+        "align-right": "À droite",
         "layout-icons": "Icônes de contact",
+        "icons-left": "À gauche",
+        "icons-hidden": "Masquées",
+        "icons-right": "À droite",
 
         // Typography panel
         "typo-desc": "Choisissez une combinaison de polices pour votre CV.",
@@ -160,7 +164,11 @@ const TRANSLATIONS = {
         "layout-align": "Header Alignment",
         "align-left": "Left",
         "align-center": "Centered",
+        "align-right": "Right",
         "layout-icons": "Contact Icons",
+        "icons-left": "Left",
+        "icons-hidden": "Hidden",
+        "icons-right": "Right",
 
         // Typography panel
         "typo-desc": "Choose a font combination for your CV.",
@@ -290,7 +298,11 @@ const TRANSLATIONS = {
         "layout-align": "Выравнивание шапки",
         "align-left": "По левому краю",
         "align-center": "По центру",
+        "align-right": "По правому краю",
         "layout-icons": "Иконки контактов",
+        "icons-left": "Слева",
+        "icons-hidden": "Скрыты",
+        "icons-right": "Справа",
 
         // Typography panel
         "typo-desc": "Выберите гарнитуру шрифтов для вашего резюме.",
