@@ -310,12 +310,12 @@ html.dark .cv-container {
 
 /* --- Typography System Bindings --- */
 .cv-container {
-    font-family: var(--cv-font-body, 'Outfit', sans-serif) !important;
+    font-family: var(--cv-font-body, 'DM Sans', sans-serif) !important;
 }
 .cv-container .name,
 .cv-container .cv-title,
 .cv-container .section-title {
-    font-family: var(--cv-font-header, 'Outfit', sans-serif) !important;
+    font-family: var(--cv-font-header, 'DM Sans', sans-serif) !important;
 }
 
 
@@ -372,7 +372,7 @@ html.dark .cv-container {
     display: flex;
     flex-direction: column;
     position: relative;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     color: var(--text-main);
     line-height: 1.4;
     -webkit-print-color-adjust: exact;

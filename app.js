@@ -273,16 +273,16 @@ function translateCVData(data, newLang) {
 
 const FONT_PAIRINGS = {
     'default': {
-        name: 'Outfit (Original)',
-        header: "'Outfit', sans-serif",
-        body: "'Outfit', sans-serif",
-        googleFonts: 'Outfit:wght@300;400;500;600;700;800;900'
+        name: 'DM Sans (Original)',
+        header: "'DM Sans', sans-serif",
+        body: "'DM Sans', sans-serif",
+        googleFonts: 'DM+Sans:wght@300;400;500;600;700;800;900'
     },
     'inter': {
-        name: 'Outfit + Inter',
-        header: "'Outfit', sans-serif",
+        name: 'DM Sans + Inter',
+        header: "'DM Sans', sans-serif",
         body: "'Inter', sans-serif",
-        googleFonts: 'Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900'
+        googleFonts: 'DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900'
     },
     'serif': {
         name: 'Playfair Display + Lora',
@@ -298,7 +298,7 @@ const FONT_PAIRINGS = {
     }
 };
 
-const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800;900&family=Merriweather:wght@300;400;700&display=swap');
+const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800;900&family=Merriweather:wght@300;400;700&display=swap');
 
 :root {
     --primary: #0f172a;
@@ -314,7 +314,7 @@ const EXPORT_CSS = `@import url('https://fonts.googleapis.com/css2?family=Outfit
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: var(--cv-font-body, 'Outfit', sans-serif);
+    font-family: var(--cv-font-body, 'DM Sans', sans-serif);
     color: var(--text-main);
     background-color: #f8fafc;
     line-height: 1.4;
@@ -327,11 +327,11 @@ body {
     margin: 20px auto; padding: 10mm 12mm;
     box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     display: flex; flex-direction: column; overflow: hidden; position: relative;
-    font-family: var(--cv-font-body, 'Outfit', sans-serif);
+    font-family: var(--cv-font-body, 'DM Sans', sans-serif);
 }
 
 .name, .title, .section-title {
-    font-family: var(--cv-font-header, 'Outfit', sans-serif);
+    font-family: var(--cv-font-header, 'DM Sans', sans-serif);
 }
 
 .header {
