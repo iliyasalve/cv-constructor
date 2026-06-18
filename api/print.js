@@ -20,6 +20,11 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Missing HTML content' });
   }
 
+  // Replace straight apostrophes sandwiched between letters with typographic curly apostrophes.
+  // This prevents Chromium from treating them as soft line-wrap opportunities in justified text,
+  // which was causing words like "d'un" or "l'automatisation" to split visually across lines.
+  const processedHtml = html.replace(/([a-zA-ZÀ-ÿ\u00C0-\u017F])'([a-zA-ZÀ-ÿ\u00C0-\u017F])/g, '$1’$2');
+
   let browser = null;
   try {
     let puppeteer;
@@ -70,7 +75,7 @@ module.exports = async (req, res) => {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0');
 
     // Set content and wait until it's loaded (networkidle0 is key for webfonts/css)
-    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.setContent(processedHtml, { waitUntil: 'networkidle0' });
     
     // Ensure all web fonts are fully loaded and active before generating the PDF
     await page.evaluateHandle('document.fonts.ready');

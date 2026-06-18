@@ -955,7 +955,13 @@ function generateStandaloneHTML() {
     }
 
     html += `            </div>\n        </div>\n    </div>\n\n</body>\n</html>\n`;
-    return html.normalize('NFC');
+    
+    // Replace straight apostrophes sandwiched between letters with typographic curly apostrophes.
+    // This prevents browsers from treating them as soft line-wrap opportunities in justified text,
+    // which was causing words like "d'un" or "l'automatisation" to split visually across lines.
+    const polishedHtml = html.replace(/([a-zA-ZÀ-ÿ\u00C0-\u017F])'([a-zA-ZÀ-ÿ\u00C0-\u017F])/g, '$1’$2');
+    
+    return polishedHtml.normalize('NFC');
 }
 
 function exportHTML() {
