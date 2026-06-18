@@ -388,6 +388,12 @@ body {
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
     
+    /* Disable ligatures in print to prevent Chromium PDF engine from truncating text after 'fi' */
+    * {
+        font-variant-ligatures: none !important;
+        font-feature-settings: "liga" 0, "clig" 0, "calt" 0 !important;
+    }
+    
     /* Make headers thicker and more prominent in print */
     .name { font-weight: 800 !important; }
     .section-title { font-weight: 800 !important; }

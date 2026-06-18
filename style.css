@@ -808,6 +808,12 @@ html.dark .cv-container {
     .section-empty, .emoji-picker-popover { display: none !important; }
     .cv-editable:hover { outline: none !important; }
     [contenteditable]:empty::before { display: none !important; }
+
+    /* Disable ligatures in print to prevent Chromium PDF engine from truncating text after 'fi' */
+    * {
+        font-variant-ligatures: none !important;
+        font-feature-settings: "liga" 0, "clig" 0, "calt" 0 !important;
+    }
 }
 
 /* ==========================================
