@@ -21,8 +21,8 @@ const TRANSLATIONS = {
         "accordion-help": "Aide",
         "accordion-settings": "Paramètres",
 
-        // Layout panel
-        "layout-desc": "Ajustez la densité et l'agencement visuel de votre CV.",
+        "layout-sect-page": "Structure de la page",
+        "layout-sect-header": "Style de l'en-tête",
         "layout-density": "Densité du contenu",
         "density-compact": "Compact",
         "density-normal": "Normal",
@@ -158,8 +158,8 @@ const TRANSLATIONS = {
         "accordion-help": "Help",
         "accordion-settings": "Settings",
 
-        // Layout panel
-        "layout-desc": "Adjust the density and visual layout of your CV.",
+        "layout-sect-page": "Page Structure",
+        "layout-sect-header": "Header Style",
         "layout-density": "Content Density",
         "density-compact": "Compact",
         "density-normal": "Normal",
@@ -295,8 +295,8 @@ const TRANSLATIONS = {
         "accordion-help": "Справка",
         "accordion-settings": "Параметры",
 
-        // Layout panel
-        "layout-desc": "Настройте плотность отступов и структуру шапки резюме.",
+        "layout-sect-page": "Структура страницы",
+        "layout-sect-header": "Стиль шапки",
         "layout-density": "Плотность контента",
         "density-compact": "Компакт",
         "density-normal": "Обычный",

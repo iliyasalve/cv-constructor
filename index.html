@@ -217,42 +217,54 @@
                         <div id="panel-layout" class="accordion-content hidden p-3.5 bg-surface/50 border border-outline-variant/10 rounded-lg mt-1 mb-2 space-y-4">
                             <p class="text-[11px] text-on-surface-variant opacity-80 leading-relaxed" data-i18n="layout-desc">Ajustez la densité et l'agencement visuel de votre CV.</p>
                             
-                            <!-- Density -->
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-density">Densité du contenu</label>
-                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
-                                    <button data-density="compact" data-i18n="density-compact" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Compact</button>
-                                    <button data-density="normal" data-i18n="density-normal" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">Normal</button>
-                                    <button data-density="spacious" data-i18n="density-spacious" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Spacieux</button>
+                            <!-- Section: Page Structure -->
+                            <div class="space-y-3 pt-1">
+                                <div class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant opacity-60" data-i18n="layout-sect-page">Structure de la page</div>
+                                
+                                <!-- Columns Layout -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-columns">Disposition des colonnes</label>
+                                    <div class="grid grid-cols-2 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                        <button data-columns-layout="1" data-i18n="cols-1" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">1 colonne</button>
+                                        <button data-columns-layout="2" data-i18n="cols-2" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">2 colonnes</button>
+                                    </div>
+                                </div>
+
+                                <!-- Density -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-density">Densité du contenu</label>
+                                    <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                        <button data-density="compact" data-i18n="density-compact" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Compact</button>
+                                        <button data-density="normal" data-i18n="density-normal" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">Normal</button>
+                                        <button data-density="spacious" data-i18n="density-spacious" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Spacieux</button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Header Alignment -->
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-align">Alignement de l'en-tête</label>
-                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
-                                    <button data-header-align="left" data-i18n="align-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
-                                    <button data-header-align="center" data-i18n="align-center" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Centré</button>
-                                    <button data-header-align="right" data-i18n="align-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
-                                </div>
-                            </div>
+                            <hr class="border-outline-variant/10">
 
-                            <!-- Columns Layout -->
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-columns">Disposition des colonnes</label>
-                                <div class="grid grid-cols-2 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
-                                    <button data-columns-layout="1" data-i18n="cols-1" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">1 colonne</button>
-                                    <button data-columns-layout="2" data-i18n="cols-2" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">2 colonnes</button>
-                                </div>
-                            </div>
+                            <!-- Section: Header Style -->
+                            <div class="space-y-3">
+                                <div class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant opacity-60" data-i18n="layout-sect-header">Style de l'en-tête</div>
 
-                            <!-- Contact Icons Mode -->
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-icons">Icônes de contact</label>
-                                <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
-                                    <button data-contact-icons="left" data-i18n="icons-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
-                                    <button data-contact-icons="hidden" data-i18n="icons-hidden" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Masquées</button>
-                                    <button data-contact-icons="right" data-i18n="icons-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
+                                <!-- Header Alignment -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-align">Alignement de l'en-tête</label>
+                                    <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                        <button data-header-align="left" data-i18n="align-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
+                                        <button data-header-align="center" data-i18n="align-center" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Centré</button>
+                                        <button data-header-align="right" data-i18n="align-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Icons Mode -->
+                                <div class="space-y-1.5">
+                                    <label class="text-[11px] font-bold text-on-surface" data-i18n="layout-icons">Icônes de contact</label>
+                                    <div class="grid grid-cols-3 gap-1 bg-surface border border-outline-variant/20 rounded-lg p-1">
+                                        <button data-contact-icons="left" data-i18n="icons-left" class="py-1 px-1.5 text-[10px] rounded font-medium bg-primary-container text-white transition-all select-none">À gauche</button>
+                                        <button data-contact-icons="hidden" data-i18n="icons-hidden" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">Masquées</button>
+                                        <button data-contact-icons="right" data-i18n="icons-right" class="py-1 px-1.5 text-[10px] rounded font-medium hover:bg-surface-variant transition-all select-none">À droite</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
