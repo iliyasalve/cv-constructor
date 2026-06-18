@@ -64,7 +64,10 @@ module.exports = async (req, res) => {
     browser = await puppeteer.launch(options);
     const page = await browser.newPage();
     
-
+    // Set a User-Agent that supports WOFF2 but NOT variable fonts (like Firefox 50).
+    // This forces Google Fonts to return static WOFF2 files instead of a variable font file,
+    // which completely resolves the Skia PDF generator's word/character splitting bug.
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0');
 
     // Set content and wait until it's loaded (networkidle0 is key for webfonts/css)
     await page.setContent(html, { waitUntil: 'networkidle0' });
