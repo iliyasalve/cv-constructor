@@ -703,9 +703,32 @@ html.dark .cv-container {
     display: flex;
     gap: 2px;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.2s;
+    z-index: 10;
 }
-.contact-item:hover .contact-actions { opacity: 1; }
+.contact-item:hover .contact-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Centered contact actions positioning to prevent overlap/flickering with adjacent items */
+.cv-container.header-align-center .contact-item .contact-actions {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 4px);
+    transform: translateX(-50%);
+    z-index: 20;
+}
+.cv-container.header-align-center .contact-item .contact-actions::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 8px;
+}
 
 /* Skill / edu / cert remove button */
 .inline-remove-btn {
