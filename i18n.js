@@ -1,6 +1,11 @@
 // i18n localization dictionary and engine for CV Constructor Studio
 const TRANSLATIONS = {
     fr: {
+        // SEO metadata
+        "seo-title": "CV Constructor Studio | Créateur de CV Professionnel en Ligne",
+        "seo-description": "Créez un CV professionnel, moderne et compatible ATS en ligne. Générateur de CV gratuit, sécurisé et personnalisable avec export PDF vectoriel de haute qualité.",
+        "seo-keywords": "créateur de cv, faire un cv, cv en ligne, générateur de cv gratuit, cv professionnel, cv ats, cv constructor, cv builder, cv-builder",
+
         // Top Navbar
         "btn-export-pdf": "Export PDF",
         "btn-export-html": "Export HTML",
@@ -126,6 +131,11 @@ const TRANSLATIONS = {
         "cv-placeholder-summary": "Décrivez votre profil professionnel, vos compétences clés et vos objectifs de carrière en quelques phrases."
     },
     en: {
+        // SEO metadata
+        "seo-title": "CV Constructor Studio | Professional Resume Workspace",
+        "seo-description": "Build premium, ATS-friendly, and professional CVs online. Free, secure, and customizable resume builder with high-fidelity vector PDF export.",
+        "seo-keywords": "CV builder, resume creator, professional CV, ATS friendly resume, online CV constructor, resume workspace, cv maker",
+        
         // Top Navbar
         "btn-export-pdf": "Export PDF",
         "btn-export-html": "Export HTML",
@@ -251,6 +261,11 @@ const TRANSLATIONS = {
         "cv-placeholder-summary": "Describe your professional profile, key skills, and career goals in a few sentences."
     },
     ru: {
+        // SEO metadata
+        "seo-title": "CV Constructor Studio | Конструктор Профессиональных Резюме Онлайн",
+        "seo-description": "Создайте профессиональное, современное и ATS-совместимое резюме онлайн. Бесплатный, безопасный и настраиваемый конструктор резюме с качественным экспортом в векторный PDF.",
+        "seo-keywords": "создать резюме, конструктор резюме, резюме онлайн, бесплатное резюме, профессиональное резюме, резюме для ит, cv maker, cv builder",
+        
         // Top Navbar
         "btn-export-pdf": "Экспорт в PDF",
         "btn-export-html": "Экспорт в HTML",
@@ -410,6 +425,32 @@ function applyLanguage(lang) {
 
     // Update document HTML lang attribute
     document.documentElement.lang = lang;
+
+    // Dynamically update SEO metadata tags
+    const title = TRANSLATIONS[lang]["seo-title"];
+    const desc = TRANSLATIONS[lang]["seo-description"];
+    const keywords = TRANSLATIONS[lang]["seo-keywords"];
+
+    if (title) document.title = title;
+    
+    const descTag = document.querySelector('meta[name="description"]');
+    if (descTag && desc) descTag.setAttribute('content', desc);
+
+    const keywordsTag = document.querySelector('meta[name="keywords"]');
+    if (keywordsTag && keywords) keywordsTag.setAttribute('content', keywords);
+
+    // Update Open Graph and Twitter cards
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle && title) ogTitle.setAttribute('content', title);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc && desc) ogDesc.setAttribute('content', desc);
+
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twitterTitle && title) twitterTitle.setAttribute('content', title);
+
+    const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+    if (twitterDesc && desc) twitterDesc.setAttribute('content', desc);
 }
 
 // Function to translate custom string keys on-the-fly (e.g. for dynamic alerts, confirm popups)
@@ -417,18 +458,25 @@ function t(key) {
     return TRANSLATIONS[currentLang]?.[key] || key;
 }
 
-// Initialize language from LocalStorage or browser default
+// Initialize language from URL, LocalStorage or browser default
 function initLanguage() {
-    const saved = localStorage.getItem('cv_studio_lang');
-    const system = navigator.language || navigator.userLanguage;
-    let lang = 'fr'; // default
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
     
-    if (saved && TRANSLATIONS[saved]) {
-        lang = saved;
-    } else if (system) {
-        const code = system.split('-')[0].toLowerCase();
-        if (TRANSLATIONS[code]) {
-            lang = code;
+    let lang = 'fr'; // default
+    if (urlLang && TRANSLATIONS[urlLang]) {
+        lang = urlLang;
+        localStorage.setItem('cv_studio_lang', lang);
+    } else {
+        const saved = localStorage.getItem('cv_studio_lang');
+        const system = navigator.language || navigator.userLanguage;
+        if (saved && TRANSLATIONS[saved]) {
+            lang = saved;
+        } else if (system) {
+            const code = system.split('-')[0].toLowerCase();
+            if (TRANSLATIONS[code]) {
+                lang = code;
+            }
         }
     }
     
