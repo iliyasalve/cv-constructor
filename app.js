@@ -1432,22 +1432,6 @@ function showIconPicker(targetEl, contactIndex) {
 
     const popover = document.createElement('div');
     popover.className = 'emoji-picker-popover';
-    popover.style.position = 'absolute';
-    popover.style.zIndex = '1000';
-    popover.style.background = 'rgba(15, 15, 30, 0.96)';
-    popover.style.backdropFilter = 'blur(16px)';
-    popover.style.border = '1px solid rgba(255, 255, 255, 0.15)';
-    popover.style.borderRadius = '8px';
-    popover.style.padding = '12px';
-    popover.style.width = '300px';
-    popover.style.maxHeight = '380px';
-    popover.style.overflowY = 'auto';
-    popover.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
-    popover.style.display = 'flex';
-    popover.style.flexDirection = 'column';
-    popover.style.gap = '10px';
-    popover.style.scrollbarWidth = 'thin';
-    popover.style.scrollbarColor = 'rgba(255,255,255,0.2) rgba(0,0,0,0.1)';
     
     const categories = [
         {
@@ -1524,34 +1508,26 @@ function showIconPicker(targetEl, contactIndex) {
 
     // Search bar container (sticky at top)
     const searchContainer = document.createElement('div');
-    searchContainer.style.position = 'sticky';
-    searchContainer.style.top = '0';
-    searchContainer.style.background = 'rgba(15, 15, 30, 0.96)';
-    searchContainer.style.zIndex = '10';
-    searchContainer.style.paddingBottom = '8px';
-    searchContainer.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+    searchContainer.className = 'emoji-picker-search-container';
+
+    const searchWrapper = document.createElement('div');
+    searchWrapper.className = 'emoji-picker-search-wrapper';
+
+    const searchIcon = document.createElement('i');
+    searchIcon.className = 'fa-solid fa-magnifying-glass';
+    searchWrapper.appendChild(searchIcon);
 
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
     searchInput.placeholder = 'Rechercher une icône...';
-    searchInput.style.width = '100%';
-    searchInput.style.padding = '6px 10px';
-    searchInput.style.border = '1px solid rgba(255, 255, 255, 0.15)';
-    searchInput.style.borderRadius = '6px';
-    searchInput.style.background = 'rgba(255, 255, 255, 0.05)';
-    searchInput.style.color = '#fff';
-    searchInput.style.fontSize = '12px';
-    searchInput.style.outline = 'none';
-    searchInput.style.boxSizing = 'border-box';
-    searchInput.style.fontFamily = 'inherit';
-    searchContainer.appendChild(searchInput);
+    searchInput.className = 'emoji-picker-search-input';
+    searchWrapper.appendChild(searchInput);
+
+    searchContainer.appendChild(searchWrapper);
 
     // Tabs container
     const tabsContainer = document.createElement('div');
-    tabsContainer.style.display = 'flex';
-    tabsContainer.style.flexWrap = 'wrap';
-    tabsContainer.style.gap = '4px';
-    tabsContainer.style.marginTop = '8px';
+    tabsContainer.className = 'emoji-picker-tabs';
 
     let activeTabId = 'all';
 
@@ -1559,23 +1535,18 @@ function showIconPicker(targetEl, contactIndex) {
     categories.forEach(cat => {
         const tabBtn = document.createElement('button');
         tabBtn.textContent = cat.shortTitle;
-        tabBtn.style.padding = '3px 8px';
-        tabBtn.style.fontSize = '10.5px';
-        tabBtn.style.border = 'none';
-        tabBtn.style.borderRadius = '4px';
-        tabBtn.style.cursor = 'pointer';
-        tabBtn.style.background = cat.id === activeTabId ? 'rgba(99, 102, 241, 0.3)' : 'transparent';
-        tabBtn.style.color = cat.id === activeTabId ? '#fff' : '#94a3b8';
-        tabBtn.style.transition = 'all 0.2s';
-        tabBtn.style.fontWeight = '500';
+        tabBtn.className = 'emoji-picker-tab-btn' + (cat.id === activeTabId ? ' active' : '');
 
         tabBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             activeTabId = cat.id;
             tabButtons.forEach(btn => {
                 const isCurrent = btn.dataset.id === activeTabId;
-                btn.style.background = isCurrent ? 'rgba(99, 102, 241, 0.3)' : 'transparent';
-                btn.style.color = isCurrent ? '#fff' : '#94a3b8';
+                if (isCurrent) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
             updateList();
         });
@@ -1590,9 +1561,7 @@ function showIconPicker(targetEl, contactIndex) {
 
     // Icon list container
     const listContainer = document.createElement('div');
-    listContainer.style.display = 'flex';
-    listContainer.style.flexDirection = 'column';
-    listContainer.style.gap = '12px';
+    listContainer.className = 'emoji-picker-list';
     popover.appendChild(listContainer);
 
     function updateList() {
@@ -1612,47 +1581,21 @@ function showIconPicker(targetEl, contactIndex) {
             matchCount += filteredIcons.length;
 
             const catBox = document.createElement('div');
-            catBox.style.display = 'flex';
-            catBox.style.flexDirection = 'column';
-            catBox.style.gap = '6px';
+            catBox.className = 'emoji-picker-category';
 
             const header = document.createElement('div');
             header.textContent = cat.title;
-            header.style.fontSize = '9px';
-            header.style.textTransform = 'uppercase';
-            header.style.color = '#94a3b8';
-            header.style.fontWeight = '700';
-            header.style.letterSpacing = '0.5px';
-            header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
-            header.style.paddingBottom = '3px';
-            header.style.marginBottom = '2px';
+            header.className = 'emoji-picker-category-header';
             catBox.appendChild(header);
 
             const grid = document.createElement('div');
-            grid.style.display = 'grid';
-            grid.style.gridTemplateColumns = 'repeat(6, 1fr)';
-            grid.style.gap = '6px';
+            grid.className = 'emoji-picker-grid';
 
             filteredIcons.forEach(icon => {
                 const btn = document.createElement('button');
-                btn.innerHTML = `<i class="${icon.class}" style="font-size:15px;color:#fff;"></i>`;
-                btn.style.background = 'transparent';
-                btn.style.border = 'none';
-                btn.style.cursor = 'pointer';
-                btn.style.padding = '6px';
-                btn.style.borderRadius = '4px';
-                btn.style.transition = 'background 0.2s';
-                btn.style.display = 'flex';
-                btn.style.alignItems = 'center';
-                btn.style.justifyContent = 'center';
+                btn.className = 'emoji-picker-icon-btn';
+                btn.innerHTML = `<i class="${icon.class}"></i>`;
                 btn.title = icon.title;
-
-                btn.addEventListener('mouseover', () => {
-                    btn.style.background = 'rgba(255,255,255,0.1)';
-                });
-                btn.addEventListener('mouseout', () => {
-                    btn.style.background = 'transparent';
-                });
 
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -1671,11 +1614,8 @@ function showIconPicker(targetEl, contactIndex) {
 
         if (matchCount === 0) {
             const noResult = document.createElement('div');
+            noResult.className = 'emoji-picker-no-result';
             noResult.textContent = t('no-icons-found');
-            noResult.style.color = '#94a3b8';
-            noResult.style.fontSize = '12px';
-            noResult.style.textAlign = 'center';
-            noResult.style.padding = '12px 0';
             listContainer.appendChild(noResult);
         }
     }
