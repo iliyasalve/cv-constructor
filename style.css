@@ -358,6 +358,39 @@ html.dark .cv-container {
     gap: 6px 24px !important;
 }
 
+/* Scale font sizes up slightly in 1-column layout to match visual proportions of 2-column layout */
+.cv-container.layout-1col .summary {
+    font-size: 13.5px !important;
+}
+.cv-container.layout-1col .section-title {
+    font-size: 15px !important;
+}
+.cv-container.layout-1col .item-header {
+    font-size: 14.0px !important;
+}
+.cv-container.layout-1col .item-role,
+.cv-container.layout-1col .item-company {
+    font-size: 13.5px !important;
+}
+.cv-container.layout-1col .item-bullets li {
+    font-size: 12.5px !important;
+}
+.cv-container.layout-1col .skill-group {
+    font-size: 12.5px !important;
+}
+.cv-container.layout-1col .edu-item {
+    font-size: 12.5px !important;
+}
+.cv-container.layout-1col .qualities-list,
+.cv-container.layout-1col .languages-list,
+.cv-container.layout-1col .cv-section-content {
+    font-size: 12.5px !important;
+}
+.cv-container.layout-1col .item-meta,
+.cv-container.layout-1col .edu-meta {
+    font-size: 11.5px !important;
+}
+
 /* --- Hide Contact Icons Option --- */
 .cv-container.hide-contact-icons .contact-emoji,
 .cv-container.hide-contact-icons .contact-item i {
@@ -638,7 +671,8 @@ html.dark .cv-container {
 }
 
 .cv-container .qualities-list,
-.cv-container .languages-list {
+.cv-container .languages-list,
+.cv-container .cv-section-content {
     font-size: 11.5px;
     line-height: 1.4;
 }
@@ -890,6 +924,15 @@ html.dark .cv-container {
    PRINT STYLES
    ========================================== */
 @media print {
+    @page oneColPage {
+        size: A4;
+        margin: 20mm 0;
+    }
+    @page twoColPage {
+        size: A4;
+        margin: 10mm 0;
+    }
+
     body { background: white !important; }
     header, aside, #toast-container { display: none !important; }
     main { padding: 0 !important; }
@@ -899,12 +942,18 @@ html.dark .cv-container {
         border-radius: 0 !important;
         border: none !important;
         width: 210mm !important;
-        height: 297mm !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .cv-container.layout-2col {
+        page: twoColPage;
+        height: 277mm !important; /* 297mm - 2*10mm margins */
         overflow: hidden !important;
     }
     .cv-container.layout-1col {
+        page: oneColPage;
         height: auto !important;
-        min-height: 297mm !important;
+        min-height: 257mm !important; /* 297mm - 2*20mm margins */
         overflow: visible !important;
     }
     .cv-container.layout-1col .cv-section {

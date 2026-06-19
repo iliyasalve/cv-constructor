@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
     // Ensure all web fonts are fully loaded and active before generating the PDF
     await page.evaluateHandle('document.fonts.ready');
 
-    // Generate A4 PDF with no margins and backgrounds printed
+    // Generate A4 PDF with margins controlled by CSS @page rules
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,

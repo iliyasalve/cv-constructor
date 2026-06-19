@@ -383,16 +383,31 @@ body {
 .edu-item:last-child { margin-bottom: 0; }
 .edu-title { font-weight: 600; color: var(--text-dark); }
 .edu-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #64748b; }
+.cv-section-content { font-size: 11.5px; line-height: 1.4; }
 
 @media print {
+    @page oneColPage {
+        size: A4;
+        margin: 20mm 0;
+    }
+    @page twoColPage {
+        size: A4;
+        margin: 10mm 0;
+    }
     body { background-color: #ffffff; font-weight: 500; }
-    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; font-weight: 500; }
-    .cv-container.density-compact { padding: 6mm 8mm !important; }
-    .cv-container.density-spacious { padding: 14mm 16mm !important; }
+    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; font-weight: 500; padding-top: 0 !important; padding-bottom: 0 !important; }
+    .cv-container.density-compact { padding: 6mm 8mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
+    .cv-container.density-spacious { padding: 14mm 16mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
 
+    .cv-container.layout-2col {
+        page: twoColPage;
+        height: 277mm !important; /* 297mm - 2*10mm margins */
+        overflow: hidden !important;
+    }
     .cv-container.layout-1col {
+        page: oneColPage;
         height: auto !important;
-        min-height: 297mm !important;
+        min-height: 257mm !important; /* 297mm - 2*20mm margins */
         overflow: visible !important;
     }
     .cv-container.layout-1col .cv-section {
@@ -481,6 +496,17 @@ body {
 .cv-container.layout-1col .skills-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 10px 24px !important; }
 .cv-container.layout-1col .qualities-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 6px 24px !important; }
 .cv-container.layout-1col .languages-list { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 6px 24px !important; }
+
+/* Scale font sizes up slightly in 1-column layout to match visual proportions of 2-column layout */
+.cv-container.layout-1col .summary { font-size: 13.5px !important; }
+.cv-container.layout-1col .section-title { font-size: 15px !important; }
+.cv-container.layout-1col .item-header { font-size: 14.0px !important; }
+.cv-container.layout-1col .item-role, .cv-container.layout-1col .item-company { font-size: 13.5px !important; }
+.cv-container.layout-1col .item-bullets li { font-size: 12.5px !important; }
+.cv-container.layout-1col .skill-group { font-size: 12.5px !important; }
+.cv-container.layout-1col .edu-item { font-size: 12.5px !important; }
+.cv-container.layout-1col .qualities-list, .cv-container.layout-1col .languages-list, .cv-container.layout-1col .cv-section-content { font-size: 12.5px !important; }
+.cv-container.layout-1col .item-meta, .cv-container.layout-1col .edu-meta { font-size: 11.5px !important; }
 `;
 
 let cvData = null;
@@ -1009,7 +1035,7 @@ function generateStandaloneHTML() {
     if (cvData.qualities.length > 0 && cvData.qualities.some(q => q.trim())) {
         const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('qualities');
         html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="qualities">\n`;
-        html += `                    <h3 class="section-title">${escHTML(cvData.qualitiesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        html += `                    <h3 class="section-title">${escHTML(cvData.qualitiesTitle)}</h3>\n                    <div class="cv-section-content">\n`;
         const validQ = cvData.qualities.filter(q => q.trim());
         html += validQ.map((q, i) => `                        • ${escHTML(q)}` + (i < validQ.length - 1 ? '<br>' : '')).join('\n') + '\n';
         html += `                    </div>\n                </div>\n\n`;
@@ -1018,7 +1044,7 @@ function generateStandaloneHTML() {
     if (cvData.languages.length > 0 && cvData.languages.some(l => l.name.trim())) {
         const isHidden = cvData.hiddenSections && cvData.hiddenSections.includes('languages');
         html += `                <div class="cv-section${isHidden ? ' section-hidden' : ''}" data-section="languages">\n`;
-        html += `                    <h3 class="section-title">${escHTML(cvData.languagesTitle)}</h3>\n                    <div style="font-size: 11.5px; line-height: 1.4;">\n`;
+        html += `                    <h3 class="section-title">${escHTML(cvData.languagesTitle)}</h3>\n                    <div class="cv-section-content">\n`;
         const validL = cvData.languages.filter(l => l.name.trim());
         html += validL.map((l, i) => `                        <strong>${escHTML(l.name)} :</strong> ${escHTML(l.level)}` + (i < validL.length - 1 ? '<br>' : '')).join('\n') + '\n';
         html += `                    </div>\n                </div>\n`;
