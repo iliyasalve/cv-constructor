@@ -386,36 +386,8 @@ body {
 .cv-section-content { font-size: 11.5px; line-height: 1.4; }
 
 @media print {
-    @page oneColPageCompact {
-        size: A4;
-        margin: 8mm 0;
-    }
-    @page oneColPageNormal {
-        size: A4;
-        margin: 12mm 0;
-    }
-    @page oneColPageSpacious {
-        size: A4;
-        margin: 16mm 0;
-    }
-    @page twoColPage {
-        size: A4;
-        margin: 0;
-    }
+    __DYNAMIC_PAGE_RULE__
     body { background-color: #ffffff; font-weight: 500; }
-    body.layout-1col.density-compact {
-        page: oneColPageCompact;
-    }
-    body.layout-1col.density-normal,
-    body.layout-1col {
-        page: oneColPageNormal;
-    }
-    body.layout-1col.density-spacious {
-        page: oneColPageSpacious;
-    }
-    body.layout-2col {
-        page: twoColPage;
-    }
     .cv-container { margin: 0; box-shadow: none; width: 210mm; font-weight: 500; }
     .cv-container.layout-2col {
         height: 297mm !important;
@@ -630,6 +602,29 @@ function applyLayoutAndStyles() {
     const pairing = FONT_PAIRINGS[cvData.fontPairing || 'default'] || FONT_PAIRINGS.default;
     c.style.setProperty('--cv-font-header', pairing.header);
     c.style.setProperty('--cv-font-body', pairing.body);
+
+    // 5. Dynamic A4 print margins
+    updateDynamicPrintStyles();
+}
+
+function updateDynamicPrintStyles() {
+    let styleEl = document.getElementById('dynamic-print-style');
+    if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'dynamic-print-style';
+        document.head.appendChild(styleEl);
+    }
+    let margin = '0';
+    if (cvData && cvData.columnsLayout === '1') {
+        if (cvData.density === 'compact') {
+            margin = '8mm 0';
+        } else if (cvData.density === 'spacious') {
+            margin = '16mm 0';
+        } else {
+            margin = '12mm 0';
+        }
+    }
+    styleEl.textContent = `@media print { @page { size: A4; margin: ${margin}; } }`;
 }
 
 function renderCV(doSkipSync) {
@@ -974,10 +969,22 @@ function generateStandaloneHTML() {
     const accent = cvData.accentColor;
     const accentLight = getAccentLight(accent);
     const pairing = FONT_PAIRINGS[cvData.fontPairing || 'default'] || FONT_PAIRINGS.default;
+    let margin = '0';
+    if (cvData && cvData.columnsLayout === '1') {
+        if (cvData.density === 'compact') {
+            margin = '8mm 0';
+        } else if (cvData.density === 'spacious') {
+            margin = '16mm 0';
+        } else {
+            margin = '12mm 0';
+        }
+    }
+    const dynamicPageRule = `@page { size: A4; margin: ${margin}; }`;
     const css = EXPORT_CSS.replace('__ACCENT__', accent)
                           .replace('__ACCENT_LIGHT__', accentLight)
                           .replace('__FONT_HEADER__', pairing.header)
-                          .replace('__FONT_BODY__', pairing.body);
+                          .replace('__FONT_BODY__', pairing.body)
+                          .replace('__DYNAMIC_PAGE_RULE__', dynamicPageRule);
 
     const title = `${(cvData.name || 'CV').toUpperCase()} - ${cvData.title || 'CV'}`;
 

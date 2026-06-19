@@ -924,37 +924,12 @@ html.dark .cv-container {
    PRINT STYLES
    ========================================== */
 @media print {
-    @page oneColPageCompact {
-        size: A4;
-        margin: 8mm 0;
-    }
-    @page oneColPageNormal {
+    @page {
         size: A4;
         margin: 12mm 0;
     }
-    @page oneColPageSpacious {
-        size: A4;
-        margin: 16mm 0;
-    }
-    @page twoColPage {
-        size: A4;
-        margin: 0;
-    }
 
     body { background: white !important; }
-    body.layout-1col.density-compact {
-        page: oneColPageCompact;
-    }
-    body.layout-1col.density-normal,
-    body.layout-1col {
-        page: oneColPageNormal;
-    }
-    body.layout-1col.density-spacious {
-        page: oneColPageSpacious;
-    }
-    body.layout-2col {
-        page: twoColPage;
-    }
 
     header, aside, #toast-container { display: none !important; }
     main { padding: 0 !important; }
