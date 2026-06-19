@@ -389,6 +389,28 @@ body {
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; height: 297mm; font-weight: 500; }
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
+
+    /* One-column: allow CV to flow across multiple PDF pages.
+       Per-page top/side margin supplied by puppeteer (api/print.js) so every
+       page (incl. page 2+) starts with identical spacing. */
+    .cv-container.layout-1col {
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        width: 186mm !important; /* 210mm - 2*12mm puppeteer side margin */
+    }
+    /* Avoid splitting an entry mid-content across page break */
+    .cv-container.layout-1col .item,
+    .cv-container.layout-1col .edu-item,
+    .cv-container.layout-1col .quality-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .cv-container.layout-1col .section-title {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
     
     /* Disable ligatures in print to prevent Chromium PDF engine from truncating text after 'fi' */
     * {
