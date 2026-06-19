@@ -386,33 +386,66 @@ body {
 .cv-section-content { font-size: 11.5px; line-height: 1.4; }
 
 @media print {
-    @page oneColPage {
+    @page oneColPageCompact {
         size: A4;
-        margin: 20mm 0;
+        margin: 8mm 0;
+    }
+    @page oneColPageNormal {
+        size: A4;
+        margin: 12mm 0;
+    }
+    @page oneColPageSpacious {
+        size: A4;
+        margin: 16mm 0;
     }
     @page twoColPage {
         size: A4;
-        margin: 10mm 0;
+        margin: 0;
     }
     body { background-color: #ffffff; font-weight: 500; }
+    body.layout-1col.density-compact {
+        page: oneColPageCompact;
+    }
+    body.layout-1col.density-normal,
     body.layout-1col {
-        page: oneColPage;
+        page: oneColPageNormal;
+    }
+    body.layout-1col.density-spacious {
+        page: oneColPageSpacious;
     }
     body.layout-2col {
         page: twoColPage;
     }
-    .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; font-weight: 500; padding-top: 0 !important; padding-bottom: 0 !important; }
-    .cv-container.density-compact { padding: 6mm 8mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
-    .cv-container.density-spacious { padding: 14mm 16mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
-
+    .cv-container { margin: 0; box-shadow: none; width: 210mm; font-weight: 500; }
     .cv-container.layout-2col {
-        height: 277mm !important; /* 297mm - 2*10mm margins */
+        height: 297mm !important;
         overflow: hidden !important;
     }
+    .cv-container.layout-2col.density-compact {
+        padding: 6mm 8mm !important;
+    }
+    .cv-container.layout-2col.density-normal {
+        padding: 10mm 12mm !important;
+    }
+    .cv-container.layout-2col.density-spacious {
+        padding: 14mm 16mm !important;
+    }
+
     .cv-container.layout-1col {
         height: auto !important;
-        min-height: 257mm !important; /* 297mm - 2*20mm margins */
         overflow: visible !important;
+    }
+    .cv-container.layout-1col.density-compact {
+        padding: 0 8mm !important;
+        min-height: 281mm !important; /* 297mm - 2*8mm */
+    }
+    .cv-container.layout-1col.density-normal {
+        padding: 0 12mm !important;
+        min-height: 273mm !important; /* 297mm - 2*12mm */
+    }
+    .cv-container.layout-1col.density-spacious {
+        padding: 0 16mm !important;
+        min-height: 265mm !important; /* 297mm - 2*16mm */
     }
     .cv-container.layout-1col .cv-section {
         margin-top: 8mm !important;
@@ -569,6 +602,8 @@ function applyLayoutAndStyles() {
     // 1. Density classes
     c.classList.remove('density-compact', 'density-normal', 'density-spacious');
     c.classList.add(`density-${cvData.density || 'normal'}`);
+    document.body.classList.remove('density-compact', 'density-normal', 'density-spacious');
+    document.body.classList.add(`density-${cvData.density || 'normal'}`);
 
     // 2. Alignment classes
     c.classList.remove('header-align-left', 'header-align-center', 'header-align-right');
