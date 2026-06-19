@@ -934,6 +934,13 @@ html.dark .cv-container {
     }
 
     body { background: white !important; }
+    body.layout-1col {
+        page: oneColPage;
+    }
+    body.layout-2col {
+        page: twoColPage;
+    }
+
     header, aside, #toast-container { display: none !important; }
     main { padding: 0 !important; }
     .cv-container {
@@ -946,19 +953,16 @@ html.dark .cv-container {
         padding-bottom: 0 !important;
     }
     .cv-container.layout-2col {
-        page: twoColPage;
         height: 277mm !important; /* 297mm - 2*10mm margins */
         overflow: hidden !important;
     }
     .cv-container.layout-1col {
-        page: oneColPage;
         height: auto !important;
         min-height: 257mm !important; /* 297mm - 2*20mm margins */
         overflow: visible !important;
     }
     .cv-container.layout-1col .cv-section {
         margin-top: 8mm !important;
-        break-inside: avoid;
     }
     .cv-container.layout-1col .cv-section[data-section="skills"],
     .cv-container.layout-1col .cv-section[data-section="education"],
@@ -967,6 +971,7 @@ html.dark .cv-container {
     .cv-container.layout-1col .cv-section[data-section="languages"] {
         break-inside: avoid;
     }
+
     .cv-container.layout-1col .item,
     .cv-container.layout-1col .edu-item,
     .cv-container.layout-1col .quality-item,

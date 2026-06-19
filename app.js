@@ -395,24 +395,27 @@ body {
         margin: 10mm 0;
     }
     body { background-color: #ffffff; font-weight: 500; }
+    body.layout-1col {
+        page: oneColPage;
+    }
+    body.layout-2col {
+        page: twoColPage;
+    }
     .cv-container { margin: 0; box-shadow: none; padding: 10mm 12mm; width: 210mm; font-weight: 500; padding-top: 0 !important; padding-bottom: 0 !important; }
     .cv-container.density-compact { padding: 6mm 8mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; padding-top: 0 !important; padding-bottom: 0 !important; }
 
     .cv-container.layout-2col {
-        page: twoColPage;
         height: 277mm !important; /* 297mm - 2*10mm margins */
         overflow: hidden !important;
     }
     .cv-container.layout-1col {
-        page: oneColPage;
         height: auto !important;
         min-height: 257mm !important; /* 297mm - 2*20mm margins */
         overflow: visible !important;
     }
     .cv-container.layout-1col .cv-section {
         margin-top: 8mm !important;
-        break-inside: avoid;
     }
     .cv-container.layout-1col .cv-section[data-section="skills"],
     .cv-container.layout-1col .cv-section[data-section="education"],
@@ -574,6 +577,8 @@ function applyLayoutAndStyles() {
     // 2.5. Columns layout classes
     c.classList.remove('layout-1col', 'layout-2col');
     c.classList.add(`layout-${cvData.columnsLayout === '1' ? '1col' : '2col'}`);
+    document.body.classList.remove('layout-1col', 'layout-2col');
+    document.body.classList.add(`layout-${cvData.columnsLayout === '1' ? '1col' : '2col'}`);
 
     // 3. Contact icons mode
     const iconsMode = cvData.contactIconsMode || 
@@ -949,7 +954,7 @@ function generateStandaloneHTML() {
     const iconsClass = iconsMode === 'hidden' ? 'hide-contact-icons' : '';
     const iconsRightClass = iconsMode === 'right' ? 'contact-icons-right' : '';
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800;900&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${columnsClass} ${iconsClass} ${iconsRightClass}">\n`;
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800;900&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body class="${columnsClass}">\n\n    <div class="cv-container ${densityClass} ${alignClass} ${columnsClass} ${iconsClass} ${iconsRightClass}">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
