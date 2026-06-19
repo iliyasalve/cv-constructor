@@ -80,20 +80,16 @@ module.exports = async (req, res) => {
     // Ensure all web fonts are fully loaded and active before generating the PDF
     await page.evaluateHandle('document.fonts.ready');
 
-    // One-column layout flows across multiple pages: apply per-page margins so
-    // every page (incl. page 2+) starts with identical top/side spacing.
-    // Two-column layout stays a single clipped page with zero puppeteer margin
-    // (its margins come from the container's own padding).
-    const isOneCol = /layout-1col/.test(processedHtml);
-    const margin = isOneCol
-      ? { top: '10mm', right: '12mm', bottom: '10mm', left: '12mm' }
-      : { top: '0px', right: '0px', bottom: '0px', left: '0px' };
-
-    // Generate A4 PDF with backgrounds printed
+    // Generate A4 PDF with no margins and backgrounds printed
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin,
+      margin: {
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '0px',
+      },
     });
 
     res.setHeader('Content-Type', 'application/pdf');

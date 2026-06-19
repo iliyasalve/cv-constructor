@@ -390,26 +390,31 @@ body {
     .cv-container.density-compact { padding: 6mm 8mm !important; }
     .cv-container.density-spacious { padding: 14mm 16mm !important; }
 
-    /* One-column: allow CV to flow across multiple PDF pages.
-       Per-page top/side margin supplied by puppeteer (api/print.js) so every
-       page (incl. page 2+) starts with identical spacing. */
     .cv-container.layout-1col {
         height: auto !important;
-        min-height: 0 !important;
+        min-height: 297mm !important;
         overflow: visible !important;
-        padding: 0 !important;
-        width: 186mm !important; /* 210mm - 2*12mm puppeteer side margin */
     }
-    /* Avoid splitting an entry mid-content across page break */
+    .cv-container.layout-1col .cv-section {
+        margin-top: 8mm !important;
+        break-inside: avoid;
+    }
+    .cv-container.layout-1col .cv-section[data-section="skills"],
+    .cv-container.layout-1col .cv-section[data-section="education"],
+    .cv-container.layout-1col .cv-section[data-section="certifications"],
+    .cv-container.layout-1col .cv-section[data-section="qualities"],
+    .cv-container.layout-1col .cv-section[data-section="languages"] {
+        break-inside: avoid;
+    }
     .cv-container.layout-1col .item,
     .cv-container.layout-1col .edu-item,
-    .cv-container.layout-1col .quality-item {
+    .cv-container.layout-1col .quality-item,
+    .cv-container.layout-1col .skill-group,
+    .cv-container.layout-1col .language-item {
         break-inside: avoid;
-        page-break-inside: avoid;
     }
     .cv-container.layout-1col .section-title {
         break-after: avoid;
-        page-break-after: avoid;
     }
     
     /* Disable ligatures in print to prevent Chromium PDF engine from truncating text after 'fi' */
@@ -918,7 +923,7 @@ function generateStandaloneHTML() {
     const iconsClass = iconsMode === 'hidden' ? 'hide-contact-icons' : '';
     const iconsRightClass = iconsMode === 'right' ? 'contact-icons-right' : '';
 
-    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${columnsClass} ${iconsClass} ${iconsRightClass}">\n`;
+    let html = `<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>${escHTML(title)}</title>\n    <link rel="preconnect" href="https://fonts.googleapis.com">\n    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Montserrat:wght@600;700;800;900&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">\n    <style>\n        ${css}\n    </style>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">\n</head>\n<body>\n\n    <div class="cv-container ${densityClass} ${alignClass} ${columnsClass} ${iconsClass} ${iconsRightClass}">\n`;
 
     // Header
     html += `        <!-- Header -->\n        <div class="header">\n            <div class="header-left">\n`;
