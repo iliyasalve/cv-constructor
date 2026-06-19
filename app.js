@@ -420,7 +420,7 @@ body {
         min-height: 265mm !important; /* 297mm - 2*16mm */
     }
     .cv-container.layout-1col .cv-section {
-        margin-top: 8mm !important;
+        margin-top: 0 !important;
     }
     .cv-container.layout-1col .cv-section[data-section="skills"],
     .cv-container.layout-1col .cv-section[data-section="education"],
